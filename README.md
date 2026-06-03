@@ -1,5 +1,7 @@
 # Chem Lab
-add game description
+
+Currently can just move as player and interact with map - just wanted to ship the hours I have towards the game. Also have some 3d models and UV maps for anomalous characters
+End goal = 3D game where you cook crystal meth (chemically accurate procedure) and sell it to customers (potential cops or anomalous customers)
 
 | Game | POV |
 | --- | --- |
