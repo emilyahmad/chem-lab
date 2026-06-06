@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bg3vyioxkhop8"]
+
+[ext_resource type="Script" uid="uid://cym3p5fy10pr6" path="res://dialogue_trigger.gd" id="1_o7blk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wktwx"]
+
+[node name="dialogue_trigger" type="Node3D"]
+script = ExtResource("1_o7blk")
+
+[node name="trigger" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="trigger"]
+shape = SubResource("BoxShape3D_wktwx")
+
+[connection signal="body_entered" from="trigger" to="." method="start_dialogue"]

@@ -1,8 +1,13 @@
 extends CharacterBody3D
 
+signal interact_object
+
+@onready var ray_cast_3d = $Camera3D/RayCast3D
+
 const SPEED = 8.0
 const JUMP_VELOCITY = 3
 const SPRINT_VELOCITY = 1.5
+const CAMERA_SENS = .003
 
 #var sprintOnCooldown = false
 #@onready var cooldown = $SprintCooldown
@@ -18,13 +23,27 @@ var stamina_timer = 0
 var can_start_timer = true
 
 func _ready():
+	add_to_group("player")
+	
 	#staminaBar.value = 100.0
 	$StaminaBar/StaminaProgressBar.value = 100.0
 	$StaminaBar/StaminaProgressBar.visible = false
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
+func _input(event):
+	if event.is_action_pressed("quit"): get_tree().quit()
+	
+	if event is InputEventMouseMotion:
+		rotation.y -= event.relative.x * CAMERA_SENS
+		rotation.x -= event.relative.y * CAMERA_SENS
+
 func _process(delta: float) -> void:
+	if ray_cast_3d.is_colliding():
+		var collider = ray_cast_3d.get_collider()
+		interact_object.emit(collider)
+	else: interact_object.emit(null)
+	
 	if Input.is_action_pressed("escape"):
 		get_tree().quit()
 
@@ -51,11 +70,6 @@ func _unhandled_input(event):
 		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-60), deg_to_rad(70))
 
 func _physics_process(delta: float) -> void:
-	if %SeeCast.is_colliding():
-		var target = %SeeCast.get_collider()
-		print(target)
-	
-	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta

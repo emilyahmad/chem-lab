@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://cinbq0deuhni3"]
+[gd_scene load_steps=12 format=3 uid="uid://cinbq0deuhni3"]
 
 [ext_resource type="Script" uid="uid://c6f0hn0hssmo" path="res://scripts/player.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://j7dq6ox8sy5o" path="res://camera_3d.gd" id="2_ykyjo"]
 [ext_resource type="PackedScene" uid="uid://bflh3u5xqrcct" path="res://models/Sword.glb" id="3_uxov2"]
+[ext_resource type="Script" uid="uid://ctn31fl6usa0s" path="res://scripts/ray_cast_3d.gd" id="4_3rerk"]
 [ext_resource type="Script" uid="uid://my3ry7fv54ui" path="res://scripts/stamina_bar.gd" id="4_f46kd"]
 [ext_resource type="Texture2D" uid="uid://ue8drq1ila5b" path="res://assets/sprint/progress-bar.png" id="5_3rerk"]
 
@@ -99,9 +100,10 @@ visible = false
 [node name="Sword" parent="Camera3D/SwordPoint" instance=ExtResource("3_uxov2")]
 transform = Transform3D(-0.946458, 0.322827, 0, -0.322827, -0.946458, 0, 0, 0, 1, 0.744666, 0.306243, -0.485848)
 
-[node name="SeeCast" type="RayCast3D" parent="Camera3D"]
-unique_name_in_owner = true
-transform = Transform3D(0.096, 0, 0, 0, 0.5, 0, 0, 0, 23.808, 0, 0.23888, -0.755831)
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 0.828999, 0.559251, 0, -0.559251, 0.828999, 0, 0, 0)
+target_position = Vector3(0, 0, -4)
+script = ExtResource("4_3rerk")
 
 [node name="SprintCooldown" type="Timer" parent="."]
 wait_time = 4.0
