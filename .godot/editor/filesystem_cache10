@@ -1,12 +1,12 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1780715236
+::res://::1780747533
 camera_3d.gd::GDScript/GDScript::697972055493948394::1775411608::0::1::::<>Camera3D<><>0<>0<><>::
 character.glb::PackedScene/PackedScene::5935519621917484297::1776556116::1776556124::1::::<><><>0<>0<>dea94811b9c3e144bfcd0fe0cbe9d19a<>res://.godot/imported/character.glb-f862febe6cd2d0bfa59b1797f60cbf5f.scn::
 clothes.png::CompressedTexture2D/CompressedTexture2D::7595984796516569854::1776557346::1776557347::1::::<><><>0<>0<>5040ccb29c93528287050fa403008061<>res://.godot/imported/clothes.png-528aed4e4d7dc42ce8c0ec16dd9c1492.s3tc.ctex::
 dialogue_trigger.gd::GDScript/GDScript::6483874595004452933::1776556065::0::1::::<>Node3D<><>0<>0<><>::
 dialogue_ui.tscn::PackedScene/PackedScene::2248853223392705849::1777587231::0::1::::<><><>0<>0<><>::
 door.tscn::PackedScene/PackedScene::4045344828403057325::1776384240::0::1::::<><><>0<>0<><>::uid://br8vkv0j16my2::::res://models/tavernprops/door.glb
-export_presets.cfg::TextFile::-1::1780451734::0::1::::<><><>0<>0<><>::
+export_presets.cfg::TextFile/TextFile::-1::1780451734::0::1::::<><><>0<>0<><>::
 icon.png::CompressedTexture2D/CompressedTexture2D::5104731517343546433::1775251875::1775252091::1::::<><><>0<>0<>5d4a152414406ddd000098a4d26eebda<>res://.godot/imported/icon.png-487276ed1e3a0c39cad0279d744ee560.ctex::
 icon.svg::CompressedTexture2D/CompressedTexture2D::6432943538567974701::1775251794::1775252091::1::::<><><>0<>0<>9dcee25fac6157228d1880267a7acd6c<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
 index.apple-touch-icon.png::CompressedTexture2D/CompressedTexture2D::8290704198014638839::1780449695::1780450900::1::::<><><>0<>0<>3f6ef0ab1fddec2193da5703f24d72c8<>res://.godot/imported/index.apple-touch-icon.png-8085a11cc297d91deb55511843765958.ctex::
@@ -14,7 +14,7 @@ index.icon.png::CompressedTexture2D/CompressedTexture2D::3119858638157060830::17
 index.png::CompressedTexture2D/CompressedTexture2D::2049770629477886059::1780449695::1780450900::1::::<><><>0<>0<>7854970a863da9473477f46a492ce081<>res://.godot/imported/index.png-5122033cac747157decad52589e2295c.ctex::
 node_3d.tscn::PackedScene/PackedScene::4008811973211020382::1775254393::0::1::::<><><>0<>0<><>::
 README.md::TextFile/TextFile::-1::1780715236::0::1::::<><><>0<>0<><>::
-Untitled_Artwork 16.png::CompressedTexture2D::5264726689123063415::1780715236::1780715257::1::::<><><>0<>0<>229e21233ccbe2922793edad290e0c4a<>res://.godot/imported/Untitled_Artwork 16.png-9d336093df2c308dff00d489a6df9bb5.ctex::
+Untitled_Artwork 16.png::CompressedTexture2D/CompressedTexture2D::5264726689123063415::1780715236::1780715257::1::::<><><>0<>0<>229e21233ccbe2922793edad290e0c4a<>res://.godot/imported/Untitled_Artwork 16.png-9d336093df2c308dff00d489a6df9bb5.ctex::
 wakatime_logo.jpg::CompressedTexture2D/CompressedTexture2D::18246814821071646::1775251875::1775252091::1::::<><><>0<>0<>be7f31b1e426e1c645d7c91620eecf39<>res://.godot/imported/wakatime_logo.jpg-a50f628e445fd6bef17dff1651d611bc.ctex::
 ::res://addons/::1775251875
 ::res://addons/wakatime/::1775251875
@@ -32,10 +32,9 @@ Sword swing.wav::AudioStreamWAV/AudioStreamWAV::2800318895666632616::1775412595:
 index.apple-touch-icon.png::CompressedTexture2D/CompressedTexture2D::8433271321235861455::1780451734::1780450971::1::::<><><>0<>0<>55b7b6dc9ff1fcfc1dc8052cd8856bcd<>res://.godot/imported/index.apple-touch-icon.png-b21a756d869f84af832970a74d8371bc.ctex::
 index.icon.png::CompressedTexture2D/CompressedTexture2D::6984014103442400665::1780451734::1780450971::1::::<><><>0<>0<>b96359655694aaef885ee49a226da3b8<>res://.godot/imported/index.icon.png-b92c9a802ad4b78e247784454a6b506f.ctex::
 index.png::CompressedTexture2D/CompressedTexture2D::1151520428228093638::1780451734::1780450971::1::::<><><>0<>0<>6a31c1ee781fde96721f7aa8aa89a133<>res://.godot/imported/index.png-0c78d14d192abe5f22f8c25928ca1ab8.ctex::
-::res://models/::1780712841
+::res://models/::1780715375
 grass.glb::PackedScene/PackedScene::992288359242407227::1775412595::1775476970::1::::<><><>0<>0<>448d93cc7939cac90636207d71ff051c<>res://.godot/imported/grass.glb-0ce858eae1c69c894a569863f13e24f1.scn::uid://bprv35tpjfskh::::res://models/grass.res
 grass.res::ArrayMesh/ArrayMesh::3475674424905600123::1775476970::0::1::::<><><>0<>0<><>::
-liquidContainer.glb::PackedScene::9044175433344356544::1780712839::1780712841::1::::<><><>0<>0<>3ac3af41a7a9c628630c985f2774de31<>res://.godot/imported/liquidContainer.glb-dc15c0727e308754b01e69fafe5f2378.scn::
 pinetree.glb::PackedScene/PackedScene::6636968941549724486::1775412595::1775412896::1::::<><><>0<>0<>c735fcb9bc4557535b5328633229998e<>res://.godot/imported/pinetree.glb-c1c0c49ae5a07b3423b3c494893146cb.scn::uid://d0mom17gl75hc::::res://models/pinetree_pine.png
 pinetree_pine.png::CompressedTexture2D/CompressedTexture2D::8939628557833869272::1775412618::1775412896::1::::<><><>0<>0<>c44be52f335e1ff9f1377c7489c90e55<>res://.godot/imported/pinetree_pine.png-ab58e876018e6a5a676cb9b7c307b2fa.s3tc.ctex::
 Sword.glb::PackedScene/PackedScene::2760549176234824903::1775412595::1775412896::1::::<><><>0<>0<>469d5e2b67a464b342c7437146b724ac<>res://.godot/imported/Sword.glb-c29a764b29d84b892bab9cdc07c3326d.scn::
@@ -46,6 +45,13 @@ cliffProps2.glb::PackedScene/PackedScene::3868290414438541831::1775412595::17754
 cliffProps3.glb::PackedScene/PackedScene::8222189627961830214::1775412595::1775412802::1::::<><><>0<>0<>ccd52b5049b1e65f46da7f112b335f61<>res://.godot/imported/cliffProps3.glb-a744885cde285f08ea5df2462b678eeb.scn::
 cliffProps4.glb::PackedScene/PackedScene::578356566037924674::1775412595::1775412802::1::::<><><>0<>0<>b8953a3a38612b383ca4bc9b21a72996<>res://.godot/imported/cliffProps4.glb-343a38ebef822ab8139ebc52871396a6.scn::
 cliffProps5.glb::PackedScene/PackedScene::3982632256870513177::1775412595::1775412802::1::::<><><>0<>0<>68fa4c6f6f38487c36784ee09b9914e2<>res://.godot/imported/cliffProps5.glb-581f4c227b917b7a42b7b61cc023c9b8.scn::
+::res://models/cooking_scene/::1780722341
+bowl.glb::PackedScene/PackedScene::6924205032519569009::1780715387::1780715389::1::::<><><>0<>0<>98a38b010a9309a7b494ba64603b325f<>res://.godot/imported/bowl.glb-259c6fafe9baecc9455df38ec1ad8cb8.scn::
+counter.glb::PackedScene/PackedScene::4727716228772524738::1780722340::1780722341::1::::<><><>0<>0<>a0470df0ae69170b879889a227f95d5d<>res://.godot/imported/counter.glb-746918c8dad4baae4567698f9281457d.scn::
+erlenmeyerFlask.glb::PackedScene/PackedScene::7153365990805496354::1780715387::1780715389::1::::<><><>0<>0<>c528e08dd9a5d7f8b1f3acafdbdcc86a<>res://.godot/imported/erlenmeyerFlask.glb-d9eaf838b22602a8e5625f4560183e38.scn::
+liquidContainer.glb::PackedScene/PackedScene::9044175433344356544::1780715387::1780715376::1::::<><><>0<>0<>3c8b697e71938cc626eea072c22f7ace<>res://.godot/imported/liquidContainer.glb-978d227d7d10a57ed109bbf9eb026173.scn::
+mixer.glb::PackedScene/PackedScene::4982077142142126044::1780715387::1780715388::1::::<><><>0<>0<>6bac1de47c2a2ed64a2d651f5b1deafe<>res://.godot/imported/mixer.glb-9fcb13ed81a814c16c7b40efad071e23.scn::
+roundFlask.glb::PackedScene/PackedScene::4747011238111542359::1780715387::1780715389::1::::<><><>0<>0<>642139c81cf3d1cd39d3bf5df96d95bb<>res://.godot/imported/roundFlask.glb-a0d9b74b6f4c3e902b249b260f53104c.scn::
 ::res://models/enemy/::1775412835
 GobelinCavity.png::CompressedTexture2D/CompressedTexture2D::1873526631943771543::1775412595::1775412832::1::::<><><>0<>0<>8d87ad67c495b8e40935ff6c473144ca<>res://.godot/imported/GobelinCavity.png-c31be8b95d2e8cdb3159be9aaceb64bb.s3tc.ctex::
 GobelinColors.png::CompressedTexture2D/CompressedTexture2D::1640691029410470473::1775412595::1775412832::1::::<><><>0<>0<>1e3bd2802f5c6c896abb4184eca054d1<>res://.godot/imported/GobelinColors.png-fa394e9717378198950370cb782dad96.ctex::
@@ -64,11 +70,11 @@ torch.glb::PackedScene/PackedScene::7704995795094579771::1775412595::1775412812:
 ::res://objects/::1777587231
 player.tscn::PackedScene/PackedScene::5361279634915408792::1777587231::0::1::::<><><>0<>0<><>::uid://c6f0hn0hssmo::::res://scripts/player.gd<>uid://j7dq6ox8sy5o::::res://camera_3d.gd<>uid://bflh3u5xqrcct::::res://models/Sword.glb<>uid://ctn31fl6usa0s::::res://scripts/ray_cast_3d.gd<>uid://my3ry7fv54ui::::res://scripts/stamina_bar.gd<>uid://ue8drq1ila5b::::res://assets/sprint/progress-bar.png
 tree.tscn::PackedScene/PackedScene::2563960258733060358::1777587231::0::1::::<><><>0<>0<><>::uid://c1s855tif52ry::::res://models/pinetree.glb
-::res://scenes/::1780451790
+::res://scenes/::1780722371
 character.tscn::PackedScene/PackedScene::1423656393459117304::1777587231::0::1::::<><><>0<>0<><>::uid://cqthe18gjjauj::::res://character.glb<>uid://dghs03lvjkqdy::::res://clothes.png
 dialogue_trigger.tscn::PackedScene/PackedScene::2866674681409515279::1777587231::0::1::::<><><>0<>0<><>::uid://cym3p5fy10pr6::::res://dialogue_trigger.gd
 HUD.tscn::PackedScene/PackedScene::3288896349966285912::1777587231::0::1::::<><><>0<>0<><>::uid://mdcksud1318x::::res://scripts/hud.gd
-main.tscn::PackedScene::3503111901083769083::1780451790::0::1::::<><><>0<>0<><>::uid://bprv35tpjfskh::::res://models/grass.res<>uid://cinbq0deuhni3::::res://objects/player.tscn<>uid://chcr76wsux2ln::::res://models/tavern.glb<>uid://p38wx47g1qal::::res://models/CliffProps/cliffProps1.glb<>uid://bvd3gbyumhngp::::res://models/CliffProps/cliffProps2.glb<>uid://bcsaby2c1451s::::res://objects/tree.tscn<>uid://bg3vyioxkhop8::::res://scenes/dialogue_trigger.tscn
+main.tscn::PackedScene::3503111901083769083::1780722371::0::1::::<><><>0<>0<><>::uid://bprv35tpjfskh::::res://models/grass.res<>uid://cinbq0deuhni3::::res://objects/player.tscn<>uid://chcr76wsux2ln::::res://models/tavern.glb<>uid://p38wx47g1qal::::res://models/CliffProps/cliffProps1.glb<>uid://bvd3gbyumhngp::::res://models/CliffProps/cliffProps2.glb<>uid://bcsaby2c1451s::::res://objects/tree.tscn<>uid://bg3vyioxkhop8::::res://scenes/dialogue_trigger.tscn<>uid://rojwxg5ssw4c::::res://models/tavernprops/counter.glb
 ::res://scripts/::1776386380
 hud.gd::GDScript/GDScript::848599525331723457::1775697900::0::1::::<>Control<><>0<>0<><>::
 main.gd::GDScript/GDScript::7694365909529496938::1775407838::0::1::::<>RefCounted<><>0<>0<><>::

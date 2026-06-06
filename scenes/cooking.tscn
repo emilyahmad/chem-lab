@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=3 uid="uid://8cwmki82ikjj"]
+
+[ext_resource type="PackedScene" uid="uid://cinbq0deuhni3" path="res://objects/player.tscn" id="1_kcvj3"]
+
+[node name="Van" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("1_kcvj3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.972445, 0.673846, 1.99978)
+
+[node name="FrontWall" type="CSGCombiner3D" parent="."]
+
+[node name="FrontWall" type="CSGBox3D" parent="FrontWall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.78738, 0.913643, 0.404297)
+size = Vector3(8.51703, 3.17012, 0.191406)
+
+[node name="Window" type="CSGBox3D" parent="FrontWall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.83975, 1.22485, 0.404297)
+operation = 2
+size = Vector3(3.71733, 1.75172, 0.191406)
+
+[node name="LeftWall" type="CSGBox3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -6.94926, 0.913643, 1.96196)
+size = Vector3(3.29498, 3.17012, 0.191406)
+
+[node name="RightWall" type="CSGBox3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.36949, 0.913643, 1.96196)
+size = Vector3(3.29498, 3.17012, 0.191406)
+
+[node name="BackWall" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.78738, 0.913643, 3.534)
+size = Vector3(8.51703, 3.17012, 0.191406)
+
+[node name="Floor" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -2.787, -0.713579, 1.91515)
+size = Vector3(8.51703, 3.17012, 0.191406)
+
+[node name="Ceiling" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -2.787, 2.55703, 1.91515)
+size = Vector3(8.51703, 3.17012, 0.191406)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bp560g3d78nr4"]
+[gd_scene load_steps=16 format=3 uid="uid://bp560g3d78nr4"]
 
 [ext_resource type="ArrayMesh" uid="uid://bprv35tpjfskh" path="res://models/grass.res" id="1_tefeu"]
 [ext_resource type="PackedScene" uid="uid://cinbq0deuhni3" path="res://objects/player.tscn" id="2_0wfyh"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bvd3gbyumhngp" path="res://models/CliffProps/cliffProps2.glb" id="4_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://bcsaby2c1451s" path="res://objects/tree.tscn" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://bg3vyioxkhop8" path="res://scenes/dialogue_trigger.tscn" id="7_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://rojwxg5ssw4c" path="res://models/tavernprops/counter.glb" id="8_tipki"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_sugp2"]
 size = Vector3(50, 1, 50)
@@ -118,3 +119,5 @@ environment = SubResource("Environment_o6xl0")
 
 [node name="dialogue_trigger" parent="." instance=ExtResource("7_o6xl0")]
 transform = Transform3D(1, 0, 0, 0, 1.08374, 0, 0, 0, 2.83829, -2.23174, 0.506726, 2.49463)
+
+[node name="counter" parent="." instance=ExtResource("8_tipki")]
