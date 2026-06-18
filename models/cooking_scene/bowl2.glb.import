@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://c5wev651ialhx"
-path="res://.godot/imported/bowl.glb-259c6fafe9baecc9455df38ec1ad8cb8.scn"
+uid="uid://ds5tevoh6eyij"
+path="res://.godot/imported/bowl2.glb-34d936cf6a387d4d9af893f1f53abac5.scn"
 
 [deps]
 
-source_file="res://models/cooking_scene/bowl.glb"
-dest_files=["res://.godot/imported/bowl.glb-259c6fafe9baecc9455df38ec1ad8cb8.scn"]
+source_file="res://models/cooking_scene/bowl2.glb"
+dest_files=["res://.godot/imported/bowl2.glb-34d936cf6a387d4d9af893f1f53abac5.scn"]
 
 [params]
 

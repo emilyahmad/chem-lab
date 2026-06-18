@@ -1,3 +1,7 @@
+MeshInstance3D
+CollisionShape3D
+RigidBody3D
+RayCast3D
 Node3D
 Node
 OmniLight3D
@@ -7,8 +11,4 @@ DirectionalLight2D
 CSGCombiner3D
 CSGBox3D
 AnimationPlayer
-CollisionShape3D
 Area3D
-Button
-RichTextLabel
-ColorRect

@@ -1,9 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://8cwmki82ikjj"]
+[gd_scene load_steps=7 format=3 uid="uid://8cwmki82ikjj"]
 
-[ext_resource type="PackedScene" uid="uid://c86e5mauiohpy" path="res://models/cooking_scene/erlenmeyerFlask.glb" id="2_2iow3"]
+[ext_resource type="PackedScene" uid="uid://ds5tevoh6eyij" path="res://models/cooking_scene/bowl2.glb" id="1_2iow3"]
+[ext_resource type="PackedScene" uid="uid://bqxtisjfmb2yb" path="res://models/cooking_scene/mixer.glb" id="2_xian5"]
 [ext_resource type="PackedScene" uid="uid://cy44eb4njknhw" path="res://models/cooking_scene/counter2.glb" id="3_2iow3"]
-[ext_resource type="PackedScene" uid="uid://b8vqt1jbc51d0" path="res://models/cooking_scene/roundFlask.glb" id="3_wuimh"]
-[ext_resource type="PackedScene" uid="uid://d14cioybsahgy" path="res://models/cooking_scene/liquidContainer.glb" id="3_xian5"]
+[ext_resource type="PackedScene" uid="uid://cinbq0deuhni3" path="res://objects/player.tscn" id="5_wuimh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xian5"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_wuimh"]
 
 [node name="Van" type="Node3D"]
 
@@ -53,14 +57,24 @@ size = Vector3(8.51703, 3.17012, 0.191406)
 [node name="Ingredients" type="Node3D" parent="Inside"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0503211, -0.0493864, 0.0110512)
 
-[node name="erlenmeyerFlask" parent="Inside/Ingredients" instance=ExtResource("2_2iow3")]
-transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, -4.9059, 0.435564, 0.449508)
+[node name="bowl2" parent="Inside/Ingredients" groups=["pickable"] instance=ExtResource("1_2iow3")]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, -2.22963, 0.364845, 0.450412)
 
-[node name="liquidContainer" parent="Inside/Ingredients" instance=ExtResource("3_xian5")]
-transform = Transform3D(-0.0676162, 0, -0.188223, 0, 0.2, 0, 0.188223, 0, -0.0676162, -3.941, 0.436, 0.124)
-
-[node name="roundFlask" parent="Inside/Ingredients" instance=ExtResource("3_wuimh")]
-transform = Transform3D(0.125, 0, 0, 0, 0.125, 0, 0, 0, 0.125, -4.53551, 0.417509, 0.184445)
+[node name="mixer" parent="Inside/Ingredients" groups=["pickable"] instance=ExtResource("2_xian5")]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, -1.81179, 0.283005, 0.497388)
 
 [node name="counter2" parent="." instance=ExtResource("3_2iow3")]
 transform = Transform3D(-2.18222e-08, 0, -0.920274, 0, 0.442461, 0, 0.499234, 0, -4.02265e-08, -5.13781, -0.301004, 0.880559)
+
+[node name="Player" parent="." instance=ExtResource("5_wuimh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.67374)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="." groups=["pickable"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("BoxShape3D_xian5")
+debug_fill = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.134507, 0.620838, 0.253479)
+mesh = SubResource("BoxMesh_wuimh")

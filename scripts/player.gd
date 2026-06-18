@@ -13,7 +13,7 @@ const CAMERA_SENS = .003
 #@onready var cooldown = $SprintCooldown
 
 var sensitivity = 0.003
-@onready var camera = $Camera3D
+@onready var camera = $Head/Camera3D
 
 @onready var staminaBar = $Player/StaminaBar/StaminaProgressBar
 
