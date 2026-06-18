@@ -1,0 +1,5 @@
+res://scenes/main.tscn
+res://scenes/cooking.tscn
+res://objects/player.tscn
+res://scenes/test.tscn
+res://scripts/player.gd

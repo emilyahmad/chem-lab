@@ -1,39 +1,66 @@
-[gd_scene load_steps=2 format=3 uid="uid://8cwmki82ikjj"]
+[gd_scene load_steps=5 format=3 uid="uid://8cwmki82ikjj"]
 
-[ext_resource type="PackedScene" uid="uid://cinbq0deuhni3" path="res://objects/player.tscn" id="1_kcvj3"]
+[ext_resource type="PackedScene" uid="uid://c86e5mauiohpy" path="res://models/cooking_scene/erlenmeyerFlask.glb" id="2_2iow3"]
+[ext_resource type="PackedScene" uid="uid://cy44eb4njknhw" path="res://models/cooking_scene/counter2.glb" id="3_2iow3"]
+[ext_resource type="PackedScene" uid="uid://b8vqt1jbc51d0" path="res://models/cooking_scene/roundFlask.glb" id="3_wuimh"]
+[ext_resource type="PackedScene" uid="uid://d14cioybsahgy" path="res://models/cooking_scene/liquidContainer.glb" id="3_xian5"]
 
 [node name="Van" type="Node3D"]
 
-[node name="Player" parent="." instance=ExtResource("1_kcvj3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.972445, 0.673846, 1.99978)
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.97958, 1.10126, 1.51743)
 
-[node name="FrontWall" type="CSGCombiner3D" parent="."]
+[node name="VanWalls" type="Node3D" parent="."]
 
-[node name="FrontWall" type="CSGBox3D" parent="FrontWall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.78738, 0.913643, 0.404297)
+[node name="FrontWall" type="CSGCombiner3D" parent="VanWalls"]
+use_collision = true
+
+[node name="FrontWall" type="CSGBox3D" parent="VanWalls/FrontWall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.03046, 0.85653, -0.272182)
 size = Vector3(8.51703, 3.17012, 0.191406)
 
-[node name="Window" type="CSGBox3D" parent="FrontWall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.83975, 1.22485, 0.404297)
+[node name="Window" type="CSGBox3D" parent="VanWalls/FrontWall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.08283, 1.16774, -0.272182)
 operation = 2
 size = Vector3(3.71733, 1.75172, 0.191406)
 
-[node name="LeftWall" type="CSGBox3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -6.94926, 0.913643, 1.96196)
+[node name="LeftWall" type="CSGBox3D" parent="VanWalls"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -6.19234, 0.85653, 1.28548)
+use_collision = true
 size = Vector3(3.29498, 3.17012, 0.191406)
 
-[node name="RightWall" type="CSGBox3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.36949, 0.913643, 1.96196)
+[node name="RightWall" type="CSGBox3D" parent="VanWalls"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.12641, 0.85653, 1.28548)
+use_collision = true
 size = Vector3(3.29498, 3.17012, 0.191406)
 
-[node name="BackWall" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.78738, 0.913643, 3.534)
+[node name="BackWall" type="CSGBox3D" parent="VanWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.03046, 0.85653, 2.85752)
+use_collision = true
 size = Vector3(8.51703, 3.17012, 0.191406)
 
-[node name="Floor" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -2.787, -0.713579, 1.91515)
+[node name="Floor" type="CSGBox3D" parent="VanWalls"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -2.03008, -0.770692, 1.23867)
+use_collision = true
 size = Vector3(8.51703, 3.17012, 0.191406)
 
-[node name="Ceiling" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -2.787, 2.55703, 1.91515)
+[node name="Ceiling" type="CSGBox3D" parent="VanWalls"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -2.03008, 2.49992, 1.23867)
 size = Vector3(8.51703, 3.17012, 0.191406)
+
+[node name="Inside" type="Node3D" parent="."]
+
+[node name="Ingredients" type="Node3D" parent="Inside"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0503211, -0.0493864, 0.0110512)
+
+[node name="erlenmeyerFlask" parent="Inside/Ingredients" instance=ExtResource("2_2iow3")]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, -4.9059, 0.435564, 0.449508)
+
+[node name="liquidContainer" parent="Inside/Ingredients" instance=ExtResource("3_xian5")]
+transform = Transform3D(-0.0676162, 0, -0.188223, 0, 0.2, 0, 0.188223, 0, -0.0676162, -3.941, 0.436, 0.124)
+
+[node name="roundFlask" parent="Inside/Ingredients" instance=ExtResource("3_wuimh")]
+transform = Transform3D(0.125, 0, 0, 0, 0.125, 0, 0, 0, 0.125, -4.53551, 0.417509, 0.184445)
+
+[node name="counter2" parent="." instance=ExtResource("3_2iow3")]
+transform = Transform3D(-2.18222e-08, 0, -0.920274, 0, 0.442461, 0, 0.499234, 0, -4.02265e-08, -5.13781, -0.301004, 0.880559)

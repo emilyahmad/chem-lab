@@ -39,11 +39,6 @@ func _input(event):
 		rotation.x -= event.relative.y * CAMERA_SENS
 
 func _process(delta: float) -> void:
-	if ray_cast_3d.is_colliding():
-		var collider = ray_cast_3d.get_collider()
-		interact_object.emit(collider)
-	else: interact_object.emit(null)
-	
 	if Input.is_action_pressed("escape"):
 		get_tree().quit()
 

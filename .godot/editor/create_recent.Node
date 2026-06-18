@@ -1,3 +1,9 @@
+Node3D
+Node
+OmniLight3D
+Control
+DirectionalLight3D
+DirectionalLight2D
 CSGCombiner3D
 CSGBox3D
 AnimationPlayer
@@ -6,10 +12,3 @@ Area3D
 Button
 RichTextLabel
 ColorRect
-CanvasLayer
-StaticBody3D
-RayCast3D
-Control
-TextureProgressBar
-Timer
-Node3D
