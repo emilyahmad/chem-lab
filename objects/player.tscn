@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cinbq0deuhni3"]
+[gd_scene load_steps=5 format=3 uid="uid://cinbq0deuhni3"]
 
 [ext_resource type="Script" uid="uid://c6f0hn0hssmo" path="res://scripts/player.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://j7dq6ox8sy5o" path="res://camera_3d.gd" id="2_ykyjo"]
-[ext_resource type="PackedScene" uid="uid://bp8d7sr1lpkoj" path="res://scenes/mixer_updated.tscn" id="3_uxov2"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
 radius = 0.4
@@ -29,5 +28,6 @@ script = ExtResource("2_ykyjo")
 target_position = Vector3(0, -1, -4)
 collision_mask = 3
 
-[node name="Mixer" parent="." instance=ExtResource("3_uxov2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.03892, -1.2506, -0.630704)
+[node name="CarryObjectMarker" type="Marker3D" parent="Camera3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.967191, -0.533618, -0.953933)

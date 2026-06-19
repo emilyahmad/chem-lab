@@ -1,9 +1,5 @@
 extends CharacterBody3D
 
-signal interact_object
-
-@onready var ray_cast_3d = $Camera3D/RayCast3D
-
 const SPEED = 8.0
 const JUMP_VELOCITY = 3
 const SPRINT_VELOCITY = 1.5
@@ -13,7 +9,7 @@ const CAMERA_SENS = .003
 #@onready var cooldown = $SprintCooldown
 
 var sensitivity = 0.003
-@onready var camera = $Head/Camera3D
+@onready var camera = $Camera3D
 
 @onready var staminaBar = $Player/StaminaBar/StaminaProgressBar
 
@@ -28,8 +24,8 @@ func _ready():
 	add_to_group("player")
 	
 	#staminaBar.value = 100.0
-	$StaminaBar/StaminaProgressBar.value = 100.0
-	$StaminaBar/StaminaProgressBar.visible = false
+	#$StaminaBar/StaminaProgressBar.value = 100.0
+	#$StaminaBar/StaminaProgressBar.visible = false
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -48,21 +44,24 @@ func _process(delta: float) -> void:
 	if Input.is_action_pressed("escape"):
 		get_tree().quit()
 
-	if exhausted == false && $StaminaBar/StaminaProgressBar.value != 100 or $StaminaBar/StaminaProgressBar.value == 0:
-		can_start_timer = true
-		if can_start_timer:
-			$StaminaBar/StaminaProgressBar.visible = true
-			stamina_timer += delta
-			if stamina_timer >= exhaust_buffer:
-				exhausted = true
-				can_start_timer = false
-#				fade out?
-				$StaminaBar/StaminaProgressBar.visible = false
-				stamina_timer = 0
-	if $StaminaBar/StaminaProgressBar.value == 100:
-		exhausted = false
-	if exhausted == true:
-		$StaminaBar/StaminaProgressBar.value += .5
+	#if exhausted == false && $StaminaBar/StaminaProgressBar.value != 100 or $StaminaBar/StaminaProgressBar.value == 0:
+		#can_start_timer = true
+		#if can_start_timer:
+			#$StaminaBar/StaminaProgressBar.visible = true
+			#stamina_timer += delta
+			#if stamina_timer >= exhaust_buffer:
+				#exhausted = true
+				#can_start_timer = false
+##				fade out?
+				#$StaminaBar/StaminaProgressBar.visible = false
+				#stamina_timer = 0
+	#if $StaminaBar/StaminaProgressBar.value == 100:
+		#exhausted = false
+	#if exhausted == true:
+		#$StaminaBar/StaminaProgressBar.value += .5
+
+@onready var raycast = $Camera3D/RayCast3D
+var held_object: RigidBody3D = null
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
@@ -76,12 +75,12 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta
 
 	# Handle jump.
-	if !($StaminaBar/StaminaProgressBar.value == 0):
-		if Input.is_action_pressed("jump") && is_on_floor():
-			velocity.y = JUMP_VELOCITY
-			$StaminaBar/StaminaProgressBar.value -= 55;
-	else:
-		velocity.y = 0
+	#if !($StaminaBar/StaminaProgressBar.value == 0):
+		#if Input.is_action_pressed("jump") && is_on_floor():
+			#velocity.y = JUMP_VELOCITY
+			#$StaminaBar/StaminaProgressBar.value -= 55;
+	#else:
+		#velocity.y = 0
 	
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace  actions with custom gameplay actions.
@@ -92,28 +91,35 @@ func _physics_process(delta: float) -> void:
 		velocity.z = direction.z * SPEED
 		
 		# add timer (plus bar at the bottom/show tired)
-		if !($StaminaBar/StaminaProgressBar.value == 0):
-			if Input.is_action_pressed("sprint"):
-				velocity.z *= SPRINT_VELOCITY
-				velocity.x *= SPRINT_VELOCITY
-				$StaminaBar/StaminaProgressBar.value -= 10;
-		else:
-			velocity.x = move_toward(velocity.x, 0, 3.5)
-			velocity.z = move_toward(velocity.z, 0, 3.5)
+		#if !($StaminaBar/StaminaProgressBar.value == 0):
+			#if Input.is_action_pressed("sprint"):
+				#velocity.z *= SPRINT_VELOCITY
+				#velocity.x *= SPRINT_VELOCITY
+				#$StaminaBar/StaminaProgressBar.value -= 10;
+		#else:
+			#velocity.x = move_toward(velocity.x, 0, 3.5)
+			#velocity.z = move_toward(velocity.z, 0, 3.5)
 
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
+	
+	if Input.is_action_just_pressed("pick_up"):
+		if held_object:
+			# Drop it
+			held_object.freeze = false
+			held_object = null
+		elif raycast.is_colliding():
+			var hit_object = raycast.get_collider()
+			if hit_object.is_in_group("pickable"):
+				held_object = hit_object
+				held_object.freeze = true
 
+	if held_object:
+		held_object.global_position = %CarryObjectMarker.global_position
+		held_object.global_rotation = %CarryObjectMarker.global_rotation
+	
 	move_and_slide()
 
 #func _on_sprint_cooldown_timeout() -> void:
 	#sprintOnCooldown == false
-
-func pick_up_object(object):
-	object.reparent(self)
-	object.global_position = %CarryObjectMarker.global_position
-	
-	await get_tree().create_timer(0.1).timeout
-	
-	picked_object = object

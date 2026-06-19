@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://bp560g3d78nr4"]
+[gd_scene load_steps=8 format=3 uid="uid://bp560g3d78nr4"]
 
-[ext_resource type="PackedScene" uid="uid://bp8d7sr1lpkoj" path="res://scenes/mixer_updated.tscn" id="2_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://b2yyqjaers3ao" path="res://scenes/bowl.tscn" id="2_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://cinbq0deuhni3" path="res://objects/player.tscn" id="8_tipki"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_sugp2"]
@@ -12,6 +12,10 @@ albedo_color = Color(0.551684, 0.431436, 0.302255, 1)
 [sub_resource type="QuadMesh" id="QuadMesh_tbgi4"]
 size = Vector2(50, 50)
 orientation = 1
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_o5qli"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_0wfyh"]
 
 [node name="World" type="Node3D"]
 transform = Transform3D(0.860342, 0, 0.509717, 0, 1, 0, -0.509717, 0, 0.860342, 0, 0, 0)
@@ -39,5 +43,17 @@ shadow_enabled = true
 [node name="Player" parent="." instance=ExtResource("8_tipki")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
 
-[node name="Mixer" parent="." instance=ExtResource("2_0wfyh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.913636, 0, 0.541292)
+[node name="RigidBody3D2" type="RigidBody3D" parent="." groups=["pickable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.19287, 1.12318, -2.01343)
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D2"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_o5qli")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D2"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+mesh = SubResource("CylinderMesh_0wfyh")
+
+[node name="Bowl" parent="." instance=ExtResource("2_0wfyh")]
+transform = Transform3D(0.860342, 0, -0.509717, 0, 1, 0, 0.509717, 0, 0.860342, -1.25427, 0.4, -2.24559)

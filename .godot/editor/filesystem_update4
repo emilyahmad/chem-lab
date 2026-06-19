@@ -1,11 +1,5 @@
-res://scenes/cooking.tscn
-res://scenes/main.tscn
 res://objects/player.tscn
-res://scenes/test.tscn
-res://scenes/customer.tscn
-res://scripts/head.gd
-res://scenes/mixer.tscn
-res://Planning/BasicLevel.txt
 res://scripts/player.gd
+res://scenes/main.tscn
 res://scenes/mixer_updated.tscn
-res://scripts/mixer_updated.gd
+res://scenes/bowl.tscn
