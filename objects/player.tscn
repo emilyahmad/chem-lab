@@ -1,10 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://cinbq0deuhni3"]
+[gd_scene load_steps=6 format=3 uid="uid://cinbq0deuhni3"]
 
 [ext_resource type="Script" uid="uid://c6f0hn0hssmo" path="res://scripts/player.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://j7dq6ox8sy5o" path="res://camera_3d.gd" id="2_ykyjo"]
-[ext_resource type="Script" uid="uid://c4ky2takajouo" path="res://scripts/head.gd" id="4_3rerk"]
-[ext_resource type="Script" uid="uid://my3ry7fv54ui" path="res://scripts/stamina_bar.gd" id="4_f46kd"]
-[ext_resource type="Texture2D" uid="uid://ue8drq1ila5b" path="res://assets/sprint/progress-bar.png" id="5_3rerk"]
+[ext_resource type="PackedScene" uid="uid://bp8d7sr1lpkoj" path="res://scenes/mixer_updated.tscn" id="3_uxov2"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
 radius = 0.4
@@ -13,20 +11,6 @@ height = 1.8
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_4flbx"]
 radius = 0.4
 height = 1.8
-
-[sub_resource type="Animation" id="Animation_nmc1l"]
-length = 0.001
-
-[sub_resource type="Animation" id="Animation_uxov2"]
-resource_name = "SwordSwing"
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_f46kd"]
-_data = {
-&"RESET": SubResource("Animation_nmc1l"),
-&"SwordSwing": SubResource("Animation_uxov2")
-}
-
-[sub_resource type="SphereMesh" id="SphereMesh_f46kd"]
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_4flbx")
@@ -37,51 +21,13 @@ shape = SubResource("CapsuleShape3D_sh265")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_4flbx")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_f46kd")
-}
-
-[node name="SprintCooldown" type="Timer" parent="."]
-wait_time = 4.0
-
-[node name="StaminaBar" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("4_f46kd")
-
-[node name="StaminaProgressBar" type="TextureProgressBar" parent="StaminaBar"]
-layout_mode = 0
-offset_left = 585.0
-offset_top = 1052.0
-offset_right = 1665.0
-offset_bottom = 2132.0
-scale = Vector2(0.695, 0.025)
-value = 100.0
-rounded = true
-texture_under = ExtResource("5_3rerk")
-texture_progress = ExtResource("5_3rerk")
-tint_under = Color(0, 0, 0, 1)
-tint_progress = Color(0.984314, 0.513726, 0.207843, 1)
-
-[node name="Head" type="Node3D" parent="."]
-script = ExtResource("4_3rerk")
-
-[node name="Camera3D" type="Camera3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.456556, 0.329365)
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0036006, 0.456556, 0.323229)
 script = ExtResource("2_ykyjo")
 
-[node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D"]
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
 target_position = Vector3(0, -1, -4)
 collision_mask = 3
 
-[node name="Hand" type="Node3D" parent="Head/Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.380767, -0.577541, -1.02154)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Head/Camera3D/Hand"]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, -1.83199)
-mesh = SubResource("SphereMesh_f46kd")
-
-[connection signal="timeout" from="SprintCooldown" to="." method="_on_sprint_cooldown_timeout"]
+[node name="Mixer" parent="." instance=ExtResource("3_uxov2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.03892, -1.2506, -0.630704)

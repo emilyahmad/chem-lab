@@ -22,6 +22,8 @@ var exhaust_buffer = 3
 var stamina_timer = 0
 var can_start_timer = true
 
+var picked_object
+
 func _ready():
 	add_to_group("player")
 	
@@ -37,6 +39,10 @@ func _input(event):
 	if event is InputEventMouseMotion:
 		rotation.y -= event.relative.x * CAMERA_SENS
 		rotation.x -= event.relative.y * CAMERA_SENS
+	
+	if event.is_action_pressed("pick_up") and picked_object:
+		picked_object.reparent(get_tree().current_scene)
+		picked_object = null
 
 func _process(delta: float) -> void:
 	if Input.is_action_pressed("escape"):
@@ -103,3 +109,11 @@ func _physics_process(delta: float) -> void:
 
 #func _on_sprint_cooldown_timeout() -> void:
 	#sprintOnCooldown == false
+
+func pick_up_object(object):
+	object.reparent(self)
+	object.global_position = %CarryObjectMarker.global_position
+	
+	await get_tree().create_timer(0.1).timeout
+	
+	picked_object = object
