@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://8cwmki82ikjj"]
+[gd_scene load_steps=6 format=3 uid="uid://8cwmki82ikjj"]
 
 [ext_resource type="PackedScene" uid="uid://ds5tevoh6eyij" path="res://models/cooking_scene/bowl2.glb" id="1_2iow3"]
-[ext_resource type="PackedScene" uid="uid://bqxtisjfmb2yb" path="res://models/cooking_scene/mixer.glb" id="2_xian5"]
 [ext_resource type="PackedScene" uid="uid://cy44eb4njknhw" path="res://models/cooking_scene/counter2.glb" id="3_2iow3"]
 [ext_resource type="PackedScene" uid="uid://cinbq0deuhni3" path="res://objects/player.tscn" id="5_wuimh"]
 
@@ -58,10 +57,7 @@ size = Vector3(8.51703, 3.17012, 0.191406)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0503211, -0.0493864, 0.0110512)
 
 [node name="bowl2" parent="Inside/Ingredients" groups=["pickable"] instance=ExtResource("1_2iow3")]
-transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, -2.22963, 0.364845, 0.450412)
-
-[node name="mixer" parent="Inside/Ingredients" groups=["pickable"] instance=ExtResource("2_xian5")]
-transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, -1.81179, 0.283005, 0.497388)
+transform = Transform3D(0.159409, 0, 0, 0, 0.159409, 0, 0, 0, 0.159409, -2.22963, 0.364845, 0.450412)
 
 [node name="counter2" parent="." instance=ExtResource("3_2iow3")]
 transform = Transform3D(-2.18222e-08, 0, -0.920274, 0, 0.442461, 0, 0.499234, 0, -4.02265e-08, -5.13781, -0.301004, 0.880559)

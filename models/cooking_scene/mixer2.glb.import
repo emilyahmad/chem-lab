@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bqxtisjfmb2yb"
-path="res://.godot/imported/mixer.glb-9fcb13ed81a814c16c7b40efad071e23.scn"
+uid="uid://bkdvegs54fg1"
+path="res://.godot/imported/mixer2.glb-fe64065484ef93d2fa98813242043bff.scn"
 
 [deps]
 
-source_file="res://models/cooking_scene/mixer.glb"
-dest_files=["res://.godot/imported/mixer.glb-9fcb13ed81a814c16c7b40efad071e23.scn"]
+source_file="res://models/cooking_scene/mixer2.glb"
+dest_files=["res://.godot/imported/mixer2.glb-fe64065484ef93d2fa98813242043bff.scn"]
 
 [params]
 

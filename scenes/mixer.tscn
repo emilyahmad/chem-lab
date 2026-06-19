@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://crujbwspdsucv"]
+
+[node name="mixer" groups=["pickable"]]
+
+[node name="-rigid" parent="." index="0"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
