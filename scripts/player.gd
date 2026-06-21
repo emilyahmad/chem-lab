@@ -22,7 +22,7 @@ var picked_object
 
 func _ready():
 	add_to_group("player")
-	
+	$CanvasLayer.hide()
 	#staminaBar.value = 100.0
 	#$StaminaBar/StaminaProgressBar.value = 100.0
 	#$StaminaBar/StaminaProgressBar.visible = false
@@ -104,13 +104,18 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 	
+	var hit_object = raycast.get_collider()
+	if raycast.is_colliding() && hit_object.is_in_group("pickable"):
+		$CanvasLayer.show()
+	else:
+		$CanvasLayer.hide()
+	
 	if Input.is_action_just_pressed("pick_up"):
 		if held_object:
 			# Drop it
 			held_object.freeze = false
 			held_object = null
 		elif raycast.is_colliding():
-			var hit_object = raycast.get_collider()
 			if hit_object.is_in_group("pickable"):
 				held_object = hit_object
 				held_object.freeze = true

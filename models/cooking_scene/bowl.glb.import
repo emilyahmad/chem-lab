@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://b7j4pyc2g6614"
-path="res://.godot/imported/bowl3.glb-435bebf0891e202f41a3b30378523b83.scn"
+path="res://.godot/imported/bowl.glb-259c6fafe9baecc9455df38ec1ad8cb8.scn"
 
 [deps]
 
-source_file="res://models/cooking_scene/bowl3.glb"
-dest_files=["res://.godot/imported/bowl3.glb-435bebf0891e202f41a3b30378523b83.scn"]
+source_file="res://models/cooking_scene/bowl.glb"
+dest_files=["res://.godot/imported/bowl.glb-259c6fafe9baecc9455df38ec1ad8cb8.scn"]
 
 [params]
 

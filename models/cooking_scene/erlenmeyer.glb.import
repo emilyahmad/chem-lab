@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://stxglamy2qyd"
-path="res://.godot/imported/roundFlask.glb-a0d9b74b6f4c3e902b249b260f53104c.scn"
+uid="uid://da4udnvef67si"
+path="res://.godot/imported/erlenmeyer.glb-c0c69a8fbf6bb994937bd94576df4fb7.scn"
 
 [deps]
 
-source_file="res://models/cooking_scene/roundFlask.glb"
-dest_files=["res://.godot/imported/roundFlask.glb-a0d9b74b6f4c3e902b249b260f53104c.scn"]
+source_file="res://models/cooking_scene/erlenmeyer.glb"
+dest_files=["res://.godot/imported/erlenmeyer.glb-c0c69a8fbf6bb994937bd94576df4fb7.scn"]
 
 [params]
 

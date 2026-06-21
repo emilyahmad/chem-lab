@@ -1,5 +1,10 @@
-MeshInstance3D
+CSGBox3D
 CollisionShape3D
+TextureRect
+Label
+BoxContainer
+CanvasLayer
+MeshInstance3D
 RigidBody3D
 Marker3D
 CharacterBody3D
@@ -8,7 +13,3 @@ RayCast3D
 Node
 OmniLight3D
 Control
-DirectionalLight3D
-DirectionalLight2D
-CSGCombiner3D
-CSGBox3D

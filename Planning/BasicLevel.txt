@@ -1,3 +1,10 @@
 Basic UI
 "Start cooking"
 Steps:
+
+
+- grab mixing bowl
+place in highlighted part of counter
+
+- grab mixer
+place in highlighted part of counter

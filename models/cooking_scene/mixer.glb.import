@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://qab3n68ua7wi"
+uid="uid://1dcrpq7nyd4p"
 path="res://.godot/imported/mixer.glb-9fcb13ed81a814c16c7b40efad071e23.scn"
 
 [deps]
@@ -32,12 +32,6 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-_subresources={
-"nodes": {
-"PATH:-rigid/CollisionShape3D": {
-"import/skip_import": true
-}
-}
-}
+_subresources={}
 gltf/naming_version=1
 gltf/embedded_image_handling=1

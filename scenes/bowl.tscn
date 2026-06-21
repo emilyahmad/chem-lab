@@ -40,10 +40,10 @@ points = PackedVector3Array(0, 0.407792, -1.53357, 0, 1, -1.32101, 0.586647, 0.4
 [node name="Bowl" type="RigidBody3D" groups=["pickable"]]
 
 [node name="-rigid" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, 0)
 mesh = SubResource("ArrayMesh_4urrt")
 skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, 0)
 shape = SubResource("ConvexPolygonShape3D_thpdi")
