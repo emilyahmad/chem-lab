@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://8cwmki82ikjj"]
+[gd_scene load_steps=8 format=3 uid="uid://8cwmki82ikjj"]
 
 [ext_resource type="Script" uid="uid://brfft6y1eeb0l" path="res://scripts/cooking.gd" id="1_58wjq"]
 [ext_resource type="PackedScene" uid="uid://b2yyqjaers3ao" path="res://scenes/bowl.tscn" id="2_4yrxt"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://crujbwspdsucv" path="res://scenes/mixer.tscn" id="3_xian5"]
 [ext_resource type="PackedScene" uid="uid://d3t87skwsa1mv" path="res://scenes/liquid_container.tscn" id="4_xian5"]
 [ext_resource type="PackedScene" uid="uid://cjkbuygtjsd15" path="res://scenes/erlenmeyer.tscn" id="5_wuimh"]
+[ext_resource type="PackedScene" uid="uid://dxpmvqntyl4mk" path="res://scenes/placemat.tscn" id="7_dlm30"]
 
 [node name="Van" type="Node3D"]
 script = ExtResource("1_58wjq")
@@ -75,5 +76,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.73745, 0.510535, 0.820934)
 transform = Transform3D(-2.18222e-08, 0, -0.920274, 0, 0.442461, 0, 0.499234, 0, -4.02265e-08, -5.13781, -0.301004, 0.880559)
 
 [node name="Window" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.67486, 1.08476, -0.391589)
-size = Vector3(5.3999, 1.92548, 0.0961914)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.12908, 0.880929, -0.421283)
+size = Vector3(6.08813, 3.17995, 0.0961914)
+
+[node name="Placemat" parent="." instance=ExtResource("7_dlm30")]
+transform = Transform3D(-1.21776e-08, 0, -0.592, 0, 0.2, 0, 0.27859, 0, -2.58771e-08, 1.30222, 0.181148, 0.837418)
+
+[node name="bowl_reference" parent="." instance=ExtResource("2_4yrxt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.876846, 0.362307, 0.704438)
+
+[connection signal="body_exited" from="bowl_reference" to="." method="_on_bowl_reference_body_exited"]

@@ -1,6 +1,7 @@
+RichTextLabel
+TextureRect
 CSGBox3D
 CollisionShape3D
-TextureRect
 Label
 BoxContainer
 CanvasLayer
@@ -12,4 +13,3 @@ Node3D
 RayCast3D
 Node
 OmniLight3D
-Control

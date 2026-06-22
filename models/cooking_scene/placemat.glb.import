@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://chcr76wsux2ln"
-path="res://.godot/imported/tavern.glb-b3e2ef64d2356e813e5daf344480baad.scn"
+uid="uid://by5k8f5fgetyw"
+path="res://.godot/imported/placemat.glb-eb1ff81afb14f6b8e9e8710e138c4e28.scn"
 
 [deps]
 
-source_file="res://models/tavern.glb"
-dest_files=["res://.godot/imported/tavern.glb-b3e2ef64d2356e813e5daf344480baad.scn"]
+source_file="res://models/cooking_scene/placemat.glb"
+dest_files=["res://.godot/imported/placemat.glb-eb1ff81afb14f6b8e9e8710e138c4e28.scn"]
 
 [params]
 

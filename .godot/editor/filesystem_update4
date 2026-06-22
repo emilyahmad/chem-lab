@@ -1,11 +1,8 @@
+res://scenes/cooking.tscn
+res://scripts/cooking.gd
 res://objects/player.tscn
 res://scenes/main.tscn
-res://scenes/bowl.tscn
-res://scenes/cooking.tscn
 res://scenes/test.tscn
-res://scripts/player.gd
+res://scenes/HUD.tscn
+res://scenes/placemat.tscn
 res://Planning/BasicLevel.txt
-res://scenes/mixer.tscn
-res://scenes/liquid_container.tscn
-res://scenes/erlenmeyer.tscn
-res://scripts/cooking.gd
