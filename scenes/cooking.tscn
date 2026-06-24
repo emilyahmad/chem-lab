@@ -59,9 +59,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0503211, -0.0493864, 0.0110
 
 [node name="Bowl" parent="Inside/Ingredients" instance=ExtResource("2_4yrxt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.81437, 0.430534, 1.07985)
+contact_monitor = true
+max_contacts_reported = 4
 
 [node name="Mixer" parent="Inside/Ingredients" instance=ExtResource("3_xian5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.64056, -0.147258, 0.764573)
+contact_monitor = true
+max_contacts_reported = 4
 
 [node name="LiquidContainer" parent="Inside/Ingredients" instance=ExtResource("4_xian5")]
 transform = Transform3D(0.00376994, 0, -0.999993, 0, 1, 0, 0.999993, 0, 0.00376994, -5.7941, 0.448063, 0.234791)
@@ -82,7 +86,5 @@ size = Vector3(6.08813, 3.17995, 0.0961914)
 [node name="Placemat" parent="." instance=ExtResource("7_dlm30")]
 transform = Transform3D(-1.21776e-08, 0, -0.592, 0, 0.2, 0, 0.27859, 0, -2.58771e-08, 1.30222, 0.181148, 0.837418)
 
-[node name="bowl_reference" parent="." instance=ExtResource("2_4yrxt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.876846, 0.362307, 0.704438)
-
-[connection signal="body_exited" from="bowl_reference" to="." method="_on_bowl_reference_body_exited"]
+[connection signal="body_entered" from="Inside/Ingredients/Bowl" to="." method="_on_bowl_body_entered"]
+[connection signal="body_entered" from="Inside/Ingredients/Mixer" to="." method="_on_mixer_body_entered"]
