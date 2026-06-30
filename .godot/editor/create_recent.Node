@@ -1,3 +1,4 @@
+Node3D
 RichTextLabel
 TextureRect
 CSGBox3D
@@ -9,7 +10,5 @@ MeshInstance3D
 RigidBody3D
 Marker3D
 CharacterBody3D
-Node3D
 RayCast3D
 Node
-OmniLight3D

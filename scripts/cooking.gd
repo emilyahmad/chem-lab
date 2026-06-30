@@ -33,4 +33,6 @@ func _on_mixer_body_entered(body: Node) -> void:
 func _check_both_placed() -> void:
 	if bowl_placed and mixer_placed:
 		var both_placed = true
+		GameState.bowl_and_mixer_placed = true
 		print("bowl and mixer are placed!")
+		

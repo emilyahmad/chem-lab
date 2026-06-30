@@ -27,6 +27,9 @@ func _ready():
 	#$StaminaBar/StaminaProgressBar.value = 100.0
 	#$StaminaBar/StaminaProgressBar.visible = false
 	
+	# change to false when leave testing
+	$MixPOV.visible = true
+	
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _input(event):
@@ -41,6 +44,10 @@ func _input(event):
 		picked_object = null
 
 func _process(delta: float) -> void:
+	if GameState.bowl_and_mixer_placed:
+		print("should be visible")
+		$MixPOV.visible = true
+
 	if Input.is_action_pressed("escape"):
 		get_tree().quit()
 
@@ -125,6 +132,16 @@ func _physics_process(delta: float) -> void:
 		held_object.global_rotation = %CarryObjectMarker.global_rotation
 	
 	move_and_slide()
+	
+	# Controlling Mix POV
+	var mixer_pos_up = false
+	if Input.is_action_just_pressed("space"):
+		if mixer_pos_up:
+			$MixPOV/Mixer.global_position = Vector3(2.212654, 0.904358, 1.112519)
+			mixer_pos_up = false
+		else:
+			$MixPOV/Mixer.global_position = Vector3(2.212654, 1.136418, 1.112519)
+			mixer_pos_up = true
 
 #func _on_sprint_cooldown_timeout() -> void:
 	#sprintOnCooldown == false

@@ -2,6 +2,6 @@ res://objects/player.tscn
 res://scenes/main.tscn
 res://scenes/cooking.tscn
 res://scenes/test.tscn
-res://scenes/placemat.tscn
+res://scenes/mixe_pov.tscn
 res://scripts/cooking.gd
 res://scripts/player.gd

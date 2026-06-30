@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://cinbq0deuhni3"]
+[gd_scene load_steps=8 format=3 uid="uid://cinbq0deuhni3"]
 
 [ext_resource type="Script" uid="uid://c6f0hn0hssmo" path="res://scripts/player.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://j7dq6ox8sy5o" path="res://camera_3d.gd" id="2_ykyjo"]
 [ext_resource type="Texture2D" uid="uid://d32vnvedhgyps" path="res://assets/HUD/interact.png" id="3_uxov2"]
+[ext_resource type="PackedScene" uid="uid://b2yyqjaers3ao" path="res://scenes/bowl.tscn" id="4_f46kd"]
+[ext_resource type="PackedScene" uid="uid://crujbwspdsucv" path="res://scenes/mixer.tscn" id="5_3rerk"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
 radius = 0.4
@@ -56,3 +58,17 @@ text = "Press E to interact"
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/BoxContainer"]
 layout_mode = 2
 texture = ExtResource("3_uxov2")
+
+[node name="MixPOV" type="Node3D" parent="."]
+
+[node name="Bowl" parent="MixPOV" instance=ExtResource("4_f46kd")]
+transform = Transform3D(1, 0, 0, 0, 0.999276, 0.038039, 0, -0.038039, 0.999276, 0, 0.191972, 0.0844586)
+collision_layer = 0
+collision_mask = 0
+freeze = true
+
+[node name="Mixer" parent="MixPOV" instance=ExtResource("5_3rerk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.185057, 0.124824)
+collision_layer = 0
+collision_mask = 0
+freeze = true
