@@ -19,6 +19,10 @@ func _process(delta: float) -> void:
 		
 	if Input.is_action_just_pressed("open_window"):
 		$Window.global_position = open_window_pos
+	
+	if GameState.done_mashing:
+		$Inside/Ingredients/Mixer.visible = true
+		$Inside/Ingredients/Bowl.visible = true
 
 func _on_bowl_body_entered(body: Node) -> void:
 	if body.name == "PlacematBody":
@@ -32,7 +36,8 @@ func _on_mixer_body_entered(body: Node) -> void:
 
 func _check_both_placed() -> void:
 	if bowl_placed and mixer_placed:
-		var both_placed = true
+		$Inside/Ingredients/Bowl.visible = false
+		$Inside/Ingredients/Mixer.visible = false
 		GameState.bowl_and_mixer_placed = true
-		print("bowl and mixer are placed!")
+		
 		

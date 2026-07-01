@@ -18,7 +18,9 @@ var exhaust_buffer = 3
 var stamina_timer = 0
 var can_start_timer = true
 
+var mixer_pos_up = false
 var picked_object
+var mashed = 0
 
 func _ready():
 	add_to_group("player")
@@ -28,7 +30,8 @@ func _ready():
 	#$StaminaBar/StaminaProgressBar.visible = false
 	
 	# change to false when leave testing
-	$MixPOV.visible = true
+	$MixPOV.visible = false
+	GameState.done_mashing = false
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -43,10 +46,32 @@ func _input(event):
 		picked_object.reparent(get_tree().current_scene)
 		picked_object = null
 
+func _reset():
+	print("calling")
+	process_mode = PROCESS_MODE_INHERIT
+		
+	$MixPOV.process_mode = PROCESS_MODE_INHERIT
+	$MixPOV/Bowl.process_mode = PROCESS_MODE_INHERIT
+	$MixPOV/Mixer.process_mode = PROCESS_MODE_INHERIT
+
 func _process(delta: float) -> void:
+	if GameState.done_mashing:
+		_reset()
+
 	if GameState.bowl_and_mixer_placed:
-		print("should be visible")
 		$MixPOV.visible = true
+		# stop player from moving
+		global_position = Vector3(2.149029, 1.259467, 1.005127)
+		rotation = Vector3(0.0, 0.0, 0.0)
+		process_mode = PROCESS_MODE_DISABLED
+		
+		$MixPOV.process_mode = PROCESS_MODE_ALWAYS
+		$MixPOV/Bowl.process_mode = PROCESS_MODE_ALWAYS
+		$MixPOV/Mixer.process_mode = PROCESS_MODE_ALWAYS
+		#process_mode = PROCESS_MODE_DISABLED
+		#$MixPOV.process_mode = PROCESS_MODE_ALWAYS
+		#$MixPOV/Bowl.process_mode = PROCESS_MODE_ALWAYS
+		#$MixPOV/Mixer.process_mode = PROCESS_MODE_ALWAYS
 
 	if Input.is_action_pressed("escape"):
 		get_tree().quit()
@@ -134,14 +159,14 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 	# Controlling Mix POV
-	var mixer_pos_up = false
-	if Input.is_action_just_pressed("space"):
-		if mixer_pos_up:
-			$MixPOV/Mixer.global_position = Vector3(2.212654, 0.904358, 1.112519)
-			mixer_pos_up = false
-		else:
-			$MixPOV/Mixer.global_position = Vector3(2.212654, 1.136418, 1.112519)
-			mixer_pos_up = true
+	#if Input.is_action_just_pressed("space"):
+		#mashed = mashed + 1
+		#if mixer_pos_up:
+			#$MixPOV/Mixer.global_position = Vector3(2.212654, 0.950376, 1.112519)
+			#mixer_pos_up = false
+		#else:
+			#$MixPOV/Mixer.global_position = Vector3(2.212654, 1.136418, 1.112519)
+			#mixer_pos_up = true
 
 #func _on_sprint_cooldown_timeout() -> void:
 	#sprintOnCooldown == false

@@ -11,18 +11,15 @@ script = ExtResource("1_efote")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 1.0
 offset_left = -476.0
-offset_top = -212.0
+offset_top = 28.0
 offset_right = 476.0
-offset_bottom = -52.0
+offset_bottom = 188.0
 grow_horizontal = 2
-grow_vertical = 0
 theme_override_font_sizes/normal_font_size = 50
-text = "grab your bowl and mixer and put them in your workspace"
+text = "press the space bar to mash your cough medicine"
 horizontal_alignment = 1
 vertical_alignment = 1

@@ -1,6 +1,7 @@
 extends Node
 
 var bowl_and_mixer_placed = false
+var done_mashing = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
