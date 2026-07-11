@@ -43,7 +43,7 @@ contact_monitor = true
 max_contacts_reported = 4
 
 [node name="Mixer" parent="MixingPOV" instance=ExtResource("4_j57a1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0209425, 0.00437449, -0.21872)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0209425, -0.139321, -0.21872)
 freeze = true
 contact_monitor = true
 max_contacts_reported = 4

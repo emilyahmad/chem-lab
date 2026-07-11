@@ -3,9 +3,6 @@ res://scenes/main.tscn
 res://scenes/cooking.tscn
 res://scenes/test.tscn
 res://scenes/mixe_pov.tscn
-res://scripts/cooking.gd
-res://scripts/player.gd
 res://scenes/HUD.tscn
-res://scripts/hud.gd
-res://scripts/GameState.gd
+res://scripts/player.gd
 res://scripts/mix_pov.gd

@@ -10,7 +10,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if mashed > 4:
+	if mashed > 5:
 		GameState.done_mashing = true
 		$Mixer.visible = false
 		$Bowl.visible = false
@@ -19,8 +19,8 @@ func _process(delta: float) -> void:
 		mashed = mashed + 1
 		print(mashed)
 		if mixer_pos_up:
-			$Mixer.global_position = Vector3(2.212654, 0.950376, 1.112519)
+			$Mixer.global_position = Vector3(2.212654, 0.95, 1.112519)
 			mixer_pos_up = false
 		else:
-			$Mixer.global_position = Vector3(2.212654, 1.136418, 1.112519)
+			$Mixer.global_position = Vector3(2.212654, 1.25, 1.112519)
 			mixer_pos_up = true
