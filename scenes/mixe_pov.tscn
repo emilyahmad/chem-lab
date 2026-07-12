@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://ba3asfwd8n0x1"]
+[gd_scene load_steps=8 format=3 uid="uid://ba3asfwd8n0x1"]
 
 [ext_resource type="Script" uid="uid://c6f0hn0hssmo" path="res://scripts/player.gd" id="1_2c73l"]
-[ext_resource type="Script" uid="uid://j7dq6ox8sy5o" path="res://camera_3d.gd" id="2_0hcu3"]
+[ext_resource type="Script" uid="uid://j7dq6ox8sy5o" path="res://scripts/camera_3d.gd" id="2_0hcu3"]
 [ext_resource type="PackedScene" uid="uid://b2yyqjaers3ao" path="res://scenes/bowl.tscn" id="3_fankt"]
 [ext_resource type="PackedScene" uid="uid://crujbwspdsucv" path="res://scenes/mixer.tscn" id="4_j57a1"]
+[ext_resource type="PackedScene" uid="uid://y3wcmkhy0art" path="res://scenes/Tray.tscn" id="5_0hcu3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
 radius = 0.4
@@ -35,6 +36,7 @@ unique_name_in_owner = true
 transform = Transform3D(0.999261, -0.0384401, 0, 0.0384401, 0.999261, 0, 0, 0, 1, 0.867838, -0.458566, -0.953933)
 
 [node name="MixingPOV" type="Node3D" parent="."]
+visible = false
 
 [node name="Bowl" parent="MixingPOV" instance=ExtResource("3_fankt")]
 transform = Transform3D(1, 0, 0, 0, 0.990222, -0.139501, 0, 0.139501, 0.990222, -0.0255654, 0.255733, -0.213281)
@@ -47,3 +49,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0209425, -0.139321, -0.218
 freeze = true
 contact_monitor = true
 max_contacts_reported = 4
+
+[node name="CarryTray" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.58112, 0.0145107, -3.956)
+
+[node name="Tray" parent="CarryTray" instance=ExtResource("5_0hcu3")]
+transform = Transform3D(0.222939, 0.0347088, 0.974214, -0.95278, -0.203608, 0.225288, 0.206177, -0.978437, -0.0123222, 3.02024, 0.114333, 4.04613)

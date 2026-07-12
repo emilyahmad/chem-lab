@@ -4,5 +4,4 @@ res://scenes/cooking.tscn
 res://scenes/test.tscn
 res://scenes/mixe_pov.tscn
 res://scenes/HUD.tscn
-res://scripts/player.gd
-res://scripts/mix_pov.gd
+res://scenes/Tray.tscn
