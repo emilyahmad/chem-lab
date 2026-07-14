@@ -21,6 +21,8 @@ func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
 	$MixPOV.visible = false
+	
+	$BeakerPOV.visible = false
 
 func _input(event):
 	if event.is_action_pressed("quit"): get_tree().quit()
@@ -33,23 +35,22 @@ func _input(event):
 		picked_object.reparent(get_tree().current_scene)
 		picked_object = null
 
-func _process(delta: float) -> void:
-	if GameState.done_mashing:
-		can_move = true
-		
-	if GameState.bowl_and_mixer_placed and !lock_player:
-		lock_player = true
-		$MixPOV.visible = true
-		# stop player from moving
-		can_move = false
-	
-	if can_move == false:
+func _process(delta: float) -> void:	
+	if !can_move:
 		velocity = Vector3.ZERO
 		global_position = Vector3(2.149029, 1.259467, 1.005127)
 		rotation = Vector3(0.0, 0.0, 0.0)
 
 	if Input.is_action_pressed("escape"):
 		get_tree().quit()
+	
+	if GameState.done_mashing:
+		can_move = true
+		
+	if GameState.bowl_and_mixer_placed and !lock_player:
+		lock_player = true
+		$MixPOV.visible = true
+		can_move = false
 
 @onready var raycast = $Camera3D/RayCast3D
 var held_object: RigidBody3D = null
@@ -64,17 +65,7 @@ func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-
-	# Handle jump.
-	#if !($StaminaBar/StaminaProgressBar.value == 0):
-		#if Input.is_action_pressed("jump") && is_on_floor():
-			#velocity.y = JUMP_VELOCITY
-			#$StaminaBar/StaminaProgressBar.value -= 55;
-	#else:
-		#velocity.y = 0
 	
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace  actions with custom gameplay actions.
 	var input_dir := Input.get_vector("left", "right", "up", "down")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
@@ -83,16 +74,6 @@ func _physics_process(delta: float) -> void:
 			velocity.x = direction.x * SPEED
 			velocity.z = direction.z * SPEED
 			
-			# add timer (plus bar at the bottom/show tired)
-			#if !($StaminaBar/StaminaProgressBar.value == 0):
-				#if Input.is_action_pressed("sprint"):
-					#velocity.z *= SPRINT_VELOCITY
-					#velocity.x *= SPRINT_VELOCITY
-					#$StaminaBar/StaminaProgressBar.value -= 10;
-			#else:
-				#velocity.x = move_toward(velocity.x, 0, 3.5)
-				#velocity.z = move_toward(velocity.z, 0, 3.5)
-
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 			velocity.z = move_toward(velocity.z, 0, SPEED)
@@ -118,16 +99,3 @@ func _physics_process(delta: float) -> void:
 		held_object.global_rotation = %CarryObjectMarker.global_rotation
 	
 	move_and_slide()
-	
-	# Controlling Mix POV
-	#if Input.is_action_just_pressed("space"):
-		#mashed = mashed + 1
-		#if mixer_pos_up:
-			#$MixPOV/Mixer.global_position = Vector3(2.212654, 0.950376, 1.112519)
-			#mixer_pos_up = false
-		#else:
-			#$MixPOV/Mixer.global_position = Vector3(2.212654, 1.136418, 1.112519)
-			#mixer_pos_up = true
-
-#func _on_sprint_cooldown_timeout() -> void:
-	#sprintOnCooldown == false

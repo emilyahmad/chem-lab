@@ -1,7 +1,9 @@
 res://objects/player.tscn
-res://scenes/main.tscn
+res://scripts/player.gd
 res://scenes/cooking.tscn
+res://scripts/cooking.gd
+res://scenes/HUD.tscn
+res://scripts/hud.gd
+res://scenes/main.tscn
 res://scenes/test.tscn
 res://scenes/mixe_pov.tscn
-res://scenes/HUD.tscn
-res://scenes/Tray.tscn

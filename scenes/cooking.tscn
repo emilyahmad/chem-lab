@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://8cwmki82ikjj"]
+[gd_scene load_steps=10 format=3 uid="uid://8cwmki82ikjj"]
 
 [ext_resource type="Script" uid="uid://brfft6y1eeb0l" path="res://scripts/cooking.gd" id="1_58wjq"]
 [ext_resource type="PackedScene" uid="uid://b2yyqjaers3ao" path="res://scenes/bowl.tscn" id="2_4yrxt"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://d3t87skwsa1mv" path="res://scenes/liquid_container.tscn" id="4_xian5"]
 [ext_resource type="PackedScene" uid="uid://cjkbuygtjsd15" path="res://scenes/erlenmeyer.tscn" id="5_wuimh"]
 [ext_resource type="PackedScene" uid="uid://dxpmvqntyl4mk" path="res://scenes/placemat.tscn" id="7_dlm30"]
+[ext_resource type="PackedScene" uid="uid://bqrk2tntsdrqq" path="res://scenes/beaker.tscn" id="7_o2php"]
 [ext_resource type="PackedScene" uid="uid://y3wcmkhy0art" path="res://scenes/Tray.tscn" id="8_p08t8"]
 
 [node name="Van" type="Node3D"]
@@ -59,7 +60,7 @@ size = Vector3(8.51703, 3.17012, 0.191406)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0503211, -0.0493864, 0.0110512)
 
 [node name="Bowl" parent="Inside/Ingredients" instance=ExtResource("2_4yrxt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.81437, 0.430534, 1.07985)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.81437, 0.367396, 1.07985)
 contact_monitor = true
 max_contacts_reported = 4
 
@@ -75,10 +76,13 @@ transform = Transform3D(0.00376994, 0, -0.999993, 0, 1, 0, 0.999993, 0, 0.003769
 transform = Transform3D(-0.339444, 0, -0.940626, 0, 1, 0, 0.940626, 0, -0.339444, -5.2743, 0.448063, 0.0998494)
 
 [node name="Erlenmeyer" parent="Inside/Ingredients" instance=ExtResource("5_wuimh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.73745, 0.510535, 0.820934)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.73745, 0.337487, 0.820934)
 
 [node name="Tray" parent="Inside/Ingredients" instance=ExtResource("8_p08t8")]
 transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -3.47956, 0.309478, 0.428543)
+
+[node name="Beaker" parent="Inside/Ingredients" instance=ExtResource("7_o2php")]
+transform = Transform3D(0.953148, 0, -0.302503, 0, 1, 0, 0.302503, 0, 0.953148, -5.42941, 0.449315, 0.503805)
 
 [node name="Counter" parent="Inside" instance=ExtResource("3_2iow3")]
 transform = Transform3D(-2.18222e-08, 0, -0.920274, 0, 0.442461, 0, 0.499234, 0, -4.02265e-08, -5.13781, -0.301004, 0.880559)
@@ -92,3 +96,4 @@ transform = Transform3D(-1.21776e-08, 0, -0.592, 0, 0.2, 0, 0.27859, 0, -2.58771
 
 [connection signal="body_entered" from="Inside/Ingredients/Bowl" to="." method="_on_bowl_body_entered"]
 [connection signal="body_entered" from="Inside/Ingredients/Mixer" to="." method="_on_mixer_body_entered"]
+[connection signal="body_entered" from="Inside/Ingredients/Beaker" to="." method="_on_beaker_body_entered"]

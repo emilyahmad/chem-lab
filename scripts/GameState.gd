@@ -1,7 +1,11 @@
 extends Node
 
+# Mixing POV
 var bowl_and_mixer_placed = false
 var done_mashing = false
+
+# Pouring POV
+var beaker_placed = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
