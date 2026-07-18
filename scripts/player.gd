@@ -51,6 +51,11 @@ func _process(delta: float) -> void:
 		lock_player = true
 		$MixPOV.visible = true
 		can_move = false
+	
+	if GameState.beaker_placed and !lock_player:
+		lock_player = true
+		$BeakerPOV.visible = true
+		
 
 @onready var raycast = $Camera3D/RayCast3D
 var held_object: RigidBody3D = null

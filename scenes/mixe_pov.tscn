@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://b2yyqjaers3ao" path="res://scenes/bowl.tscn" id="3_fankt"]
 [ext_resource type="PackedScene" uid="uid://crujbwspdsucv" path="res://scenes/mixer.tscn" id="4_j57a1"]
 [ext_resource type="PackedScene" uid="uid://y3wcmkhy0art" path="res://scenes/Tray.tscn" id="5_0hcu3"]
-[ext_resource type="PackedScene" uid="uid://bqrk2tntsdrqq" path="res://scenes/beaker.tscn" id="5_fankt"]
+[ext_resource type="PackedScene" uid="uid://ufrdwtk8vuk5" path="res://scenes/beaker.tscn" id="5_fankt"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
 radius = 0.4

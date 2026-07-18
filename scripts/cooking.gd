@@ -29,19 +29,16 @@ func _process(delta: float) -> void:
 		$Inside/Ingredients/Bowl.visible = true
 
 func _on_bowl_body_entered(body: Node) -> void:
+	print("collides")
 	if body.name == "PlacematBody":
 		bowl_placed = true
 		_check_mixer_and_bowl_placed()
 
 func _on_mixer_body_entered(body: Node) -> void:
+	print("collides")
 	if body.name == "PlacematBody":
 		mixer_placed = true
 		_check_mixer_and_bowl_placed()
-
-func _on_beaker_body_entered(body: Node) -> void:
-	if body.name == "PlacematBody":
-		beaker_placed = true
-		_check_beaker_placed()
 
 func _check_mixer_and_bowl_placed() -> void:
 	if bowl_placed and mixer_placed:
@@ -49,8 +46,5 @@ func _check_mixer_and_bowl_placed() -> void:
 		$Inside/Ingredients/Mixer.visible = false
 		GameState.bowl_and_mixer_placed = true
 
-func _check_beaker_placed() -> void:
-	if bowl_placed and beaker_placed and GameState.done_mashing:
-		$Inside/Ingredients/Bowl.visible = false
-		$Inside/Ingredients/Beaker.visible = false
-		GameState.beaker_placed = true
+func _on_liquid_container_body_entered(body: Node) -> void:
+	print("works")

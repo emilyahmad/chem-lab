@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cinbq0deuhni3"]
+[gd_scene load_steps=11 format=3 uid="uid://cinbq0deuhni3"]
 
 [ext_resource type="Script" uid="uid://c6f0hn0hssmo" path="res://scripts/player.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://j7dq6ox8sy5o" path="res://scripts/camera_3d.gd" id="2_ykyjo"]
@@ -6,7 +6,8 @@
 [ext_resource type="Script" uid="uid://dd21v126rr4cv" path="res://scripts/mix_pov.gd" id="4_3rerk"]
 [ext_resource type="PackedScene" uid="uid://b2yyqjaers3ao" path="res://scenes/bowl.tscn" id="4_f46kd"]
 [ext_resource type="PackedScene" uid="uid://crujbwspdsucv" path="res://scenes/mixer.tscn" id="5_3rerk"]
-[ext_resource type="PackedScene" uid="uid://bqrk2tntsdrqq" path="res://scenes/beaker.tscn" id="7_i825w"]
+[ext_resource type="Script" uid="uid://b4w4q0ujye6bm" path="res://scripts/beaker_pov.gd" id="7_3rfka"]
+[ext_resource type="PackedScene" uid="uid://ufrdwtk8vuk5" path="res://scenes/beaker.tscn" id="7_i825w"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
 radius = 0.4
@@ -77,7 +78,7 @@ collision_mask = 0
 freeze = true
 
 [node name="BeakerPOV" type="Node3D" parent="."]
-script = ExtResource("4_3rerk")
+script = ExtResource("7_3rfka")
 
 [node name="Beaker" parent="BeakerPOV" instance=ExtResource("7_i825w")]
 transform = Transform3D(0.972356, 0.060495, 0.225533, -0.0363298, 0.99329, -0.109801, -0.230662, 0.0985717, 0.968028, -0.578438, 0.177832, -0.198147)

@@ -28,7 +28,7 @@ func mixing_instructions():
 
 func get_flask_instructions():
 	show_get_flask_instructions = false
-	$RichTextLabel.text = "Grab a beaker to pour your mixed contents into"
+	$RichTextLabel.text = "Grab the beaker to pour your mixed contents into"
 	$RichTextLabel.position = Vector2(484.0, 28.0)
 
 func pour_in_beaker_instructions():
