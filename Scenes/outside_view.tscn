@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://luoqxgfim6mn"]
+
+[ext_resource type="PackedScene" uid="uid://cdnc8ghjjyyaf" path="res://Assets/Models/RV/scene.gltf" id="1_pewih"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pewih"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_8ck4c"]
+sky_material = SubResource("ProceduralSkyMaterial_pewih")
+
+[sub_resource type="Environment" id="Environment_jymg8"]
+background_mode = 1
+background_color = Color(0.414066, 0.414066, 0.414066, 1)
+sky = SubResource("Sky_8ck4c")
+tonemap_mode = 2
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_pewih"]
+
+[node name="OutsideView" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jymg8")
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+transform = Transform3D(4.99341, 0, 0, 0, 4.99341, 0, 0, 0, 4.99341, 0, 0, 0)
+mesh = SubResource("PlaneMesh_pewih")
+
+[node name="RV" parent="." instance=ExtResource("1_pewih")]
+transform = Transform3D(0.00497843, 0, 0.000463938, 0, 0.005, 0, -0.000463938, 0, 0.00497843, -0.306009, 0.489479, 0.593133)
+
+[node name="LeftWall" type="CSGBox3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.236948, 0.530941, 1.23468)
+size = Vector3(0.744499, 0.814564, 0.001)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.719548, -0.0833188, 0.689426, -0.0503594, 0.983902, 0.171467, -0.692614, -0.158098, 0.703769, 1.68294, 0.82246, 2.02918)

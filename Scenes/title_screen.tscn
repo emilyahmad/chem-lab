@@ -20,9 +20,9 @@ text = "Start"
 
 [node name="SettingsButton" type="Button" parent="."]
 offset_left = 1255.0
-offset_top = 742.0
+offset_top = 743.0
 offset_right = 1786.0
-offset_bottom = 880.0
+offset_bottom = 881.0
 text = "Settings"
 
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
