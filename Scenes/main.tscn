@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://dvk8gs4frpiii"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_7u77a"]
+
+[node name="Main" type="Node3D"]
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+transform = Transform3D(4.99341, 0, 0, 0, 4.99341, 0, 0, 0, 4.99341, 0, 0, 0)
+mesh = SubResource("PlaneMesh_7u77a")
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+
+[node name="FrontWall" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.235107, 0.264717, 0)
+size = Vector3(1.47021, 0.565247, 0.001)
+
+[node name="Backwall" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.235107, 0.264717, 0.537591)
+size = Vector3(1.47021, 0.565247, 0.001)
