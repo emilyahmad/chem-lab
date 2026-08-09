@@ -1,13 +1,34 @@
-[gd_scene load_steps=7 format=3 uid="uid://luoqxgfim6mn"]
+[gd_scene load_steps=8 format=3 uid="uid://luoqxgfim6mn"]
 
 [ext_resource type="Texture2D" uid="uid://hbpspm1pj7t0" path="res://Assets/HDRI/rogland_clear_night_4k.exr" id="1_8ck4c"]
 [ext_resource type="PackedScene" uid="uid://cdnc8ghjjyyaf" path="res://Assets/Models/RV/scene.gltf" id="1_pewih"]
 
-[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_jymg8"]
-panorama = ExtResource("1_8ck4c")
+[sub_resource type="Shader" id="Shader_pewih"]
+code = "
+// NOTE: Shader automatically converted from Godot Engine 4.4.1.stable's PanoramaSkyMaterial.
+
+shader_type sky;
+
+uniform sampler2D source_panorama : filter_linear, source_color, hint_default_black;
+uniform float exposure : hint_range(0, 128) = 1.0;
+
+uniform float speed = 0.002;
+
+void sky() {
+	vec2 skyCoords = vec2(SKY_COORDS.x + TIME * speed, SKY_COORDS.y);
+	
+	COLOR = texture(source_panorama, SKY_COORDS).rgb * exposure;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8ck4c"]
+shader = SubResource("Shader_pewih")
+shader_parameter/source_panorama = ExtResource("1_8ck4c")
+shader_parameter/exposure = 1.0
+shader_parameter/speed = 0.002
 
 [sub_resource type="Sky" id="Sky_8ck4c"]
-sky_material = SubResource("PanoramaSkyMaterial_jymg8")
+sky_material = SubResource("ShaderMaterial_8ck4c")
 
 [sub_resource type="Environment" id="Environment_jymg8"]
 background_mode = 2
