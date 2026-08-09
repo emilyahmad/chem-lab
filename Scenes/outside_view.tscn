@@ -1,16 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://luoqxgfim6mn"]
+[gd_scene load_steps=7 format=3 uid="uid://luoqxgfim6mn"]
 
+[ext_resource type="Texture2D" uid="uid://hbpspm1pj7t0" path="res://Assets/HDRI/rogland_clear_night_4k.exr" id="1_8ck4c"]
 [ext_resource type="PackedScene" uid="uid://cdnc8ghjjyyaf" path="res://Assets/Models/RV/scene.gltf" id="1_pewih"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pewih"]
-sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
-ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_jymg8"]
+panorama = ExtResource("1_8ck4c")
 
 [sub_resource type="Sky" id="Sky_8ck4c"]
-sky_material = SubResource("ProceduralSkyMaterial_pewih")
+sky_material = SubResource("PanoramaSkyMaterial_jymg8")
 
 [sub_resource type="Environment" id="Environment_jymg8"]
-background_mode = 1
+background_mode = 2
 background_color = Color(0.414066, 0.414066, 0.414066, 1)
 sky = SubResource("Sky_8ck4c")
 tonemap_mode = 2
@@ -34,4 +34,4 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.236
 size = Vector3(0.744499, 0.814564, 0.001)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.719548, -0.0833188, 0.689426, -0.0503594, 0.983902, 0.171467, -0.692614, -0.158098, 0.703769, 1.68294, 0.82246, 2.02918)
+transform = Transform3D(0.551479, -0.115743, 0.82612, -0.0503594, 0.983902, 0.171467, -0.832667, -0.136163, 0.536772, 1.48334, 0.82246, 1.64632)
