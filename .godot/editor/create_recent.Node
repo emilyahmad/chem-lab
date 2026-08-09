@@ -1,3 +1,4 @@
+MultiMeshInstance3D
 TextureButton
 Camera3D
 CSGBox3D
@@ -12,4 +13,3 @@ Label
 BoxContainer
 CanvasLayer
 RigidBody3D
-Marker3D

@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://hbpspm1pj7t0"
-path.bptc="res://.godot/imported/rogland_clear_night_4k.exr-0e4866da9c064bdd388076962cfe9b2f.bptc.ctex"
+path.bptc="res://.godot/imported/rogland_clear_night_4k.exr-ad2299196d4c32751ea6729b4a63b6b2.bptc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/HDRI/rogland_clear_night_4k.exr"
-dest_files=["res://.godot/imported/rogland_clear_night_4k.exr-0e4866da9c064bdd388076962cfe9b2f.bptc.ctex"]
+source_file="res://Assets/Environment/rogland_clear_night_4k.exr"
+dest_files=["res://.godot/imported/rogland_clear_night_4k.exr-ad2299196d4c32751ea6729b4a63b6b2.bptc.ctex"]
 
 [params]
 
