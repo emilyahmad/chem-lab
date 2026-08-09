@@ -1,8 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://luoqxgfim6mn"]
+[gd_scene load_steps=11 format=3 uid="uid://luoqxgfim6mn"]
 
 [ext_resource type="Texture2D" uid="uid://hbpspm1pj7t0" path="res://Assets/Environment/rogland_clear_night_4k.exr" id="1_8ck4c"]
 [ext_resource type="PackedScene" uid="uid://cdnc8ghjjyyaf" path="res://Assets/Models/RV/scene.gltf" id="1_pewih"]
-[ext_resource type="ArrayMesh" uid="uid://5v2t6tc20mp6" path="res://Assets/Models/Grass.res" id="3_jymg8"]
+[ext_resource type="ArrayMesh" uid="uid://5v2t6tc20mp6" path="res://Assets/Models/Grass/Grass.res" id="3_jymg8"]
 
 [sub_resource type="Shader" id="Shader_pewih"]
 code = "
@@ -37,7 +37,11 @@ background_color = Color(0.414066, 0.414066, 0.414066, 1)
 sky = SubResource("Sky_8ck4c")
 tonemap_mode = 2
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jymg8"]
+albedo_color = Color(0.389693, 0.300568, 0.182912, 1)
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_pewih"]
+material = SubResource("StandardMaterial3D_jymg8")
 size = Vector2(5, 2.5)
 
 [sub_resource type="MultiMesh" id="MultiMesh_jymg8"]

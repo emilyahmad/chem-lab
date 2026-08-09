@@ -2,3 +2,5 @@ res://Scenes/outside_view.tscn
 res://Scenes/title_screen.tscn
 res://Scenes/main.tscn
 res://Assets/Models/Grass.res
+res://Assets/Models/Grass/grass.gdshader
+res://Assets/Models/Grass/Grass.res
