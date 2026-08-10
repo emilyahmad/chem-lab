@@ -23,10 +23,10 @@ size = Vector3(0.744499, 0.814564, 0.001)
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-0.0621051, 0.0269211, -0.997707, 0, 0.999636, 0.0269731, 0.99807, 0.00167517, -0.0620825, -0.658529, 0.634119, -0.558887)
 
-[node name="HUD" parent="." instance=ExtResource("2_bo1nx")]
-
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 transform = Transform3D(0.489407, -0.862694, -0.127439, 0.590844, 0.220546, 0.776056, -0.641392, -0.455104, 0.617654, -0.29121, 1.28322, 0.948513)
 
 [node name="SpotLight3D2" type="SpotLight3D" parent="."]
 transform = Transform3D(0.387023, -0.888745, -0.245653, 0.300914, -0.13009, 0.944737, -0.871587, -0.439555, 0.217088, -0.29121, 1.27863, -0.494843)
+
+[node name="HUD" parent="." instance=ExtResource("2_bo1nx")]

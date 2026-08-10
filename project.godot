@@ -18,7 +18,6 @@ config/features=PackedStringArray("4.4", "Mobile")
 
 Gamestate="*res://Scripts/Gamestate.gd"
 SceneTransition="*res://Scenes/UI/scene_transition.tscn"
-HUD="*res://Scripts/hud.gd"
 
 [display]
 
