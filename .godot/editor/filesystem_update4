@@ -1,7 +1,6 @@
-res://Scenes/outside_view.tscn
-res://Scenes/title_screen.tscn
-res://Scenes/main.tscn
-res://Assets/Models/Grass.res
+res://Scenes/UI/HUD.tscn
 res://Assets/Models/Grass/grass.gdshader
 res://Assets/Models/Grass/Grass.res
-res://Scenes/UI/HUD.tscn
+res://Scenes/title_screen.tscn
+res://Scenes/main.tscn
+res://Scenes/outside_view.tscn

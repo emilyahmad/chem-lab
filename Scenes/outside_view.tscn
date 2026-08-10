@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://luoqxgfim6mn"]
+[gd_scene load_steps=12 format=3 uid="uid://luoqxgfim6mn"]
 
 [ext_resource type="Texture2D" uid="uid://hbpspm1pj7t0" path="res://Assets/Environment/rogland_clear_night_4k.exr" id="1_8ck4c"]
 [ext_resource type="PackedScene" uid="uid://cdnc8ghjjyyaf" path="res://Assets/Models/RV/scene.gltf" id="1_pewih"]
 [ext_resource type="ArrayMesh" uid="uid://5v2t6tc20mp6" path="res://Assets/Models/Grass/Grass.res" id="3_jymg8"]
+[ext_resource type="PackedScene" uid="uid://bi8m3235m38kx" path="res://Scenes/UI/HUD.tscn" id="4_157tj"]
 
 [sub_resource type="Shader" id="Shader_pewih"]
 code = "
@@ -74,3 +75,5 @@ fov = 119.981
 transform = Transform3D(-0.0113053, 0.041038, 0.999094, 0, 0.999157, -0.0410406, -0.999936, -0.000463975, -0.0112957, 1.76331, 2.25225, 0.597656)
 cast_shadow = 0
 multimesh = SubResource("MultiMesh_jymg8")
+
+[node name="HUD" parent="." instance=ExtResource("4_157tj")]
