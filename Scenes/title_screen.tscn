@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cqxvxmh2wjl4p"]
+[gd_scene load_steps=4 format=3 uid="uid://cqxvxmh2wjl4p"]
 
 [ext_resource type="Texture2D" uid="uid://c7by8g3mdvcdh" path="res://Assets/Start/MainMenu.png" id="1_klylv"]
 [ext_resource type="Script" uid="uid://ck8bsf31j81bk" path="res://Scripts/title_screen.gd" id="1_p3fck"]
 [ext_resource type="Texture2D" uid="uid://b43sevjs3wtmi" path="res://Assets/Start/StartBtn.png" id="3_twnyg"]
-[ext_resource type="Texture2D" uid="uid://3p7vk45mcq6h" path="res://Assets/Start/SettingsBtn.png" id="4_55kwv"]
 
 [node name="TitleScreen" type="Node2D"]
 script = ExtResource("1_p3fck")
@@ -15,21 +14,11 @@ texture = ExtResource("1_klylv")
 
 [node name="StartBtn" type="TextureButton" parent="."]
 offset_left = 1429.0
-offset_top = 373.0
+offset_top = 578.0
 offset_right = 2509.0
-offset_bottom = 1453.0
+offset_bottom = 1658.0
 scale = Vector2(0.319995, 0.319995)
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource("3_twnyg")
 
-[node name="SettingsBtn" type="TextureButton" parent="."]
-offset_left = 1429.0
-offset_top = 603.0
-offset_right = 2509.0
-offset_bottom = 1683.0
-scale = Vector2(0.319995, 0.319995)
-mouse_default_cursor_shape = 2
-texture_normal = ExtResource("4_55kwv")
-
 [connection signal="pressed" from="StartBtn" to="." method="_on_start_btn_pressed"]
-[connection signal="pressed" from="SettingsBtn" to="." method="_on_settings_btn_pressed"]

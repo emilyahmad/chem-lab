@@ -1,5 +1,7 @@
-CanvasLayer
+AnimationPlayer
+ColorRect
 TextureRect
+CanvasLayer
 RichTextLabel
 MultiMeshInstance3D
 TextureButton
@@ -11,4 +13,3 @@ MeshInstance3D
 Button
 CollisionShape3D
 Label
-BoxContainer

@@ -4,3 +4,6 @@ res://Assets/Models/Grass/Grass.res
 res://Scenes/title_screen.tscn
 res://Scenes/main.tscn
 res://Scenes/outside_view.tscn
+res://Scripts/scene_transition.gd
+res://Scenes/UI/scene_transition.tscn
+res://Scripts/title_screen.gd
