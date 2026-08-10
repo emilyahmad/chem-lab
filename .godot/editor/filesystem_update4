@@ -7,3 +7,6 @@ res://Scenes/outside_view.tscn
 res://Scripts/scene_transition.gd
 res://Scenes/UI/scene_transition.tscn
 res://Scripts/title_screen.gd
+res://Scripts/Gamestate.gd
+res://Scripts/hud.gd
+res://Scripts/outside_view.gd

@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dvk8gs4frpiii"]
+[gd_scene load_steps=4 format=3 uid="uid://dvk8gs4frpiii"]
 
 [ext_resource type="PackedScene" uid="uid://cdnc8ghjjyyaf" path="res://Assets/Models/RV/scene.gltf" id="1_jjgbg"]
+[ext_resource type="PackedScene" uid="uid://bi8m3235m38kx" path="res://Scenes/UI/HUD.tscn" id="2_bo1nx"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_7u77a"]
 
@@ -16,3 +17,14 @@ transform = Transform3D(0.00497843, 0, 0.000463938, 0, 0.005, 0, -0.000463938, 0
 [node name="LeftWall" type="CSGBox3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.236948, 0.530941, 1.23468)
 size = Vector3(0.744499, 0.814564, 0.001)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.0621051, 0.0269211, -0.997707, 0, 0.999636, 0.0269731, 0.99807, 0.00167517, -0.0620825, -0.658529, 0.634119, -0.558887)
+
+[node name="HUD" parent="." instance=ExtResource("2_bo1nx")]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(0.489407, -0.862694, -0.127439, 0.590844, 0.220546, 0.776056, -0.641392, -0.455104, 0.617654, -0.29121, 1.28322, 0.948513)
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="."]
+transform = Transform3D(0.387023, -0.888745, -0.245653, 0.300914, -0.13009, 0.944737, -0.871587, -0.439555, 0.217088, -0.29121, 1.27863, -0.494843)

@@ -1,13 +1,15 @@
-extends Node
+extends CanvasLayer
 
-var night_number = 1
-var timer = 0
+
+# grab and display
+var get = Gamestate.night_number
+var also = Gamestate.timer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	pass
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if Input.is_action_pressed("escape"):
-		get_tree().quit()
+	pass
