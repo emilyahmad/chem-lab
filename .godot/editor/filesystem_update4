@@ -10,3 +10,4 @@ res://Scripts/title_screen.gd
 res://Scripts/Gamestate.gd
 res://Scripts/hud.gd
 res://Scripts/outside_view.gd
+res://Scripts/main.gd

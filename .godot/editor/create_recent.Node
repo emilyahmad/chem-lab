@@ -1,6 +1,9 @@
+Control
+Node2D
+Node3D
+AnimationPlayer
 SpotLight3D
 Camera3D
-AnimationPlayer
 ColorRect
 TextureRect
 CanvasLayer
@@ -9,7 +12,3 @@ MultiMeshInstance3D
 TextureButton
 CSGBox3D
 CSGCombiner3D
-Node3D
-MeshInstance3D
-Button
-CollisionShape3D

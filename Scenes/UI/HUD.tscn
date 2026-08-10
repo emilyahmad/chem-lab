@@ -8,12 +8,20 @@
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_4bm6u")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Navbar" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GreenBar" type="TextureRect" parent="Navbar"]
+offset_right = 1920.0
+offset_bottom = 1080.0
 texture = ExtResource("3_xaom8")
 
-[node name="NightCounter" type="RichTextLabel" parent="."]
+[node name="NightCounter" type="RichTextLabel" parent="Navbar"]
 offset_left = 779.0
 offset_top = 9.0
 offset_right = 1164.0
@@ -25,7 +33,7 @@ theme_override_font_sizes/normal_font_size = 50
 text = "Night 1"
 horizontal_alignment = 1
 
-[node name="Timer" type="RichTextLabel" parent="."]
+[node name="Timer" type="RichTextLabel" parent="Navbar"]
 offset_left = 5.0
 offset_top = 9.0
 offset_right = 148.0
@@ -35,4 +43,24 @@ theme_override_fonts/normal_font = ExtResource("1_qc5w2")
 theme_override_fonts/italics_font = ExtResource("2_xaom8")
 theme_override_font_sizes/normal_font_size = 50
 text = "4:00"
+horizontal_alignment = 1
+
+[node name="TutorialText" type="RichTextLabel" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -492.5
+offset_top = -220.0
+offset_right = 492.5
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 4
+theme_override_fonts/normal_font = ExtResource("1_qc5w2")
+theme_override_fonts/italics_font = ExtResource("2_xaom8")
+theme_override_font_sizes/normal_font_size = 50
+text = "welcome to the chemlab
+survive each night by
+cook crystals before the time runs out"
 horizontal_alignment = 1

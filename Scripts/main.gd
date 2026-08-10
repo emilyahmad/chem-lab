@@ -1,13 +1,10 @@
-extends CanvasLayer
+extends Node3D
 
-# grab and display
-# my_label.text = f"Current Score: {score}"
-var get = Gamestate.night_number
-var also = Gamestate.timer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
+	#HUD.instructions = "meow"
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

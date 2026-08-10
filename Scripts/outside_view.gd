@@ -7,7 +7,11 @@ func _ready() -> void:
 	$HUD.visible = false
 	await get_tree().create_timer(.75).timeout
 	$HUD.visible = true
-	await get_tree().create_timer(3).timeout
+	
+	await get_tree().create_timer(.5).timeout
+	$AnimationPlayer.play('zoom_in')
+	
+	await get_tree().create_timer(2.75).timeout
 	SceneTransition.change_scene("res://Scenes/main.tscn")
 
 
