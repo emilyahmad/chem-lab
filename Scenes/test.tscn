@@ -98,5 +98,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.258541, 0.395507, -0.84257
 [node name="CoffeeFilter" parent="Ingredients" instance=ExtResource("9_2cgwh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.236344, 0.384353, -0.739841)
 
-[node name="Syringe" parent="." instance=ExtResource("10_iaow0")]
-transform = Transform3D(1, 0, 0, 0, 0.10498, 0.994474, 0, -0.994474, 0.10498, -0.118447, 0.365673, -0.658301)
+[node name="Syringe" parent="Ingredients" instance=ExtResource("10_iaow0")]
+transform = Transform3D(1, 0, 0, 0, 0.10498, 0.994474, 0, -0.994474, 0.10498, -0.118588, 0.365362, -0.698672)
