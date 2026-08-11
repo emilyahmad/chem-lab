@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dgn23k073nqaq"]
+[gd_scene load_steps=10 format=3 uid="uid://dgn23k073nqaq"]
 
 [ext_resource type="PackedScene" uid="uid://cdnc8ghjjyyaf" path="res://Assets/Models/Outside/RV/scene.gltf" id="1_qc4db"]
 [ext_resource type="PackedScene" uid="uid://bi8m3235m38kx" path="res://Scenes/UI/HUD.tscn" id="2_ys1qc"]
@@ -9,6 +9,15 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ys1qc"]
 size = Vector3(0.242432, 0.00601196, 0.590759)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i3aeo"]
+size = Vector3(1, 7.63306, 18.7156)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5wyu1"]
+size = Vector3(2.90576, 3.09204, 0.443237)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_35xla"]
+size = Vector3(1, 1, 0.0556641)
 
 [node name="Test" type="Node3D"]
 
@@ -28,9 +37,31 @@ shape = SubResource("BoxShape3D_ys1qc")
 [node name="RV" parent="Environment" instance=ExtResource("1_qc4db")]
 transform = Transform3D(0.00497843, 0, 0.000463938, 0, 0.005, 0, -0.000463938, 0, 0.00497843, -0.306009, 0.489479, 0.593133)
 
+[node name="RVSB" type="StaticBody3D" parent="Environment/RV"]
+
+[node name="RVSides3D" type="CollisionShape3D" parent="Environment/RV/RVSB"]
+transform = Transform3D(25, 0, 4.76837e-06, 0, 25, 0, -4.76837e-06, 0, 25, 88.0262, -6.19507, -75.5817)
+shape = SubResource("BoxShape3D_i3aeo")
+
+[node name="RVFrontsSB" type="StaticBody3D" parent="Environment/RV/RVSB"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/RV/RVSB/RVFrontsSB"]
+transform = Transform3D(49.9999, -0.110341, 0.000201225, 0.110341, 49.9999, 0.0173747, -0.000238419, -0.0173742, 50, -0.494415, 12.2231, -324.391)
+shape = SubResource("BoxShape3D_5wyu1")
+
 [node name="LeftWall" type="CSGBox3D" parent="Environment"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.236948, 0.530941, 1.23468)
 size = Vector3(0.744499, 0.814564, 0.001)
+
+[node name="LeftWallSB" type="StaticBody3D" parent="Environment/LeftWall"]
+
+[node name="LeftWallCS" type="CollisionShape3D" parent="Environment/LeftWall/LeftWallSB"]
+transform = Transform3D(0.999996, 0, 0.00293216, 0, 1, 0, -0.00293216, 0, 0.999996, -0.0602166, 0, -0.021309)
+shape = SubResource("BoxShape3D_35xla")
+
+[node name="LeftWall3D" type="CollisionShape3D" parent="Environment/LeftWall/LeftWallSB"]
+transform = Transform3D(-0.124461, 0, -0.0115985, 0, 0.125, 0, 0.0115985, 0, -0.124461, 0.539627, -0.00433737, 1.05866)
+shape = SubResource("BoxShape3D_i3aeo")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Environment"]
 transform = Transform3D(0.489407, -0.862694, -0.127439, 0.590844, 0.220546, 0.776056, -0.641392, -0.455104, 0.617654, -0.29121, 1.28322, 0.948513)
