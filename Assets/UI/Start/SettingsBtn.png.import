@@ -2,27 +2,26 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://clh4jp5s2wduv"
-path.s3tc="res://.godot/imported/Material.003_baseColor.png-19334e08ec46da0a4876eb4f327cb4e0.s3tc.ctex"
+uid="uid://3p7vk45mcq6h"
+path="res://.godot/imported/SettingsBtn.png-330f8a991f0a9d82ef6ab5807bce5592.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Models/RV/textures/Material.003_baseColor.png"
-dest_files=["res://.godot/imported/Material.003_baseColor.png-19334e08ec46da0a4876eb4f327cb4e0.s3tc.ctex"]
+source_file="res://Assets/UI/Start/SettingsBtn.png"
+dest_files=["res://.godot/imported/SettingsBtn.png-330f8a991f0a9d82ef6ab5807bce5592.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -32,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

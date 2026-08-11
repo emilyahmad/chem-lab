@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://vscbij5idf34"
-path.s3tc="res://.godot/imported/Tire.001_metallicRoughness.png-4c981f80127d8b8ba1be6038d6e540fc.s3tc.ctex"
+uid="uid://d0lj4caiakw2o"
+path.s3tc="res://.godot/imported/Glass.001_normal.png-2139bcb5833a40420728712803c19e38.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/Models/RV/textures/Tire.001_metallicRoughness.png"
-dest_files=["res://.godot/imported/Tire.001_metallicRoughness.png-4c981f80127d8b8ba1be6038d6e540fc.s3tc.ctex"]
+source_file="res://Assets/Models/Outside/RV/textures/Glass.001_normal.png"
+dest_files=["res://.godot/imported/Glass.001_normal.png-2139bcb5833a40420728712803c19e38.s3tc.ctex"]
 
 [params]
 
@@ -20,12 +20,12 @@ compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/normal_map=0
+compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=1
+roughness/src_normal="res://Assets/Models/RV/textures/Glass.001_normal.png"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

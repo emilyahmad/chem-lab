@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://6yy30oufkjmf"
-path.s3tc="res://.godot/imported/Metal.001_baseColor.png-8fb4ffa3e1e6d18e4a4fdaa43e45105c.s3tc.ctex"
+uid="uid://vscbij5idf34"
+path.s3tc="res://.godot/imported/Tire.001_metallicRoughness.png-2f43308b44583dcde1146d2986571e71.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/Models/RV/textures/Metal.001_baseColor.png"
-dest_files=["res://.godot/imported/Metal.001_baseColor.png-8fb4ffa3e1e6d18e4a4fdaa43e45105c.s3tc.ctex"]
+source_file="res://Assets/Models/Outside/RV/textures/Tire.001_metallicRoughness.png"
+dest_files=["res://.godot/imported/Tire.001_metallicRoughness.png-2f43308b44583dcde1146d2986571e71.s3tc.ctex"]
 
 [params]
 

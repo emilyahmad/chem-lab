@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7by8g3mdvcdh"
-path="res://.godot/imported/MainMenu.png-835cb221d1d802765eaa56ef57fff953.ctex"
+uid="uid://bk18w44qdo8l"
+path="res://.godot/imported/CookBtn.png-ba2a1ae77aba22366759402ab861a411.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Start/MainMenu.png"
-dest_files=["res://.godot/imported/MainMenu.png-835cb221d1d802765eaa56ef57fff953.ctex"]
+source_file="res://Assets/UI/Instructions/CookBtn.png"
+dest_files=["res://.godot/imported/CookBtn.png-ba2a1ae77aba22366759402ab861a411.ctex"]
 
 [params]
 

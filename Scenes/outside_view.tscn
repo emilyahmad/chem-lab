@@ -1,9 +1,9 @@
 [gd_scene load_steps=16 format=3 uid="uid://luoqxgfim6mn"]
 
 [ext_resource type="Texture2D" uid="uid://hbpspm1pj7t0" path="res://Assets/Environment/rogland_clear_night_4k.exr" id="1_8ck4c"]
-[ext_resource type="PackedScene" uid="uid://cdnc8ghjjyyaf" path="res://Assets/Models/RV/scene.gltf" id="1_pewih"]
+[ext_resource type="PackedScene" uid="uid://cdnc8ghjjyyaf" path="res://Assets/Models/Outside/RV/scene.gltf" id="1_pewih"]
 [ext_resource type="Script" uid="uid://bgiphbqoqxeyn" path="res://Scripts/outside_view.gd" id="1_voxyo"]
-[ext_resource type="ArrayMesh" uid="uid://5v2t6tc20mp6" path="res://Assets/Models/Grass/Grass.res" id="3_jymg8"]
+[ext_resource type="ArrayMesh" uid="uid://5v2t6tc20mp6" path="res://Assets/Models/Outside/Grass/Grass.res" id="3_jymg8"]
 [ext_resource type="PackedScene" uid="uid://bi8m3235m38kx" path="res://Scenes/UI/HUD.tscn" id="4_157tj"]
 
 [sub_resource type="Shader" id="Shader_pewih"]

@@ -12,7 +12,13 @@ var also = Gamestate.timer
 func _ready() -> void:
 	instructions_label.text = "Survive each night by cooking crystals before the time runs out!"
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if Gamestate.round == 1:
+		Gamestate.round = 2
+		instructions_label.text = ""
+		await get_tree().create_timer(1.5).timeout
+		instructions_label.text = "Welcome to the van and your personal lab"
+		await get_tree().create_timer(3).timeout
+		instructions_label.text = "Follow the instructions before the time runs out"
+		await get_tree().create_timer(3).timeout
+		instructions_label.text = "Ready?"

@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://bbjtgbsx2fycm"
-path="res://.godot/imported/Cooper Lt BT W08 Regular.ttf-03d6a5a49de7a9c128c854685cb34a55.fontdata"
+path="res://.godot/imported/Cooper Lt BT W08 Regular.ttf-f16c97c471ac6afe64a227adc95bea1d.fontdata"
 
 [deps]
 
-source_file="res://Assets/Fonts/Cooper Lt BT W08 Regular.ttf"
-dest_files=["res://.godot/imported/Cooper Lt BT W08 Regular.ttf-03d6a5a49de7a9c128c854685cb34a55.fontdata"]
+source_file="res://Assets/UI/Fonts/Cooper Lt BT W08 Regular.ttf"
+dest_files=["res://.godot/imported/Cooper Lt BT W08 Regular.ttf-f16c97c471ac6afe64a227adc95bea1d.fontdata"]
 
 [params]
 

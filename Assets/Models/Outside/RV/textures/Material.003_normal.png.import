@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bcqflmh56rkf7"
-path.s3tc="res://.godot/imported/Tire.001_normal.png-af028181ff8ab8ede5acdfb624ed88aa.s3tc.ctex"
+uid="uid://betx34ea57h2m"
+path.s3tc="res://.godot/imported/Material.003_normal.png-61132013bbb81c59354feae65fd61cd3.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/Models/RV/textures/Tire.001_normal.png"
-dest_files=["res://.godot/imported/Tire.001_normal.png-af028181ff8ab8ede5acdfb624ed88aa.s3tc.ctex"]
+source_file="res://Assets/Models/Outside/RV/textures/Material.003_normal.png"
+dest_files=["res://.godot/imported/Material.003_normal.png-61132013bbb81c59354feae65fd61cd3.s3tc.ctex"]
 
 [params]
 
@@ -25,7 +25,7 @@ compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=1
-roughness/src_normal="res://Assets/Models/RV/textures/Tire.001_normal.png"
+roughness/src_normal="res://Assets/Models/RV/textures/Material.003_normal.png"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

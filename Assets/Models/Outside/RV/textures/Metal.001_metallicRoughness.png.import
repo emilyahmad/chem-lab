@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://betx34ea57h2m"
-path.s3tc="res://.godot/imported/Material.003_normal.png-a6554462b3e8ad0230030a0f147221b5.s3tc.ctex"
+uid="uid://7fo2sdu5iaor"
+path.s3tc="res://.godot/imported/Metal.001_metallicRoughness.png-9e53b1e2a117b48006be550ecaeca053.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/Models/RV/textures/Material.003_normal.png"
-dest_files=["res://.godot/imported/Material.003_normal.png-a6554462b3e8ad0230030a0f147221b5.s3tc.ctex"]
+source_file="res://Assets/Models/Outside/RV/textures/Metal.001_metallicRoughness.png"
+dest_files=["res://.godot/imported/Metal.001_metallicRoughness.png-9e53b1e2a117b48006be550ecaeca053.s3tc.ctex"]
 
 [params]
 
@@ -20,12 +20,12 @@ compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/normal_map=1
+compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=1
-roughness/src_normal="res://Assets/Models/RV/textures/Material.003_normal.png"
+roughness/mode=0
+roughness/src_normal=""
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

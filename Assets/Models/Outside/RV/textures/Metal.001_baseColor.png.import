@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3by53ny58jl3"
-path.s3tc="res://.godot/imported/Material.002_baseColor.png-17dc45ac8cd09e2c95113512ca378a2c.s3tc.ctex"
+uid="uid://6yy30oufkjmf"
+path.s3tc="res://.godot/imported/Metal.001_baseColor.png-0ceb01dce2f6e6780da2d5ef0271097e.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/Models/RV/textures/Material.002_baseColor.png"
-dest_files=["res://.godot/imported/Material.002_baseColor.png-17dc45ac8cd09e2c95113512ca378a2c.s3tc.ctex"]
+source_file="res://Assets/Models/Outside/RV/textures/Metal.001_baseColor.png"
+dest_files=["res://.godot/imported/Metal.001_baseColor.png-0ceb01dce2f6e6780da2d5ef0271097e.s3tc.ctex"]
 
 [params]
 

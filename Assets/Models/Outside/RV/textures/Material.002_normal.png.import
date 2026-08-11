@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cbnpa3ks2b85w"
-path.s3tc="res://.godot/imported/LightV2.001_normal.png-4ea1f26fa5dc0540f03698b5fae38495.s3tc.ctex"
+uid="uid://ckmd8av5y8n2x"
+path.s3tc="res://.godot/imported/Material.002_normal.png-24f719e0536ac08458faf7c039a3d9a8.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/Models/RV/textures/LightV2.001_normal.png"
-dest_files=["res://.godot/imported/LightV2.001_normal.png-4ea1f26fa5dc0540f03698b5fae38495.s3tc.ctex"]
+source_file="res://Assets/Models/Outside/RV/textures/Material.002_normal.png"
+dest_files=["res://.godot/imported/Material.002_normal.png-24f719e0536ac08458faf7c039a3d9a8.s3tc.ctex"]
 
 [params]
 
@@ -25,7 +25,7 @@ compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=1
-roughness/src_normal="res://Assets/Models/RV/textures/LightV2.001_normal.png"
+roughness/src_normal="res://Assets/Models/RV/textures/Material.002_normal.png"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c5m174o6alskk"
-path.s3tc="res://.godot/imported/LightRed.001_normal.png-7d67b201c783b261cbedecf3097905a0.s3tc.ctex"
+uid="uid://clh4jp5s2wduv"
+path.s3tc="res://.godot/imported/Material.003_baseColor.png-239ca2fe82c1307d72d7127f2b971992.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/Models/RV/textures/LightRed.001_normal.png"
-dest_files=["res://.godot/imported/LightRed.001_normal.png-7d67b201c783b261cbedecf3097905a0.s3tc.ctex"]
+source_file="res://Assets/Models/Outside/RV/textures/Material.003_baseColor.png"
+dest_files=["res://.godot/imported/Material.003_baseColor.png-239ca2fe82c1307d72d7127f2b971992.s3tc.ctex"]
 
 [params]
 
@@ -20,12 +20,12 @@ compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/normal_map=1
+compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=1
-roughness/src_normal="res://Assets/Models/RV/textures/LightRed.001_normal.png"
+roughness/mode=0
+roughness/src_normal=""
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

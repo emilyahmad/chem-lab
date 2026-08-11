@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ckmd8av5y8n2x"
-path.s3tc="res://.godot/imported/Material.002_normal.png-bb0cb9deb397ec06a75061eb2361b538.s3tc.ctex"
+uid="uid://cqnnl11ej3h8g"
+path.s3tc="res://.godot/imported/Metal.001_normal.png-5973263c31fc04b9deabf33129e82f66.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/Models/RV/textures/Material.002_normal.png"
-dest_files=["res://.godot/imported/Material.002_normal.png-bb0cb9deb397ec06a75061eb2361b538.s3tc.ctex"]
+source_file="res://Assets/Models/Outside/RV/textures/Metal.001_normal.png"
+dest_files=["res://.godot/imported/Metal.001_normal.png-5973263c31fc04b9deabf33129e82f66.s3tc.ctex"]
 
 [params]
 
@@ -25,7 +25,7 @@ compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=1
-roughness/src_normal="res://Assets/Models/RV/textures/Material.002_normal.png"
+roughness/src_normal="res://Assets/Models/RV/textures/Metal.001_normal.png"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false
