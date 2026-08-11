@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://xikglar4ybf2"]
+
+[ext_resource type="Script" uid="uid://cnu3e1r6imk8f" path="res://Scripts/player.gd" id="1_ilvae"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_4flbx"]
+radius = 0.4
+height = 1.8
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_ilvae")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_sh265")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_4flbx")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0036006, 0.456556, 0.323229)
+
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
+target_position = Vector3(0, -1, -4)
+collision_mask = 3
+
+[node name="CarryObjectMarker" type="Marker3D" parent="Camera3D"]
+unique_name_in_owner = true
+transform = Transform3D(0.999261, -0.0384401, 0, 0.0384401, 0.999261, 0, 0, 0, 1, 0.867838, -0.458566, -0.953933)

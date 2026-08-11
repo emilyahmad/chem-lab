@@ -1,5 +1,5 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1786407027
+::res://::1786407499
 README.md::TextFile/TextFile::-1::1786375591::0::1::::<><><>0<>0<><>::
 ::res://addons/::1785739255
 ::res://addons/godot_super-wakatime/::1785739255
@@ -10,7 +10,7 @@ godot_super-wakatime.gd::GDScript/GDScript::6277149880384411866::1785739257::0::
 plugin.cfg::TextFile/TextFile::-1::1785739257::0::1::::<><><>0<>0<><>::
 README.md::TextFile/TextFile::-1::1785739257::0::1::::<><><>0<>0<><>::
 utils.gd::GDScript/GDScript::5251015809120159908::1785739257::0::1::::<>RefCounted<><>0<>0<><>::
-::res://Assets/::1786406987
+::res://Assets/::1786407025
 ::res://Assets/Environment/::1786271258
 grass.gdshader::Shader/Shader::241247397812708718::1786269798::0::1::::<><><>0<>0<><>::
 rogland_clear_night_4k.exr::CompressedTexture2D/CompressedTexture2D::494329989991734167::1786269098::1786269784::1::::<><><>0<>0<>a9d9ef1bf287fb79635095307fa1126a<>res://.godot/imported/rogland_clear_night_4k.exr-ad2299196d4c32751ea6729b4a63b6b2.bptc.ctex::
@@ -19,13 +19,13 @@ grass2.glb::PackedScene/PackedScene::3710990805832831067::1786269828::1786269829
 grass2.res::ArrayMesh/ArrayMesh::1249456202486309517::1786269828::0::1::::<><><>0<>0<><>::res://grass.gdshader
 grass.glb::PackedScene/PackedScene::8733339083313221344::1786269828::1786273354::1::::<><><>0<>0<>f6edda30d64f0cba04e6038313632c30<>res://.godot/imported/grass.glb-5dd44bc466518272f83c447f3daae6ee.scn::uid://bdpf2yxtn87fg::::res://Assets/Models/Grass.res
 grass.res::ArrayMesh/ArrayMesh::8583559269031302198::1786269828::0::1::::<><><>0<>0<><>::res://grass.gdshader
-::res://Assets/Models/::1786406972
-::res://Assets/Models/Interior/::1786407027
-counter.glb::PackedScene::893468760774877773::1786407020::1786407028::1::::<><><>0<>0<>419ac6b08171deb417928ecd24e1f3be<>res://.godot/imported/counter.glb-8e34987e693d546516001780b5efa823.scn::
+::res://Assets/Models/::1786407025
+::res://Assets/Models/Interior/::1786407025
+counter.glb::PackedScene/PackedScene::893468760774877773::1786407020::1786407028::1::::<><><>0<>0<>419ac6b08171deb417928ecd24e1f3be<>res://.godot/imported/counter.glb-8e34987e693d546516001780b5efa823.scn::
 ::res://Assets/Models/Outside/::1786406972
-::res://Assets/Models/Outside/Grass/::1786406987
+::res://Assets/Models/Outside/Grass/::1786407426
 Grass (2).res::ArrayMesh/ArrayMesh::2628305979290244008::1786273354::0::1::::<><><>0<>0<><>::
-grass.gdshader::Shader/Shader::6846937964046824416::1786406987::0::1::::<><><>0<>0<><>::
+grass.gdshader::Shader::6846937964046824416::1786407426::0::1::::<><><>0<>0<><>::
 Grass.res::ArrayMesh/ArrayMesh::2150692188568201669::1786388463::0::1::::<><><>0<>0<><>::uid://c4syckro4jtlg::::res://Assets/Models/Grass/grass.gdshader
 ::res://Assets/Models/Outside/RV/::1786406972
 scene.gltf::PackedScene/PackedScene::5010425500663119509::1785740767::1786406972::1::::<><><>0<>0<>8a37673527838f2c471d45651cc30fe5<>res://.godot/imported/scene.gltf-1218fb64f3979191a939759a68318177.scn::uid://vscbij5idf34::::res://Assets/Models/Outside/RV/textures/Tire.001_metallicRoughness.png<>uid://bcqflmh56rkf7::::res://Assets/Models/Outside/RV/textures/Tire.001_normal.png<>uid://6yy30oufkjmf::::res://Assets/Models/Outside/RV/textures/Metal.001_baseColor.png<>uid://7fo2sdu5iaor::::res://Assets/Models/Outside/RV/textures/Metal.001_metallicRoughness.png<>uid://cqnnl11ej3h8g::::res://Assets/Models/Outside/RV/textures/Metal.001_normal.png<>uid://chtlewksbmci2::::res://Assets/Models/Outside/RV/textures/Glass.001_baseColor.png<>uid://bwsyfquhvnqxi::::res://Assets/Models/Outside/RV/textures/Glass.001_metallicRoughness.png<>uid://d0lj4caiakw2o::::res://Assets/Models/Outside/RV/textures/Glass.001_normal.png<>uid://y37wog16bobc::::res://Assets/Models/Outside/RV/textures/Light.001_normal.png<>uid://d3by53ny58jl3::::res://Assets/Models/Outside/RV/textures/Material.002_baseColor.png<>uid://hgwhleylf2b1::::res://Assets/Models/Outside/RV/textures/Material.002_metallicRoughness.png<>uid://ckmd8av5y8n2x::::res://Assets/Models/Outside/RV/textures/Material.002_normal.png<>uid://clh4jp5s2wduv::::res://Assets/Models/Outside/RV/textures/Material.003_baseColor.png<>uid://dap477umksh3u::::res://Assets/Models/Outside/RV/textures/Material.003_metallicRoughness.png<>uid://betx34ea57h2m::::res://Assets/Models/Outside/RV/textures/Material.003_normal.png<>uid://c5m174o6alskk::::res://Assets/Models/Outside/RV/textures/LightRed.001_normal.png<>uid://inex35vwgg3y::::res://Assets/Models/Outside/RV/textures/LightBackWhite.001_normal.png<>uid://cbnpa3ks2b85w::::res://Assets/Models/Outside/RV/textures/LightV2.001_normal.png
@@ -60,12 +60,15 @@ CookBtn.png::CompressedTexture2D/CompressedTexture2D::92471395841594909::1786406
 MainMenu.png::CompressedTexture2D/CompressedTexture2D::7022465239527241293::1785739345::1786406989::1::::<><><>0<>0<>a9740ef4fc10506cb0b19bf5cb9bf9ff<>res://.godot/imported/MainMenu.png-6e9b26774fa5f3f4017f1899a1f79012.ctex::
 SettingsBtn.png::CompressedTexture2D/CompressedTexture2D::1998234305028359477::1785803105::1786406989::1::::<><><>0<>0<>ba287e1d5e3d59faa6d66f5b6e44d3af<>res://.godot/imported/SettingsBtn.png-330f8a991f0a9d82ef6ab5807bce5592.ctex::
 StartBtn.png::CompressedTexture2D/CompressedTexture2D::4480800893104864732::1785803105::1786406989::1::::<><><>0<>0<>61b3e77f97d85e228718665e236376a2<>res://.godot/imported/StartBtn.png-370e410ff140e2bb9a75dc202ffea186.ctex::
-::res://Scenes/::1786406984
-main.tscn::PackedScene/PackedScene::8655886911013428256::1786406969::0::1::::<><><>0<>0<><>::uid://b6c03ndemnn1k::::res://Scripts/main.gd<>uid://cdnc8ghjjyyaf::::res://Assets/Models/Outside/RV/scene.gltf<>uid://bi8m3235m38kx::::res://Scenes/UI/HUD.tscn
-outside_view.tscn::PackedScene/PackedScene::814244663245016097::1786406969::0::1::::<><><>0<>0<><>::uid://hbpspm1pj7t0::::res://Assets/Environment/rogland_clear_night_4k.exr<>uid://cdnc8ghjjyyaf::::res://Assets/Models/Outside/RV/scene.gltf<>uid://bgiphbqoqxeyn::::res://Scripts/outside_view.gd<>uid://5v2t6tc20mp6::::res://Assets/Models/Outside/Grass/Grass.res<>uid://bi8m3235m38kx::::res://Scenes/UI/HUD.tscn
-title_screen.tscn::PackedScene/PackedScene::5944660326396359389::1786406987::0::1::::<><><>0<>0<><>::uid://c7by8g3mdvcdh::::res://Assets/UI/Start/MainMenu.png<>uid://ck8bsf31j81bk::::res://Scripts/title_screen.gd<>uid://b43sevjs3wtmi::::res://Assets/UI/Start/StartBtn.png
-::res://Scenes/UI/::1786406976
-HUD.tscn::PackedScene/PackedScene::3016835967589082703::1786406983::0::1::::<><><>0<>0<><>::uid://drona3sf65ejd::::res://Scripts/hud.gd<>uid://bbjtgbsx2fycm::::res://Assets/UI/Fonts/Cooper Lt BT W08 Regular.ttf<>uid://bgqhgkgif662i::::res://Assets/UI/Fonts/Cooper BT W03 Md It.ttf<>uid://ddqob8lupa2tg::::res://Assets/UI/HUD/GreenNavBar.png
+::res://Scenes/::1786407499
+main.tscn::PackedScene::8655886911013428256::1786407382::0::1::::<><><>0<>0<><>::uid://b6c03ndemnn1k::::res://Scripts/main.gd<>uid://cdnc8ghjjyyaf::::res://Assets/Models/Outside/RV/scene.gltf<>uid://bi8m3235m38kx::::res://Scenes/UI/HUD.tscn<>uid://bpj65f15dgs76::::res://Scenes/Models/counter.tscn
+outside_view.tscn::PackedScene::814244663245016097::1786407382::0::1::::<><><>0<>0<><>::uid://hbpspm1pj7t0::::res://Assets/Environment/rogland_clear_night_4k.exr<>uid://cdnc8ghjjyyaf::::res://Assets/Models/Outside/RV/scene.gltf<>uid://bgiphbqoqxeyn::::res://Scripts/outside_view.gd<>uid://5v2t6tc20mp6::::res://Assets/Models/Outside/Grass/Grass.res<>uid://bi8m3235m38kx::::res://Scenes/UI/HUD.tscn
+title_screen.tscn::PackedScene::5944660326396359389::1786407382::0::1::::<><><>0<>0<><>::uid://c7by8g3mdvcdh::::res://Assets/UI/Start/MainMenu.png<>uid://ck8bsf31j81bk::::res://Scripts/title_screen.gd<>uid://b43sevjs3wtmi::::res://Assets/UI/Start/StartBtn.png
+::res://Scenes/Gameplay/::1786407479
+::res://Scenes/Models/::1786407499
+counter.tscn::PackedScene::3459768842792027079::1786407382::0::1::::<><><>0<>0<><>::
+::res://Scenes/UI/::1786407426
+HUD.tscn::PackedScene::3016835967589082703::1786407426::0::1::::<><><>0<>0<><>::uid://drona3sf65ejd::::res://Scripts/hud.gd<>uid://bbjtgbsx2fycm::::res://Assets/UI/Fonts/Cooper Lt BT W08 Regular.ttf<>uid://bgqhgkgif662i::::res://Assets/UI/Fonts/Cooper BT W03 Md It.ttf<>uid://ddqob8lupa2tg::::res://Assets/UI/HUD/GreenNavBar.png
 scene_transition.tscn::PackedScene/PackedScene::1738049032173815571::1786389416::0::1::::<><><>0<>0<><>::uid://ixf8jaiiu3kh::::res://Scripts/scene_transition.gd
 ::res://Scripts/::1786406530
 Gamestate.gd::GDScript/GDScript::2693541074752783603::1786405287::0::1::::<>Node<><>0<>0<><>::

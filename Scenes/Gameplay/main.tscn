@@ -1,14 +1,14 @@
 [gd_scene load_steps=6 format=3 uid="uid://dvk8gs4frpiii"]
 
-[ext_resource type="Script" uid="uid://b6c03ndemnn1k" path="res://Scripts/main.gd" id="1_8gbba"]
-[ext_resource type="PackedScene" uid="uid://cdnc8ghjjyyaf" path="res://Assets/Models/Outside/RV/scene.gltf" id="1_jjgbg"]
-[ext_resource type="PackedScene" uid="uid://bi8m3235m38kx" path="res://Scenes/UI/HUD.tscn" id="2_bo1nx"]
-[ext_resource type="PackedScene" uid="uid://bpj65f15dgs76" path="res://Scenes/Models/counter.tscn" id="4_jjvhh"]
+[ext_resource type="Script" uid="uid://b6c03ndemnn1k" path="res://Scripts/main.gd" id="1_05ku4"]
+[ext_resource type="PackedScene" uid="uid://cdnc8ghjjyyaf" path="res://Assets/Models/Outside/RV/scene.gltf" id="2_6ljex"]
+[ext_resource type="PackedScene" uid="uid://bi8m3235m38kx" path="res://Scenes/UI/HUD.tscn" id="3_ibleo"]
+[ext_resource type="PackedScene" uid="uid://bpj65f15dgs76" path="res://Scenes/Models/counter.tscn" id="4_kxl46"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_7u77a"]
 
 [node name="Main" type="Node3D"]
-script = ExtResource("1_8gbba")
+script = ExtResource("1_05ku4")
 
 [node name="Environment" type="Node3D" parent="."]
 
@@ -17,15 +17,12 @@ transform = Transform3D(4.99341, 0, 0, 0, 4.99341, 0, 0, 0, 4.99341, 0, 0, 0)
 mesh = SubResource("PlaneMesh_7u77a")
 skeleton = NodePath("../..")
 
-[node name="RV" parent="Environment" instance=ExtResource("1_jjgbg")]
+[node name="RV" parent="Environment" instance=ExtResource("2_6ljex")]
 transform = Transform3D(0.00497843, 0, 0.000463938, 0, 0.005, 0, -0.000463938, 0, 0.00497843, -0.306009, 0.489479, 0.593133)
 
 [node name="LeftWall" type="CSGBox3D" parent="Environment"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.236948, 0.530941, 1.23468)
 size = Vector3(0.744499, 0.814564, 0.001)
-
-[node name="Camera3D" type="Camera3D" parent="Environment"]
-transform = Transform3D(-0.0621051, 0.0269211, -0.997707, 0, 0.999636, 0.0269731, 0.99807, 0.00167517, -0.0620825, -0.658529, 0.634119, -0.558887)
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Environment"]
 transform = Transform3D(0.489407, -0.862694, -0.127439, 0.590844, 0.220546, 0.776056, -0.641392, -0.455104, 0.617654, -0.29121, 1.28322, 0.948513)
@@ -33,7 +30,10 @@ transform = Transform3D(0.489407, -0.862694, -0.127439, 0.590844, 0.220546, 0.77
 [node name="SpotLight3D2" type="SpotLight3D" parent="Environment"]
 transform = Transform3D(0.387023, -0.888745, -0.245653, 0.300914, -0.13009, 0.944737, -0.871587, -0.439555, 0.217088, -0.29121, 1.27863, -0.494843)
 
-[node name="HUD" parent="." instance=ExtResource("2_bo1nx")]
+[node name="HUD" parent="." instance=ExtResource("3_ibleo")]
 
-[node name="Counter" parent="." instance=ExtResource("4_jjvhh")]
+[node name="Counter" parent="." instance=ExtResource("4_kxl46")]
 transform = Transform3D(-0.137212, 0, -0.0233719, 0, 0.15, 0, 0.0108783, 0, -0.294797, -0.19842, 0.197051, -1.00209)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.0447458, 0.191398, -0.980492, 0, 0.981475, 0.19159, 0.998998, 0.00857285, -0.0439169, -0.762791, 0.71637, -0.510425)

@@ -1,14 +1,14 @@
+CollisionShape3D
+StaticBody3D
+Camera3D
 Control
 Node2D
 Node3D
 AnimationPlayer
 SpotLight3D
-Camera3D
 ColorRect
 TextureRect
 CanvasLayer
 RichTextLabel
 MultiMeshInstance3D
 TextureButton
-CSGBox3D
-CSGCombiner3D
