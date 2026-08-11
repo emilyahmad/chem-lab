@@ -17,11 +17,13 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="GreenBar" type="TextureRect" parent="Navbar"]
+layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 texture = ExtResource("3_xaom8")
 
 [node name="NightCounter" type="RichTextLabel" parent="Navbar"]
+layout_mode = 0
 offset_left = 779.0
 offset_top = 9.0
 offset_right = 1164.0
@@ -34,6 +36,7 @@ text = "Night 1"
 horizontal_alignment = 1
 
 [node name="Timer" type="RichTextLabel" parent="Navbar"]
+layout_mode = 0
 offset_left = 5.0
 offset_top = 9.0
 offset_right = 148.0
@@ -64,3 +67,4 @@ theme_override_font_sizes/normal_font_size = 50
 bbcode_enabled = true
 text = "Night 1"
 horizontal_alignment = 1
+vertical_alignment = 1

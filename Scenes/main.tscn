@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dvk8gs4frpiii"]
+[gd_scene load_steps=6 format=3 uid="uid://dvk8gs4frpiii"]
 
 [ext_resource type="Script" uid="uid://b6c03ndemnn1k" path="res://Scripts/main.gd" id="1_8gbba"]
 [ext_resource type="PackedScene" uid="uid://cdnc8ghjjyyaf" path="res://Assets/Models/Outside/RV/scene.gltf" id="1_jjgbg"]
 [ext_resource type="PackedScene" uid="uid://bi8m3235m38kx" path="res://Scenes/UI/HUD.tscn" id="2_bo1nx"]
+[ext_resource type="PackedScene" uid="uid://bpj65f15dgs76" path="res://Scenes/Models/counter.tscn" id="4_jjvhh"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_7u77a"]
 
@@ -33,3 +34,6 @@ transform = Transform3D(0.489407, -0.862694, -0.127439, 0.590844, 0.220546, 0.77
 transform = Transform3D(0.387023, -0.888745, -0.245653, 0.300914, -0.13009, 0.944737, -0.871587, -0.439555, 0.217088, -0.29121, 1.27863, -0.494843)
 
 [node name="HUD" parent="." instance=ExtResource("2_bo1nx")]
+
+[node name="Counter" parent="." instance=ExtResource("4_jjvhh")]
+transform = Transform3D(-0.137212, 0, -0.0233719, 0, 0.15, 0, 0.0108783, 0, -0.294797, -0.19842, 0.197051, -1.00209)

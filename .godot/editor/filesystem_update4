@@ -12,3 +12,4 @@ res://Scripts/hud.gd
 res://Scripts/outside_view.gd
 res://Scripts/main.gd
 res://Assets/Models/Outside/Grass/grass.gdshader
+res://Scenes/Models/counter.tscn
