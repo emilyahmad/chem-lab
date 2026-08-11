@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-const SPEED = 1
+const SPEED = 1.25
 const JUMP_VELOCITY = 3
 const SPRINT_VELOCITY = 1.5
 const CAMERA_SENS = .003

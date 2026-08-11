@@ -1,5 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://dgn23k073nqaq"]
+[gd_scene load_steps=11 format=3 uid="uid://dgn23k073nqaq"]
 
+[ext_resource type="Script" uid="uid://bchmfiods27cm" path="res://Scripts/cooking.gd" id="1_35xla"]
 [ext_resource type="PackedScene" uid="uid://cdnc8ghjjyyaf" path="res://Assets/Models/Outside/RV/scene.gltf" id="1_qc4db"]
 [ext_resource type="PackedScene" uid="uid://bi8m3235m38kx" path="res://Scenes/UI/HUD.tscn" id="2_ys1qc"]
 [ext_resource type="PackedScene" uid="uid://bpj65f15dgs76" path="res://Scenes/Models/counter.tscn" id="3_35xla"]
@@ -20,6 +21,7 @@ size = Vector3(2.90576, 3.09204, 0.443237)
 size = Vector3(1, 1, 0.0556641)
 
 [node name="Test" type="Node3D"]
+script = ExtResource("1_35xla")
 
 [node name="Environment" type="Node3D" parent="."]
 

@@ -19,3 +19,4 @@ res://Scenes/Gameplay/title_screen.tscn
 res://Scenes/Gameplay/main.tscn
 res://Scenes/Gameplay/outside_view.tscn
 res://Scenes/test.tscn
+res://Scripts/cooking.gd
