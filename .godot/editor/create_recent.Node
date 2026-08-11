@@ -1,9 +1,9 @@
+Node3D
 CollisionShape3D
 StaticBody3D
 Camera3D
 Control
 Node2D
-Node3D
 AnimationPlayer
 SpotLight3D
 ColorRect

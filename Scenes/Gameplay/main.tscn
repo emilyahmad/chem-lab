@@ -22,7 +22,7 @@ size = Vector3(1, 1, 0.0556641)
 [node name="Main" type="Node3D"]
 script = ExtResource("1_05ku4")
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="PerspectiveCamera" type="Camera3D" parent="."]
 transform = Transform3D(-0.0447458, 0.191398, -0.980492, 0, 0.981475, 0.19159, 0.998998, 0.00857285, -0.0439169, -0.762791, 0.71637, -0.510425)
 
 [node name="Environment" type="Node3D" parent="."]

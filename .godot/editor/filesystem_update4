@@ -20,3 +20,8 @@ res://Scenes/Gameplay/main.tscn
 res://Scenes/Gameplay/outside_view.tscn
 res://Scenes/test.tscn
 res://Scripts/cooking.gd
+res://Scenes/Models/mixer.tscn
+res://Scenes/Models/placemat.tscn
+res://Scenes/Models/bowl.tscn
+res://Scenes/Models/coffee_filter.tscn
+res://Scenes/Models/syringe.tscn

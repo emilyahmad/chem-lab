@@ -19,13 +19,14 @@ shape = SubResource("CapsuleShape3D_sh265")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_4flbx")
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="PlayerCamera" type="Camera3D" parent="."]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0036006, 0.456556, 0.323229)
 
-[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
+[node name="RayCast3D" type="RayCast3D" parent="PlayerCamera"]
 target_position = Vector3(0, -1, -4)
 collision_mask = 3
 
-[node name="CarryObjectMarker" type="Marker3D" parent="Camera3D"]
+[node name="CarryObjectMarker" type="Marker3D" parent="PlayerCamera"]
 unique_name_in_owner = true
 transform = Transform3D(0.999261, -0.0384401, 0, 0.0384401, 0.999261, 0, 0, 0, 1, 0.867838, -0.458566, -0.953933)

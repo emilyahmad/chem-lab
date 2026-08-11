@@ -8,9 +8,12 @@ func _ready() -> void:
 		# calls to HUD
 	
 	Gamestate.round = 1
+	#$PerspectiveCamera.current = true
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if Gamestate.round == 3:
+		# Could just switch cameras
+		#%PlayerCamera.current = true
 		SceneTransition.change_scene("res://Scenes/test.tscn")

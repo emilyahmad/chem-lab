@@ -1,10 +1,15 @@
-[gd_scene load_steps=11 format=3 uid="uid://dgn23k073nqaq"]
+[gd_scene load_steps=16 format=3 uid="uid://dgn23k073nqaq"]
 
 [ext_resource type="Script" uid="uid://bchmfiods27cm" path="res://Scripts/cooking.gd" id="1_35xla"]
 [ext_resource type="PackedScene" uid="uid://cdnc8ghjjyyaf" path="res://Assets/Models/Outside/RV/scene.gltf" id="1_qc4db"]
 [ext_resource type="PackedScene" uid="uid://bi8m3235m38kx" path="res://Scenes/UI/HUD.tscn" id="2_ys1qc"]
 [ext_resource type="PackedScene" uid="uid://bpj65f15dgs76" path="res://Scenes/Models/counter.tscn" id="3_35xla"]
 [ext_resource type="PackedScene" uid="uid://xikglar4ybf2" path="res://Scenes/Gameplay/player.tscn" id="4_ys1qc"]
+[ext_resource type="PackedScene" uid="uid://c6cw6io0ujfpj" path="res://Scenes/Models/mixer.tscn" id="6_i3aeo"]
+[ext_resource type="PackedScene" uid="uid://ch7ukesrwg8j3" path="res://Scenes/Models/placemat.tscn" id="7_5wyu1"]
+[ext_resource type="PackedScene" uid="uid://dxx8b3x65mou3" path="res://Scenes/Models/bowl.tscn" id="8_0c07c"]
+[ext_resource type="PackedScene" uid="uid://mw6bcwjp3mc8" path="res://Scenes/Models/coffee_filter.tscn" id="9_2cgwh"]
+[ext_resource type="PackedScene" uid="uid://cl8qwosaxpmpg" path="res://Scenes/Models/syringe.tscn" id="10_iaow0"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_35xla"]
 
@@ -78,3 +83,20 @@ transform = Transform3D(-0.137212, 0, -0.0233719, 0, 0.15, 0, 0.0108783, 0, -0.2
 
 [node name="Player" parent="." instance=ExtResource("4_ys1qc")]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -0.421891, 0.425307, 0)
+
+[node name="Ingredients" type="Node3D" parent="."]
+
+[node name="Mixer" parent="Ingredients" instance=ExtResource("6_i3aeo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.126622, 0.242596, -0.79892)
+
+[node name="Placemat" parent="Ingredients" instance=ExtResource("7_5wyu1")]
+transform = Transform3D(-0.0727935, 0, -0.0116677, 0, 0.05, 0, 0.00473925, 0, -0.179213, -0.0289381, 0.360507, 1.0341)
+
+[node name="Bowl" parent="Ingredients" instance=ExtResource("8_0c07c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.258541, 0.395507, -0.842575)
+
+[node name="CoffeeFilter" parent="Ingredients" instance=ExtResource("9_2cgwh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.236344, 0.384353, -0.739841)
+
+[node name="Syringe" parent="." instance=ExtResource("10_iaow0")]
+transform = Transform3D(1, 0, 0, 0, 0.10498, 0.994474, 0, -0.994474, 0.10498, -0.118447, 0.365673, -0.658301)
