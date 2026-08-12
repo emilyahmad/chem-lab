@@ -1,6 +1,24 @@
-# Cook chemically accurate crystals
+# Chemlab
 
-Kind of inspired by the Royale high baking class
+A breaking bad inspired cooking simulator where players race against the time to "cook" (almost) chemically accurate crystals before the night ends. This is a 3D first-person game made in Godot.
 
-Have to credit the author for the font
+## Gameplay
+
+The game begins with a start screen reminiscent of the show's intro with the first two letters of each word replacede by chemical elements Carbon and Lanthanum. On pressing start, the game pans to an exterior view of the RV in a desert/plains environment. After a few seconds, the game pans to the inside of the van, explains the gameplay in a few sentences to the player, before initiating the cooking cycle.
+
+## Images
+
+| Gameplay                       | --                            |
+| ------------------------------ | ----------------------------- |
+| ![Intro](/images/Title.png)    | ![Intro](/images/Van.png)     |
+| ![Intro](/images/LabIntro.png) | ![Intro](/images/Cooking.png) |
+
+## Credits
+
+| Inspo                                                                                                                                                     | --                                                                              |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| ![Royale high baking classroom](https://static.wikia.nocookie.net/royale-high/images/5/5b/Baking_Class_RH1_%26_RH2.png/revision/latest?cb=20240810185835) | The baking clas from Royale high (which apparently has a physical playset now?) |
+| ![Breaking bad opening credits](https://i.ytimg.com/vi/ilfYnhXD-bE/maxresdefault.jpg)                                                                     | UI from Breaking Bad intro                                                      |
+| ![Breaking bad van](https://static.wikia.nocookie.net/breakingbad/images/d/d6/RV.jpg/revision/latest?cb=20130724193305)                                   | The RV/Van from Breaking bad                                                    |
+
 <div>Icons made from <a href="https://www.onlinewebfonts.com/icon">svg icons</a>is licensed by CC BY 4.0</div>
