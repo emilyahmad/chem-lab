@@ -4,12 +4,12 @@
 [ext_resource type="PackedScene" uid="uid://cdnc8ghjjyyaf" path="res://Assets/Models/Outside/RV/scene.gltf" id="1_qc4db"]
 [ext_resource type="PackedScene" uid="uid://bi8m3235m38kx" path="res://Scenes/UI/HUD.tscn" id="2_ys1qc"]
 [ext_resource type="PackedScene" uid="uid://bpj65f15dgs76" path="res://Scenes/Models/counter.tscn" id="3_35xla"]
-[ext_resource type="PackedScene" uid="uid://xikglar4ybf2" path="res://Scenes/Gameplay/player.tscn" id="4_ys1qc"]
 [ext_resource type="PackedScene" uid="uid://c6cw6io0ujfpj" path="res://Scenes/Models/mixer.tscn" id="6_i3aeo"]
 [ext_resource type="PackedScene" uid="uid://ch7ukesrwg8j3" path="res://Scenes/Models/placemat.tscn" id="7_5wyu1"]
 [ext_resource type="PackedScene" uid="uid://dxx8b3x65mou3" path="res://Scenes/Models/bowl.tscn" id="8_0c07c"]
 [ext_resource type="PackedScene" uid="uid://mw6bcwjp3mc8" path="res://Scenes/Models/coffee_filter.tscn" id="9_2cgwh"]
 [ext_resource type="PackedScene" uid="uid://cl8qwosaxpmpg" path="res://Scenes/Models/syringe.tscn" id="10_iaow0"]
+[ext_resource type="PackedScene" uid="uid://bdlmjph6evsrm" path="res://Scenes/Models/beaker.tscn" id="10_qpfo2"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_35xla"]
 
@@ -81,9 +81,6 @@ transform = Transform3D(0.387023, -0.888745, -0.245653, 0.300914, -0.13009, 0.94
 [node name="Counter" parent="." instance=ExtResource("3_35xla")]
 transform = Transform3D(-0.137212, 0, -0.0233719, 0, 0.15, 0, 0.0108783, 0, -0.294797, -0.19842, 0.197051, -1.00209)
 
-[node name="Player" parent="." instance=ExtResource("4_ys1qc")]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -0.421891, 0.425307, 0)
-
 [node name="Ingredients" type="Node3D" parent="."]
 
 [node name="Mixer" parent="Ingredients" instance=ExtResource("6_i3aeo")]
@@ -100,3 +97,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.236344, 0.384353, -0.73984
 
 [node name="Syringe" parent="Ingredients" instance=ExtResource("10_iaow0")]
 transform = Transform3D(1, 0, 0, 0, 0.10498, 0.994474, 0, -0.994474, 0.10498, -0.118588, 0.365362, -0.698672)
+
+[node name="Beaker" parent="." instance=ExtResource("10_qpfo2")]
+transform = Transform3D(-0.135664, 0, -0.990755, 0, 1, 0, 0.990755, 0, -0.135664, -0.0604441, 0.395507, -0.576082)
