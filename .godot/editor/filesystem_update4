@@ -1,6 +1,4 @@
-res://Scenes/test.tscn
 res://Scripts/hud.gd
 res://Assets/Models/Outside/Grass/grass.gdshader
-res://Scenes/UI/HUD.tscn
-res://Scenes/Models/syringe.tscn
-res://Scenes/Models/beaker.tscn
+res://README.md
+res://Scenes/Models/gas.tscn
