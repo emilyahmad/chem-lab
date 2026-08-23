@@ -22,3 +22,20 @@ The game begins with a start screen reminiscent of the show's intro with the fir
 | ![Breaking bad van](https://static.wikia.nocookie.net/breakingbad/images/d/d6/RV.jpg/revision/latest?cb=20130724193305)                                   | The RV/Van from Breaking bad                                                    |
 
 <div>Icons made from <a href="https://www.onlinewebfonts.com/icon">svg icons</a> licensed by CC BY 4.0</div>
+
+
+advice for amoolie
+
+keep learning how to integrate AI - using godot mcp, install
+```
+claude mcp add godot -- npx @coding-solo/godot-mcp
+claude mcp add godot -e GODOT_PATH=/path/to/godot -e DEBUG=true -- npx @coding-solo/godot-mcp
+
+claude mcp add godot -e /Users/emilyahmad/Desktop/projects/chem-lab=/path/to/godot -e DEBUG=true -- npx @coding-solo/godot-mcp
+
+```
+where 
+| Variable |	Description |
+| -- | -- |
+| GODOT_PATH |	Path to the Godot executable (overrides automatic detection) |
+| DEBUG	| Set to "true" to enable detailed server-side debug logging |
