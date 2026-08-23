@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://myuxkapclfc"
-path="res://.godot/imported/gas.glb-ee5e50278d63a77165590e72b819a9ce.scn"
+uid="uid://bmhmmyvr1b1w0"
+path="res://.godot/imported/erlenmeyer.glb-afad980dfc59161ce267818e612b97f4.scn"
 
 [deps]
 
-source_file="res://Assets/Models/Ingredients/gas.glb"
-dest_files=["res://.godot/imported/gas.glb-ee5e50278d63a77165590e72b819a9ce.scn"]
+source_file="res://Assets/Models/Ingredients/erlenmeyer.glb"
+dest_files=["res://.godot/imported/erlenmeyer.glb-afad980dfc59161ce267818e612b97f4.scn"]
 
 [params]
 

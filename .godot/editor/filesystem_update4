@@ -1,4 +1,7 @@
+res://Scenes/UI/HUD.tscn
 res://Scripts/hud.gd
 res://Assets/Models/Outside/Grass/grass.gdshader
-res://README.md
+res://Scenes/test.tscn
 res://Scenes/Models/gas.tscn
+res://Scenes/Models/petri_dish.tscn
+res://Scenes/Models/erlenmeyer.tscn

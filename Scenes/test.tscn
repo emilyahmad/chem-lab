@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dgn23k073nqaq"]
+[gd_scene load_steps=19 format=3 uid="uid://dgn23k073nqaq"]
 
 [ext_resource type="Script" uid="uid://bchmfiods27cm" path="res://Scripts/cooking.gd" id="1_35xla"]
 [ext_resource type="PackedScene" uid="uid://cdnc8ghjjyyaf" path="res://Assets/Models/Outside/RV/scene.gltf" id="1_qc4db"]
@@ -10,6 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://mw6bcwjp3mc8" path="res://Scenes/Models/coffee_filter.tscn" id="9_2cgwh"]
 [ext_resource type="PackedScene" uid="uid://cl8qwosaxpmpg" path="res://Scenes/Models/syringe.tscn" id="10_iaow0"]
 [ext_resource type="PackedScene" uid="uid://bdlmjph6evsrm" path="res://Scenes/Models/beaker.tscn" id="10_qpfo2"]
+[ext_resource type="PackedScene" uid="uid://myuxkapclfc" path="res://Assets/Models/Ingredients/gas.glb" id="11_qpfo2"]
+[ext_resource type="PackedScene" uid="uid://d23aneqqbd6va" path="res://Scenes/Models/petri_dish.tscn" id="12_yb21e"]
+[ext_resource type="PackedScene" uid="uid://c810jhhmc1lss" path="res://Scenes/Models/erlenmeyer.tscn" id="13_aees8"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_35xla"]
 
@@ -83,20 +86,29 @@ transform = Transform3D(-0.137212, 0, -0.0233719, 0, 0.15, 0, 0.0108783, 0, -0.2
 
 [node name="Ingredients" type="Node3D" parent="."]
 
-[node name="Mixer" parent="Ingredients" instance=ExtResource("6_i3aeo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.126622, 0.242596, -0.79892)
-
 [node name="Placemat" parent="Ingredients" instance=ExtResource("7_5wyu1")]
 transform = Transform3D(-0.0727935, 0, -0.0116677, 0, 0.05, 0, 0.00473925, 0, -0.179213, -0.0289381, 0.360507, 1.0341)
 
+[node name="Mixer" parent="Ingredients" instance=ExtResource("6_i3aeo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.126622, 0.242596, -0.886468)
+
 [node name="Bowl" parent="Ingredients" instance=ExtResource("8_0c07c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.258541, 0.395507, -0.842575)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.285234, 0.395507, -0.872594)
 
 [node name="CoffeeFilter" parent="Ingredients" instance=ExtResource("9_2cgwh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.236344, 0.384353, -0.739841)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.242659, 0.382407, -0.768519)
 
 [node name="Syringe" parent="Ingredients" instance=ExtResource("10_iaow0")]
-transform = Transform3D(1, 0, 0, 0, 0.10498, 0.994474, 0, -0.994474, 0.10498, -0.118588, 0.365362, -0.698672)
+transform = Transform3D(1, 0, 0, 0, 0.10498, 0.994474, 0, -0.994474, 0.10498, -0.190761, 0.375796, -0.846813)
 
-[node name="Beaker" parent="." instance=ExtResource("10_qpfo2")]
-transform = Transform3D(-0.135664, 0, -0.990755, 0, 1, 0, 0.990755, 0, -0.135664, -0.0604441, 0.395507, -0.576082)
+[node name="Beaker" parent="Ingredients" instance=ExtResource("10_qpfo2")]
+transform = Transform3D(-0.135664, 0, -0.990755, 0, 1, 0, 0.990755, 0, -0.135664, -0.0683572, 0.395507, -0.683194)
+
+[node name="Gas" parent="Ingredients" instance=ExtResource("11_qpfo2")]
+transform = Transform3D(-0.172788, 0, -0.469195, 0, 0.5, 0, 0.469195, 0, -0.172788, -0.108508, 0.414187, -0.783204)
+
+[node name="PetriDish" parent="Ingredients" instance=ExtResource("12_yb21e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.110104, 0.366537, -0.597098)
+
+[node name="Erlenmeyer" parent="Ingredients" instance=ExtResource("13_aees8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0504773, 0.37842, -0.547707)
