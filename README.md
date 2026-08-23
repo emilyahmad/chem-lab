@@ -23,10 +23,10 @@ The game begins with a start screen reminiscent of the show's intro with the fir
 
 <div>Icons made from <a href="https://www.onlinewebfonts.com/icon">svg icons</a> licensed by CC BY 4.0</div>
 
-
+<!-- 
 advice for amoolie
 
-keep learning how to integrate AI - using godot mcp, install
+keep learning how to integrate AI - using [godot mcp](https://github.com/Coding-Solo/godot-mcp), install
 ```
 claude mcp add godot -- npx @coding-solo/godot-mcp
 claude mcp add godot -e GODOT_PATH=/path/to/godot -e DEBUG=true -- npx @coding-solo/godot-mcp
