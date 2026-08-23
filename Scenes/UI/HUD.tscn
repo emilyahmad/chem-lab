@@ -15,12 +15,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="GreenBar" type="TextureRect" parent="Navbar"]
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 texture = ExtResource("3_xaom8")
+mouse_filter = 2
 
 [node name="NightCounter" type="RichTextLabel" parent="Navbar"]
 layout_mode = 0
@@ -29,6 +31,7 @@ offset_top = 9.0
 offset_right = 1164.0
 offset_bottom = 95.0
 size_flags_vertical = 4
+mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("1_qc5w2")
 theme_override_fonts/italics_font = ExtResource("2_xaom8")
 theme_override_font_sizes/normal_font_size = 50
@@ -42,6 +45,7 @@ offset_top = 9.0
 offset_right = 148.0
 offset_bottom = 83.0
 size_flags_vertical = 4
+mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("1_qc5w2")
 theme_override_fonts/italics_font = ExtResource("2_xaom8")
 theme_override_font_sizes/normal_font_size = 50
@@ -61,6 +65,7 @@ offset_right = 645.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_vertical = 4
+mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("1_qc5w2")
 theme_override_fonts/italics_font = ExtResource("2_xaom8")
 theme_override_font_sizes/normal_font_size = 50

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dgn23k073nqaq"]
+[gd_scene load_steps=20 format=3 uid="uid://dgn23k073nqaq"]
 
 [ext_resource type="Script" uid="uid://bchmfiods27cm" path="res://Scripts/cooking.gd" id="1_35xla"]
 [ext_resource type="PackedScene" uid="uid://cdnc8ghjjyyaf" path="res://Assets/Models/Outside/RV/scene.gltf" id="1_qc4db"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://myuxkapclfc" path="res://Assets/Models/Ingredients/gas.glb" id="11_qpfo2"]
 [ext_resource type="PackedScene" uid="uid://d23aneqqbd6va" path="res://Scenes/Models/petri_dish.tscn" id="12_yb21e"]
 [ext_resource type="PackedScene" uid="uid://c810jhhmc1lss" path="res://Scenes/Models/erlenmeyer.tscn" id="13_aees8"]
+[ext_resource type="PackedScene" uid="uid://xikglar4ybf2" path="res://Scenes/Gameplay/player.tscn" id="14_mie3u"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_35xla"]
 
@@ -89,6 +90,14 @@ transform = Transform3D(-0.137212, 0, -0.0233719, 0, 0.15, 0, 0.0108783, 0, -0.2
 [node name="Placemat" parent="Ingredients" instance=ExtResource("7_5wyu1")]
 transform = Transform3D(-0.0727935, 0, -0.0116677, 0, 0.05, 0, 0.00473925, 0, -0.179213, -0.0289381, 0.360507, 1.0341)
 
+[node name="BowlSlot" type="Marker3D" parent="Ingredients"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0289381, 0.410507, 1.0341)
+
+[node name="MixerSlot" type="Marker3D" parent="Ingredients"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0289381, 0.261564, 1.0341)
+
 [node name="Mixer" parent="Ingredients" instance=ExtResource("6_i3aeo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.126622, 0.242596, -0.886468)
 
@@ -112,3 +121,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.110104, 0.366537, -0.59709
 
 [node name="Erlenmeyer" parent="Ingredients" instance=ExtResource("13_aees8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0504773, 0.37842, -0.547707)
+
+[node name="Player" parent="." instance=ExtResource("14_mie3u")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -0.452766, 0.347356, 0.101944)

@@ -5,3 +5,13 @@ res://Scenes/test.tscn
 res://Scenes/Models/gas.tscn
 res://Scenes/Models/petri_dish.tscn
 res://Scenes/Models/erlenmeyer.tscn
+res://Scripts/player.gd
+res://Scenes/Models/beaker.tscn
+res://Scenes/Models/bowl.tscn
+res://Scenes/Models/coffee_filter.tscn
+res://Scenes/Models/mixer.tscn
+res://Scenes/Models/syringe.tscn
+res://Scenes/Models/placemat.tscn
+res://Scripts/cooking.gd
+res://Scripts/Gamestate.gd
+res://Scenes/Gameplay/player.tscn
