@@ -93,7 +93,7 @@ transform = Transform3D(-0.0727935, 0, -0.0116677, 0, 0.05, 0, 0.00473925, 0, -0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.126622, 0.242596, -0.886468)
 
 [node name="Bowl" parent="Ingredients" instance=ExtResource("8_0c07c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.285234, 0.395507, -0.872594)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.270729, 0.391539, -0.874232)
 
 [node name="CoffeeFilter" parent="Ingredients" instance=ExtResource("9_2cgwh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.242659, 0.382407, -0.768519)
