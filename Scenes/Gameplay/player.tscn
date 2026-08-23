@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://xikglar4ybf2"]
+[gd_scene load_steps=6 format=3 uid="uid://xikglar4ybf2"]
 
 [ext_resource type="Script" uid="uid://cnu3e1r6imk8f" path="res://Scripts/player.gd" id="1_ilvae"]
 [ext_resource type="FontFile" uid="uid://bbjtgbsx2fycm" path="res://Assets/UI/Fonts/Cooper Lt BT W08 Regular.ttf" id="2_prompt"]
+[ext_resource type="Script" uid="uid://cfi5r7awnc5ik" path="res://Scripts/crosshair.gd" id="3_crosshair"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
 radius = 0.4
@@ -34,6 +35,23 @@ unique_name_in_owner = true
 transform = Transform3D(0.999261, -0.0384401, 0, 0.0384401, 0.999261, 0, 0, 0, 1, 0.867838, -0.458566, -0.953933)
 
 [node name="PickupPrompt" type="CanvasLayer" parent="."]
+
+[node name="Crosshair" type="Control" parent="PickupPrompt"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("3_crosshair")
 
 [node name="Label" type="Label" parent="PickupPrompt"]
 anchors_preset = 7
