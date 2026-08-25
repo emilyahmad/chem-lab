@@ -1,8 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://xikglar4ybf2"]
+[gd_scene load_steps=4 format=3 uid="uid://xikglar4ybf2"]
 
 [ext_resource type="Script" uid="uid://cnu3e1r6imk8f" path="res://Scripts/player.gd" id="1_ilvae"]
-[ext_resource type="FontFile" uid="uid://bbjtgbsx2fycm" path="res://Assets/UI/Fonts/Cooper Lt BT W08 Regular.ttf" id="2_prompt"]
-[ext_resource type="Script" uid="uid://cfi5r7awnc5ik" path="res://Scripts/crosshair.gd" id="3_crosshair"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
 radius = 0.4
@@ -27,46 +25,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0036006, 0.456556, 0.32322
 current = true
 
 [node name="RayCast3D" type="RayCast3D" parent="PlayerCamera"]
-target_position = Vector3(0, -1, -4)
+target_position = Vector3(0, 0, -6)
 collision_mask = 3
 
 [node name="CarryObjectMarker" type="Marker3D" parent="PlayerCamera"]
 unique_name_in_owner = true
 transform = Transform3D(0.999261, -0.0384401, 0, 0.0384401, 0.999261, 0, 0, 0, 1, 0.867838, -0.458566, -0.953933)
-
-[node name="PickupPrompt" type="CanvasLayer" parent="."]
-
-[node name="Crosshair" type="Control" parent="PickupPrompt"]
-unique_name_in_owner = true
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("3_crosshair")
-
-[node name="Label" type="Label" parent="PickupPrompt"]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -100.0
-offset_top = -80.0
-offset_right = 100.0
-offset_bottom = -40.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_fonts/font = ExtResource("2_prompt")
-theme_override_font_sizes/font_size = 28
-text = "[E] Pick up"
-horizontal_alignment = 1
-vertical_alignment = 1

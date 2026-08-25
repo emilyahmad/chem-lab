@@ -26,7 +26,6 @@ func _ready():
 	#$StaminaBar/StaminaProgressBar.visible = false
 
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	pickup_prompt_label.visible = false
 
 func _process(delta: float) -> void:
 	if Input.is_action_pressed("escape"):
@@ -49,8 +48,6 @@ func _process(delta: float) -> void:
 		#$StaminaBar/StaminaProgressBar.value += .5
 
 @onready var raycast = $PlayerCamera/RayCast3D
-@onready var pickup_prompt_label = $PickupPrompt/Label
-@onready var crosshair = %Crosshair
 var held_object: RigidBody3D = null
 
 func _unhandled_input(event):
@@ -97,15 +94,6 @@ func _physics_process(delta: float) -> void:
 	var hit_object = raycast.get_collider() if raycast.is_colliding() else null
 	var looking_at_pickable = hit_object != null and hit_object.is_in_group("pickable")
 	var looking_at_placemat = hit_object != null and hit_object.is_in_group("placemat")
-
-	if held_object:
-		pickup_prompt_label.visible = looking_at_placemat
-		pickup_prompt_label.text = "[E] Place"
-		crosshair.active = looking_at_placemat
-	else:
-		pickup_prompt_label.visible = looking_at_pickable
-		pickup_prompt_label.text = "[E] Pick up"
-		crosshair.active = looking_at_pickable
 
 	if Input.is_action_just_pressed("pick_up"):
 		if held_object:
