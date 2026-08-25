@@ -16,3 +16,4 @@ res://Scripts/cooking.gd
 res://Scripts/Gamestate.gd
 res://Scenes/Gameplay/player.tscn
 res://README.md
+res://Scenes/Gameplay/main.tscn

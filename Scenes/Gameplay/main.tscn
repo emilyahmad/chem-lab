@@ -1,22 +1,28 @@
-[gd_scene load_steps=10 format=3 uid="uid://dvk8gs4frpiii"]
+[gd_scene load_steps=18 format=3 uid="uid://dvk8gs4frpiii"]
 
 [ext_resource type="Script" uid="uid://b6c03ndemnn1k" path="res://Scripts/main.gd" id="1_05ku4"]
 [ext_resource type="PackedScene" uid="uid://cdnc8ghjjyyaf" path="res://Assets/Models/Outside/RV/scene.gltf" id="2_6ljex"]
 [ext_resource type="PackedScene" uid="uid://bi8m3235m38kx" path="res://Scenes/UI/HUD.tscn" id="3_ibleo"]
 [ext_resource type="PackedScene" uid="uid://bpj65f15dgs76" path="res://Scenes/Models/counter.tscn" id="4_kxl46"]
+[ext_resource type="PackedScene" uid="uid://ch7ukesrwg8j3" path="res://Scenes/Models/placemat.tscn" id="5_57nto"]
+[ext_resource type="PackedScene" uid="uid://c6cw6io0ujfpj" path="res://Scenes/Models/mixer.tscn" id="6_2w6h6"]
+[ext_resource type="PackedScene" uid="uid://dxx8b3x65mou3" path="res://Scenes/Models/bowl.tscn" id="7_4pa8k"]
+[ext_resource type="PackedScene" uid="uid://mw6bcwjp3mc8" path="res://Scenes/Models/coffee_filter.tscn" id="8_b4tec"]
+[ext_resource type="PackedScene" uid="uid://cl8qwosaxpmpg" path="res://Scenes/Models/syringe.tscn" id="9_unsyy"]
+[ext_resource type="PackedScene" uid="uid://bdlmjph6evsrm" path="res://Scenes/Models/beaker.tscn" id="10_oas54"]
+[ext_resource type="PackedScene" uid="uid://myuxkapclfc" path="res://Assets/Models/Ingredients/gas.glb" id="11_vhhww"]
+[ext_resource type="PackedScene" uid="uid://d23aneqqbd6va" path="res://Scenes/Models/petri_dish.tscn" id="12_ixh3p"]
+[ext_resource type="PackedScene" uid="uid://c810jhhmc1lss" path="res://Scenes/Models/erlenmeyer.tscn" id="13_pvtt0"]
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_05ku4"]
+[sub_resource type="PlaneMesh" id="PlaneMesh_6n41t"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_6ljex"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_aupud"]
 size = Vector3(0.242432, 0.00601196, 0.590759)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ibleo"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_lfnja"]
 size = Vector3(1, 7.63306, 18.7156)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_kxl46"]
-size = Vector3(2.90576, 3.09204, 0.443237)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_r031h"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_5xfs8"]
 size = Vector3(1, 1, 0.0556641)
 
 [node name="Main" type="Node3D"]
@@ -25,18 +31,20 @@ script = ExtResource("1_05ku4")
 [node name="PerspectiveCamera" type="Camera3D" parent="."]
 transform = Transform3D(-0.0447458, 0.191398, -0.980492, 0, 0.981475, 0.19159, 0.998998, 0.00857285, -0.0439169, -0.762791, 0.71637, -0.510425)
 
+[node name="HUD" parent="." instance=ExtResource("3_ibleo")]
+
 [node name="Environment" type="Node3D" parent="."]
 
 [node name="Ground" type="MeshInstance3D" parent="Environment"]
 transform = Transform3D(4.99341, 0, 0, 0, 4.99341, 0, 0, 0, 4.99341, 0, 0, 0)
-mesh = SubResource("PlaneMesh_05ku4")
+mesh = SubResource("PlaneMesh_6n41t")
 skeleton = NodePath("../..")
 
 [node name="GroundSB" type="StaticBody3D" parent="Environment/Ground"]
 
 [node name="GroundCS" type="CollisionShape3D" parent="Environment/Ground/GroundSB"]
 transform = Transform3D(1, 0, 0, 0, 0.999595, -0.0284625, 0, 0.0284625, 0.999595, -0.0176661, 0.0207112, 0.0408186)
-shape = SubResource("BoxShape3D_6ljex")
+shape = SubResource("BoxShape3D_aupud")
 
 [node name="RV" parent="Environment" instance=ExtResource("2_6ljex")]
 transform = Transform3D(0.00497843, 0, 0.000463938, 0, 0.005, 0, -0.000463938, 0, 0.00497843, -0.306009, 0.489479, 0.593133)
@@ -45,13 +53,7 @@ transform = Transform3D(0.00497843, 0, 0.000463938, 0, 0.005, 0, -0.000463938, 0
 
 [node name="RVSides3D" type="CollisionShape3D" parent="Environment/RV/RVSB"]
 transform = Transform3D(25, 0, 4.76837e-06, 0, 25, 0, -4.76837e-06, 0, 25, 88.0262, -6.19507, -75.5817)
-shape = SubResource("BoxShape3D_ibleo")
-
-[node name="RVFrontsSB" type="StaticBody3D" parent="Environment/RV/RVSB"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/RV/RVSB/RVFrontsSB"]
-transform = Transform3D(49.9999, -0.110341, 0.000201225, 0.110341, 49.9999, 0.0173747, -0.000238419, -0.0173742, 50, -0.494415, 12.2231, -324.391)
-shape = SubResource("BoxShape3D_kxl46")
+shape = SubResource("BoxShape3D_lfnja")
 
 [node name="LeftWall" type="CSGBox3D" parent="Environment"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.236948, 0.530941, 1.23468)
@@ -61,11 +63,11 @@ size = Vector3(0.744499, 0.814564, 0.001)
 
 [node name="LeftWallCS" type="CollisionShape3D" parent="Environment/LeftWall/LeftWallSB"]
 transform = Transform3D(0.999996, 0, 0.00293216, 0, 1, 0, -0.00293216, 0, 0.999996, -0.0602166, 0, -0.021309)
-shape = SubResource("BoxShape3D_r031h")
+shape = SubResource("BoxShape3D_5xfs8")
 
 [node name="LeftWall3D" type="CollisionShape3D" parent="Environment/LeftWall/LeftWallSB"]
 transform = Transform3D(-0.124461, 0, -0.0115985, 0, 0.125, 0, 0.0115985, 0, -0.124461, 0.539627, -0.00433737, 1.05866)
-shape = SubResource("BoxShape3D_ibleo")
+shape = SubResource("BoxShape3D_lfnja")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Environment"]
 transform = Transform3D(0.489407, -0.862694, -0.127439, 0.590844, 0.220546, 0.776056, -0.641392, -0.455104, 0.617654, -0.29121, 1.28322, 0.948513)
@@ -73,7 +75,42 @@ transform = Transform3D(0.489407, -0.862694, -0.127439, 0.590844, 0.220546, 0.77
 [node name="SpotLight3D2" type="SpotLight3D" parent="Environment"]
 transform = Transform3D(0.387023, -0.888745, -0.245653, 0.300914, -0.13009, 0.944737, -0.871587, -0.439555, 0.217088, -0.29121, 1.27863, -0.494843)
 
-[node name="HUD" parent="." instance=ExtResource("3_ibleo")]
-
-[node name="Counter" parent="." instance=ExtResource("4_kxl46")]
+[node name="Counter" parent="Environment" instance=ExtResource("4_kxl46")]
 transform = Transform3D(-0.137212, 0, -0.0233719, 0, 0.15, 0, 0.0108783, 0, -0.294797, -0.19842, 0.197051, -1.00209)
+
+[node name="Ingredients" type="Node3D" parent="Environment"]
+
+[node name="Placemat" parent="Environment/Ingredients" instance=ExtResource("5_57nto")]
+transform = Transform3D(-0.0727935, 0, -0.0116677, 0, 0.05, 0, 0.00473925, 0, -0.179213, -0.0289381, 0.360507, 1.0341)
+
+[node name="BowlSlot" type="Marker3D" parent="Environment/Ingredients"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0289381, 0.410507, 1.0341)
+
+[node name="MixerSlot" type="Marker3D" parent="Environment/Ingredients"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0289381, 0.261564, 1.0341)
+
+[node name="Mixer" parent="Environment/Ingredients" instance=ExtResource("6_2w6h6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.126622, 0.242596, -0.886468)
+
+[node name="Bowl" parent="Environment/Ingredients" instance=ExtResource("7_4pa8k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.270729, 0.391539, -0.874232)
+
+[node name="CoffeeFilter" parent="Environment/Ingredients" instance=ExtResource("8_b4tec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.242659, 0.382407, -0.768519)
+
+[node name="Syringe" parent="Environment/Ingredients" instance=ExtResource("9_unsyy")]
+transform = Transform3D(1, 0, 0, 0, 0.10498, 0.994474, 0, -0.994474, 0.10498, -0.190761, 0.375796, -0.846813)
+
+[node name="Beaker" parent="Environment/Ingredients" instance=ExtResource("10_oas54")]
+transform = Transform3D(-0.135664, 0, -0.990755, 0, 1, 0, 0.990755, 0, -0.135664, -0.0683572, 0.395507, -0.683194)
+
+[node name="Gas" parent="Environment/Ingredients" instance=ExtResource("11_vhhww")]
+transform = Transform3D(-0.172788, 0, -0.469195, 0, 0.5, 0, 0.469195, 0, -0.172788, -0.108508, 0.414187, -0.783204)
+
+[node name="PetriDish" parent="Environment/Ingredients" instance=ExtResource("12_ixh3p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.110104, 0.366537, -0.597098)
+
+[node name="Erlenmeyer" parent="Environment/Ingredients" instance=ExtResource("13_pvtt0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0504773, 0.37842, -0.547707)
