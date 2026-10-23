@@ -3,7 +3,7 @@ extends CanvasLayer
 @onready var instructions_label : RichTextLabel = %Instructions
 @onready var timer_label : RichTextLabel = $Navbar/Timer
 
-const ROUND_TIME := 240.0 # 4:00
+const ROUND_TIME := 120.0 # 2:00
 
 var timer_running := false
 var cooking_started := false
@@ -49,6 +49,9 @@ func _process(delta: float) -> void:
 		_update_cooking_instructions()
 
 func _update_cooking_instructions() -> void:
+	if Gamestate.order_prompt != "":
+		instructions_label.text = Gamestate.order_prompt
+		return
 	if Gamestate.done_mashing:
 		instructions_label.text = "The mixture is ready!"
 	elif Gamestate.mixer_placed:

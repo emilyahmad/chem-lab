@@ -1,6 +1,6 @@
 extends Node3D
 
-const MIXER_LIFT := 0.05
+const MIXER_LIFT := 0.024
 
 @onready var mixer := $Ingredients/Mixer
 
