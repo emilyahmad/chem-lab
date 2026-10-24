@@ -436,20 +436,22 @@ func _build_gas() -> void:
 	_cyl(0.004, 0.004, 0.02, steel, Vector3(0.049, 0.0, 0), Vector3(0, 0, 90))
 	_cyl(0.0058, 0.0058, 0.004, steel, Vector3(0.0412, 0.0, 0), Vector3(0, 0, 90))
 
-# --- mixer: red hand mixer with chrome and white trim ------------------------
+# --- mixer: stone pestle with a round crushing head and a knob grip ----------
 
 func _build_mixer() -> void:
-	_mesh_instance().material_override = _mat(Color(0.8, 0.12, 0.1), 0.25, 0.1)
-	var black := _mat(Color(0.08, 0.08, 0.09), 0.5)
-	var chrome := _mat(Color(0.82, 0.84, 0.86), 0.15, 0.9)
-	var white := _mat(Color(0.97, 0.97, 0.97), 0.4)
-	_cyl(0.0152, 0.0152, 0.008, black, Vector3(0, 0.2038, 0))
-	_ring(0.0335, 0.0015, chrome, Vector3(0, 0.1075, 0))
-	_ring(0.0204, 0.0011, white, Vector3(0, 0.15, 0))
-	_ring(0.0204, 0.0011, white, Vector3(0, 0.165, 0))
-	# Speed knob on the side
-	_cyl(0.0045, 0.0045, 0.006, black, Vector3(0.0215, 0.185, 0), Vector3(0, 0, 90))
-	_box(Vector3(0.0012, 0.0035, 0.0012), white, Vector3(0.0252, 0.185, 0))
+	# The imported hand-mixer mesh is replaced by primitives; the base is still 0.1034 below the origin
+	_mesh_instance().mesh = null
+	var stone := _mat(Color(0.74, 0.72, 0.68), 0.85)
+	var head := _mat(Color(0.6, 0.58, 0.55), 0.9)
+	_sphere(0.021, head, Vector3(0, 0.1244, 0))
+	_cyl(0.0105, 0.0165, 0.06, stone, Vector3(0, 0.16, 0))
+	_sphere(0.0155, stone, Vector3(0, 0.1923, 0))
+	var collision: CollisionShape3D = find_children("*", "CollisionShape3D", false, false)[0]
+	var shape := CylinderShape3D.new()
+	shape.radius = 0.02
+	shape.height = 0.1044
+	collision.shape = shape
+	collision.transform = Transform3D(Basis(), Vector3(0, 0.1556, 0))
 
 # --- petri dish: glass dish, agar with bacterial colonies, lid ---------------
 

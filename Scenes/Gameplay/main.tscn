@@ -12,7 +12,6 @@
 [ext_resource type="PackedScene" uid="uid://bdlmjph6evsrm" path="res://Scenes/Models/beaker.tscn" id="10_qpfo2"]
 [ext_resource type="PackedScene" uid="uid://d23aneqqbd6va" path="res://Scenes/Models/petri_dish.tscn" id="12_yb21e"]
 [ext_resource type="PackedScene" uid="uid://c810jhhmc1lss" path="res://Scenes/Models/erlenmeyer.tscn" id="13_aees8"]
-[ext_resource type="PackedScene" path="res://Scenes/Models/cube.tscn" id="30_cube"]
 [ext_resource type="PackedScene" uid="uid://xikglar4ybf2" path="res://Scenes/Gameplay/player.tscn" id="14_mie3u"]
 [ext_resource type="Script" uid="uid://ccag4pjt2q57b" path="res://Scripts/van_window.gd" id="20_vanwin"]
 [ext_resource type="Texture2D" uid="uid://hbpspm1pj7t0" path="res://Assets/Environment/rogland_clear_night_4k.exr" id="21_sky"]
@@ -169,52 +168,49 @@ transform = Transform3D(-0.08439573, 0, -0.019031232, 0, 0.14999999, 0, 0.006690
 transform = Transform3D(-0.0727935, 0, -0.0116677, 0, 0.05, 0, 0.00473925, 0, -0.179213, -0.0289381, 0.360507, 1.0341)
 
 [node name="Mixer" parent="Ingredients" unique_id=1825127672 instance=ExtResource("6_i3aeo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11032, 0.25773, -0.79872)
+transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872, -0.129484, 0.25773, -0.419625)
 
 [node name="Bowl" parent="Ingredients" unique_id=1278162187 instance=ExtResource("8_0c07c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24, 0.4017, -0.8)
+transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872, -0.138968, 0.4017, -0.539249)
 
 [node name="Syringe" parent="Ingredients" unique_id=546422444 instance=ExtResource("10_iaow0")]
-transform = Transform3D(1, 0, 0, 0, 0.10498, 0.994474, 0, -0.994474, 0.10498, -0.0758, 0.38117, -0.45345)
+transform = Transform3D(0.996872, -0.0785966, 0.00829692, 0, 0.10498, 0.994474, -0.0790333, -0.991363, 0.104652, -0.082064, 0.38117, 0.178499)
 
 [node name="Beaker" parent="Ingredients" unique_id=577489874 instance=ExtResource("10_qpfo2")]
-transform = Transform3D(-0.135664, 0, -0.990755, 0, 1, 0, 0.990755, 0, -0.135664, -0.0616, 0.38595, -0.28334)
+transform = Transform3D(-0.056937, 0, -0.998378, 0, 1, 0, 0.998378, 0, -0.056937, -0.157936, 0.38595, -0.778499)
 
 [node name="ReagentB7" parent="Ingredients" instance=ExtResource("10_qpfo2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.38595, -0.66)
+transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872, -0.16742, 0.38595, -0.898123)
 label_text = "Reagent B-7"
 contents_color = Color(0.85, 0.93, 1, 0.25)
 contents_powder = false
 
 [node name="CatalystAzure" parent="Ingredients" instance=ExtResource("10_qpfo2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.17, 0.38595, -0.66)
+transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872, -0.12, 0.38595, -0.3)
 label_text = "Catalyst Azure"
 contents_color = Color(0.15, 0.4, 0.95, 1)
 contents_powder = true
 
 [node name="CompoundK" parent="Ingredients" instance=ExtResource("10_qpfo2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.38595, -0.58)
+transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872, -0.148452, 0.38595, -0.658874)
 label_text = "Compound K"
 contents_color = Color(0.96, 0.96, 0.94, 1)
 contents_powder = true
 
 [node name="QuenchSolution" parent="Ingredients" instance=ExtResource("10_qpfo2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.17, 0.38595, -0.58)
+transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872, -0.091548, 0.38595, 0.0588739)
 label_text = "Quench solution"
 contents_color = Color(0.95, 0.9, 0.5, 0.45)
 contents_powder = false
 
 [node name="Burner" parent="Ingredients" instance=ExtResource("burner_scene")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.17, 0.391, -0.28)
+transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872, -0.101032, 0.391, -0.0607507)
 
 [node name="PetriDish" parent="Ingredients" unique_id=916706472 instance=ExtResource("12_yb21e")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03257, 0.3674, 0.06)
+transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872, -0.07258, 0.3674, 0.298123)
 
 [node name="Erlenmeyer" parent="Ingredients" unique_id=1425048613 instance=ExtResource("13_aees8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.047, 0.3798, -0.11)
-
-[node name="Cube" parent="Ingredients" instance=ExtResource("30_cube")]
-transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, -0.115, 0.361, 0.1)
+transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872, -0.110516, 0.3798, -0.180375)
 
 [node name="Player" parent="." unique_id=954919428 instance=ExtResource("14_mie3u")]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -0.452766, 0.347356, 0.101944)

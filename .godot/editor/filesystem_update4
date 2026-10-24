@@ -21,3 +21,5 @@ res://Scripts/van_window.gd
 res://Scripts/crush_step.gd
 res://Scripts/drop_step.gd
 res://Scripts/heat_step.gd
+res://Scripts/grass_patch.gd
+res://Scripts/desert.gd

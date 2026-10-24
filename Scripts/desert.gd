@@ -8,6 +8,8 @@ extends Node3D
 # van's interior lighting is left alone.
 
 const DESERT_LAYER := 2
+const WALL_X := 79.0 # RV-local x of the side walls
+const VAN_Z := Vector2(-335.0, 120.0) # RV-local extent along the van
 const WEED_INTERVAL := Vector2(15.0, 30.0) # seconds between tumbleweeds
 
 const SAND := Color(0.62, 0.5, 0.36)
@@ -21,16 +23,20 @@ const MESA_BANDS := [Color(0.55, 0.3, 0.2), Color(0.66, 0.42, 0.28), Color(0.5, 
 @export var ground_path: NodePath = ^"../Ground"
 @export var world_env_path: NodePath = ^"../../WorldEnvironment"
 @export var seed_value := 4
+# Scatter all the way round the van (not just in front of the window), keeping
+# clear of the van's own footprint. For views that look at the van from outside.
+@export var surround := false
 
 var rng := RandomNumberGenerator.new()
 var window_pos: Vector3
 var weeds: Array[Dictionary] = []
 var next_weed := 4.0
+var rv: Node3D
 var facing: Vector3 # horizontal direction the side window looks out along
 
 func _ready() -> void:
 	rng.seed = seed_value
-	var rv: Node3D = get_node(rv_path)
+	rv = get_node(rv_path)
 	facing = (rv.global_transform.basis.orthonormalized() * Vector3.RIGHT)
 	facing.y = 0.0
 	facing = facing.normalized()
@@ -41,19 +47,20 @@ func _ready() -> void:
 	_build_moon()
 	_build_fog()
 
-	for i in 14:
+	var k := 2 if surround else 1 # more of everything when it's spread round the van
+	for i in 14 * k:
 		_saguaro(_spot(1.6, 11.0, 55.0))
-	for i in 18:
+	for i in 18 * k:
 		_barrel(_spot(0.9, 7.0, 55.0))
-	for i in 10:
+	for i in 10 * k:
 		_prickly_pear(_spot(0.9, 8.0, 55.0))
-	for i in 70:
+	for i in 70 * k:
 		_rock(_spot(0.9, 14.0, 60.0), rng.randf_range(0.03, 0.2))
-	for i in 55:
+	for i in 55 * k:
 		_shrub(_spot(0.9, 12.0, 60.0))
-	for i in 10:
+	for i in 10 * k:
 		_dune(_spot(10.0, 40.0, 70.0))
-	for i in 8:
+	for i in 8 * k:
 		_mesa(_spot(28.0, 75.0, 70.0))
 
 # --- environment -----------------------------------------------------------
@@ -110,10 +117,29 @@ func _build_fog() -> void:
 
 # A random ground point in a fan in front of the window
 func _spot(min_dist: float, max_dist: float, half_angle_deg: float) -> Vector3:
+	if surround:
+		return _surround_spot(min_dist, max_dist)
 	var d := lerpf(min_dist, max_dist, pow(rng.randf(), 1.4))
 	var a := deg_to_rad(rng.randf_range(-half_angle_deg, half_angle_deg))
 	var dir := facing.rotated(Vector3.UP, a)
 	return window_pos + dir * d
+
+# Scenery laid out parallel to the van instead of fanned from the window: a
+# distance out from the nearest wall, on either side, spread along the van's
+# length and widening a little with distance so the far rows frame it.
+func _surround_spot(min_dist: float, max_dist: float) -> Vector3:
+	var s := rv.global_transform.basis.get_scale().x
+	var along := rv.global_transform.basis.orthonormalized() * Vector3.BACK
+	along.y = 0.0
+	along = along.normalized()
+	var centre := rv.global_transform * Vector3(0, 0, (VAN_Z.x + VAN_Z.y) * 0.5)
+	centre.y = 0.0
+	var half_len := (VAN_Z.y - VAN_Z.x) * 0.5 * s
+	var half_wide := WALL_X * s
+	var d := lerpf(min_dist, max_dist, pow(rng.randf(), 1.4))
+	var side := 1.0 if rng.randf() < 0.5 else -1.0
+	var reach := half_len + d * 0.6
+	return centre + facing * side * (half_wide + d) + along * rng.randf_range(-reach, reach)
 
 func _mat(color: Color, roughness := 0.9) -> StandardMaterial3D:
 	var m := StandardMaterial3D.new()
@@ -264,7 +290,12 @@ func _dune(at: Vector3) -> void:
 	var w := rng.randf_range(6.0, 16.0)
 	var mi := _instance(_sphere(w, 0.12), _mat(SAND.darkened(0.08), 1.0), at + Vector3(0, 0, 0))
 	mi.scale = Vector3(1.0, 1.0, rng.randf_range(0.5, 1.0))
-	mi.rotation.y = facing.signed_angle_to(Vector3.RIGHT, Vector3.UP) + rng.randf_range(-0.4, 0.4)
+	if surround:
+		# Long axis runs parallel to the van
+		var along := rv.global_transform.basis.orthonormalized() * Vector3.BACK
+		mi.rotation.y = atan2(-along.z, along.x) + rng.randf_range(-0.2, 0.2)
+	else:
+		mi.rotation.y = facing.signed_angle_to(Vector3.RIGHT, Vector3.UP) + rng.randf_range(-0.4, 0.4)
 	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 
 # Flat-topped butte: a few stacked, slightly tapering bands of rock

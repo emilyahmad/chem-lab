@@ -90,6 +90,7 @@ func _unhandled_input(event):
 		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-60), deg_to_rad(70))
 
 const HELD_SCALE := 1.5
+const MIXER_CARRY_DROP := 0.17 # the pestle's origin is far below its body, so lower it to bring the body into view
 const HELD_LERP_SPEED := 18.0
 
 func _grab(item: RigidBody3D) -> void:
@@ -251,7 +252,10 @@ func _physics_process(delta: float) -> void:
 
 	if held_object:
 		var t := clampf(HELD_LERP_SPEED * delta, 0.0, 1.0)
-		held_object.global_position = held_object.global_position.lerp(%CarryObjectMarker.global_position, t)
+		var carry_pos: Vector3 = %CarryObjectMarker.global_position
+		if held_object.get("kind") == "mixer":
+			carry_pos.y -= MIXER_CARRY_DROP * held_object.get_meta("rest_scale").x * HELD_SCALE
+		held_object.global_position = held_object.global_position.lerp(carry_pos, t)
 		var target_basis: Basis = %CarryObjectMarker.global_transform.basis.orthonormalized()
 		# Labeled beakers carry their label on local -x; turn that side toward the camera (+z of the marker)
 		if "label_text" in held_object and held_object.label_text != "":
