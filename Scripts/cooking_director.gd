@@ -6,12 +6,18 @@ extends Node
 
 const SLOT_GAP := 0.02 # between items on the placemat, along its long side
 const RETURN_TIME := 0.5
+const BASE_PAY := 200.0 # a perfect batch of full size
+const STEP_NAMES := ["Pouring", "Crushing", "Combining", "Heating", "Dosing", "Crystals"]
 
 # Step UIs by step type; each is a CanvasLayer with start(step, items) (items: name -> node)
 # and a finished(score) signal
 const STEP_UIS := {
 	"pour": preload("res://Scripts/pour_step.gd"),
 	"crush": preload("res://Scripts/crush_step.gd"),
+	"combine": preload("res://Scripts/combine_step.gd"),
+	"heat": preload("res://Scripts/heat_step.gd"),
+	"drop": preload("res://Scripts/drop_step.gd"),
+	"crystallize": preload("res://Scripts/crystal_step.gd"),
 }
 
 var player: CharacterBody3D
@@ -34,6 +40,7 @@ func _ready() -> void:
 	player.item_picked.connect(_on_item_picked)
 	for customer in get_tree().get_nodes_in_group("window_enemy"):
 		customer.order_taken.connect(begin)
+		customer.served.connect(reset)
 
 # The order was taken: start the first step
 func begin() -> void:
@@ -44,13 +51,36 @@ func begin() -> void:
 	Gamestate.step_scores.clear()
 	_next_step()
 
+# Purity is the average of the step scores; the payout also depends on the batch size
+func _grade() -> void:
+	Gamestate.cooking_prompt = ""
+	var total := 0.0
+	for score in Gamestate.step_scores:
+		total += score
+	Gamestate.last_purity = total / maxf(Gamestate.step_scores.size(), 1)
+	Gamestate.last_payout = roundi(BASE_PAY * Gamestate.last_purity * Gamestate.batch_yield)
+	player.controls_locked = true
+	var card := GradeCard.new()
+	add_child(card)
+	card.show_result(Gamestate.last_purity, Gamestate.batch_yield, Gamestate.last_payout, STEP_NAMES, Gamestate.step_scores)
+	await card.closed
+	card.queue_free()
+	player.controls_locked = false
+	Gamestate.recipe_active = false
+	Gamestate.recipe_complete = true
+
+# The dish has been served: ready for the next order
+func reset() -> void:
+	step_index = -1
+	placed.clear()
+	Gamestate.recipe_complete = false
+	Gamestate.step_scores.clear()
+
 func _next_step() -> void:
 	step_index += 1
 	if step_index >= Recipe.STEPS.size():
 		_return_items([])
-		Gamestate.cooking_prompt = ""
-		Gamestate.recipe_active = false
-		Gamestate.recipe_complete = true
+		_grade()
 		return
 	var step: Dictionary = Recipe.STEPS[step_index]
 	_return_items(step["required"])

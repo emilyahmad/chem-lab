@@ -15,3 +15,9 @@ res://Scripts/cooking_director.gd
 res://Scripts/recipe.gd
 res://Scripts/step_stub.gd
 res://Scripts/pour_step.gd
+res://Scripts/interactable_proxy.gd
+res://Scripts/step_util.gd
+res://Scripts/van_window.gd
+res://Scripts/crush_step.gd
+res://Scripts/drop_step.gd
+res://Scripts/heat_step.gd

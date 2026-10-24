@@ -5,7 +5,7 @@ extends RigidBody3D
 # space, so it follows the item when it is picked up, enlarged or moved.
 # Positions are in the units the models were measured in (see each builder).
 
-@export_enum("beaker", "bowl", "coffee_filter", "erlenmeyer", "gas", "mixer", "petri_dish", "syringe") var kind := "beaker"
+@export_enum("beaker", "bowl", "burner", "coffee_filter", "erlenmeyer", "gas", "mixer", "petri_dish", "syringe") var kind := "beaker"
 
 # Beaker only: when label_text is set the beaker gets a paper label with that
 # text (on the side facing -x) and is filled with contents_color, as a powder
@@ -234,7 +234,10 @@ const POWDER_MOUND_H := 0.014
 var _chunks: Array[MeshInstance3D] = []
 var _chunk_seeds: Array[Vector3] = [] # per chunk: angle, radius fraction, size jitter
 
+var crush_level := 0.0
+
 func set_crush(level: float, amount: float, color := contents_color) -> void:
+	crush_level = level
 	if _chunks.is_empty():
 		var rng := RandomNumberGenerator.new()
 		rng.seed = 7
@@ -279,6 +282,134 @@ func _build_erlenmeyer() -> void:
 	_cyl(0.0105, 0.0085, 0.012, _mat(Color(0.72, 0.52, 0.3), 0.9), Vector3(0, 0.0533, 0))
 	_box(Vector3(0.016, 0.012, 0.0006), _mat(Color(0.97, 0.95, 0.88), 0.8), Vector3(0, -0.003, 0.0301))
 	_box(Vector3(0.012, 0.002, 0.0007), _mat(Color(0.8, 0.12, 0.1), 0.6), Vector3(0, -0.0005, 0.0302))
+
+# Contents of the flask: a cone of liquid with a few streaks inside that turn when swirled.
+# `frac` is how full it is (0..1).
+const FLASK_FLOOR_Y := -0.0165
+const FLASK_FILL_H := 0.045
+const FLASK_RADIUS := 0.0268
+
+var mix_frac := 0.0
+var mix_color := Color(1, 1, 1, 0)
+var _mix: MeshInstance3D
+var _swirl: Node3D
+
+func set_mix(frac: float, color: Color) -> void:
+	mix_frac = clampf(frac, 0.0, 1.0)
+	mix_color = color
+	if _mix == null:
+		var mat := _mat(color, 0.1, 0.0, 0)
+		mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		_mix = _cyl(FLASK_RADIUS, FLASK_RADIUS, 0.001, mat, Vector3.ZERO)
+		_swirl = Node3D.new()
+		add_child(_swirl)
+		var streak := _mat(Color(1, 1, 1, 0.3), 0.2)
+		for i in 3:
+			var arm := BoxMesh.new()
+			arm.size = Vector3(0.012, 0.03, 0.0012)
+			var angle := i * TAU / 3.0
+			_add(arm, streak, Vector3(cos(angle), 0, -sin(angle)) * 0.009, Vector3(0, rad_to_deg(angle), 0), _swirl)
+		_swirl.visible = false
+	var h := mix_frac * FLASK_FILL_H
+	var mesh := _mix.mesh as CylinderMesh
+	(mesh.material as StandardMaterial3D).albedo_color = color
+	mesh.height = maxf(h, 0.001)
+	mesh.top_radius = lerpf(FLASK_RADIUS, 0.0105, clampf(h / 0.05, 0.0, 1.0))
+	_mix.position.y = FLASK_FLOOR_Y + h / 2.0
+	_mix.visible = h > 0.0003
+	_swirl.position.y = FLASK_FLOOR_Y + h / 2.0
+	_swirl.scale.y = maxf(h / 0.03, 0.01)
+
+# Turns the streaks inside the liquid; they only show while `strength` is above zero
+func set_swirl(angle: float, strength: float) -> void:
+	if _swirl:
+		_swirl.rotation.y = angle
+		_swirl.visible = strength > 0.01 and mix_frac > 0.02
+
+# --- petri dish contents: a thin layer of liquid, then crystals growing out of it --------
+
+const DISH_FLOOR_Y := -0.0045
+const DISH_RADIUS := 0.019
+const CRYSTALS := 70
+
+var _dish_liquid: MeshInstance3D
+var _crystals: Array[MeshInstance3D] = []
+var _crystal_seeds: Array[Vector4] = [] # per crystal: x, z, length, random
+
+func set_dish_liquid(color: Color, amount: float) -> void:
+	if _dish_liquid == null:
+		var mat := _mat(color, 0.05, 0.0, 0)
+		mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		_dish_liquid = _cyl(DISH_RADIUS, DISH_RADIUS, 0.002, mat, Vector3(0, DISH_FLOOR_Y + 0.001, 0))
+	(_dish_liquid.mesh.material as StandardMaterial3D).albedo_color = color
+	_dish_liquid.visible = amount > 0.02
+	_dish_liquid.scale = Vector3(1, clampf(amount, 0.0, 1.0), 1)
+
+# `t` is how far the crystals have grown (0..1); they spread outwards from the middle.
+# `impurity` (0..1) is the share of them that come out murky brown.
+func set_crystals(t: float, impurity: float) -> void:
+	if _crystals.is_empty():
+		var rng := RandomNumberGenerator.new()
+		rng.seed = 11
+		for i in CRYSTALS:
+			var angle := rng.randf() * TAU
+			var dist := sqrt(rng.randf()) * (DISH_RADIUS - 0.002)
+			_crystal_seeds.append(Vector4(cos(angle) * dist, sin(angle) * dist, 0.0035 + rng.randf() * 0.006, rng.randf()))
+			var mesh := BoxMesh.new()
+			mesh.size = Vector3(0.0012, 0.001, 0.0012)
+			var mat := _mat(Color(0.9, 0.95, 1.0), 0.15)
+			var crystal := _add(mesh, mat, Vector3.ZERO, Vector3(rng.randf_range(-25, 25), rng.randf() * 360.0, rng.randf_range(-25, 25)))
+			_crystals.append(crystal)
+	for i in CRYSTALS:
+		var seed_v := _crystal_seeds[i]
+		var dist := Vector2(seed_v.x, seed_v.y).length() / DISH_RADIUS
+		var g := clampf((t * 1.4 - dist * 0.6) / 0.5, 0.0, 1.0)
+		var length := maxf(seed_v.z * g, 0.0001)
+		(_crystals[i].mesh as BoxMesh).size = Vector3(0.0012, length, 0.0012)
+		_crystals[i].position = Vector3(seed_v.x, DISH_FLOOR_Y + length / 2.0, seed_v.y)
+		_crystals[i].visible = g > 0.01
+		var murky := seed_v.w < impurity
+		(_crystals[i].mesh.material as StandardMaterial3D).albedo_color = Color(0.5, 0.38, 0.18) if murky else Color(0.88, 0.94, 1.0)
+
+# --- burner: Bunsen burner with a tripod and a flame that grows with `set_flame` ---------
+
+var _flame: MeshInstance3D
+var _flame_light: OmniLight3D
+
+func _build_burner() -> void:
+	var steel := _mat(Color(0.7, 0.72, 0.75), 0.3, 0.8)
+	var black := _mat(Color(0.08, 0.08, 0.09), 0.5)
+	var brass := _mat(Color(0.8, 0.6, 0.25), 0.35, 0.8)
+	_cyl(0.024, 0.024, 0.004, black, Vector3(0, -0.028, 0))
+	_cyl(0.008, 0.013, 0.012, steel, Vector3(0, -0.02, 0))
+	_cyl(0.004, 0.004, 0.04, steel, Vector3(0, 0.006, 0))
+	_cyl(0.0065, 0.0065, 0.008, brass, Vector3(0, -0.002, 0))
+	# Tripod the flask stands on
+	_ring(0.02, 0.0015, steel, Vector3(0, 0.0475, 0))
+	for i in 3:
+		var angle := i * TAU / 3.0
+		_cyl(0.0012, 0.0012, 0.078, steel, Vector3(cos(angle), 0, sin(angle)) * 0.0195 + Vector3(0, 0.011, 0))
+	var flame_mat := _mat(Color(0.35, 0.55, 1.0, 0.7), 0.4)
+	flame_mat.emission_enabled = true
+	flame_mat.emission = Color(0.3, 0.5, 1.0)
+	flame_mat.emission_energy_multiplier = 2.0
+	_flame = _cyl(0.0, 0.006, 0.022, flame_mat, Vector3(0, 0.035, 0))
+	_flame.visible = false
+	_flame_light = OmniLight3D.new()
+	_flame_light.light_color = Color(0.6, 0.7, 1.0)
+	_flame_light.omni_range = 0.2
+	_flame_light.position = Vector3(0, 0.04, 0)
+	_flame_light.visible = false
+	add_child(_flame_light)
+
+# 0 turns the flame off; 1 is full height
+func set_flame(level: float) -> void:
+	level = clampf(level, 0.0, 1.0)
+	_flame.visible = level > 0.02
+	_flame_light.visible = _flame.visible
+	_flame_light.light_energy = level * 0.6
+	_flame.scale = Vector3(lerpf(0.7, 1.2, level), lerpf(0.4, 1.5, level), lerpf(0.7, 1.2, level))
+	_flame.position.y = 0.024 + 0.011 * _flame.scale.y
 
 # --- gas: yellow gas unit with hazard stripes, valve, gauge, nozzle ----------
 

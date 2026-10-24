@@ -24,3 +24,23 @@ static func move_to(node: Node3D, to: Transform3D, seconds: float) -> Tween:
 				from.origin.lerp(to.origin, t)), 0.0, 1.0, seconds) \
 			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	return tween
+
+# Outlined white text for the step UIs
+static func make_label(text: String, font_size := 26) -> Label:
+	var label := Label.new()
+	label.text = text
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.add_theme_font_size_override("font_size", font_size)
+	label.add_theme_color_override("font_outline_color", Color.BLACK)
+	label.add_theme_constant_override("outline_size", 8)
+	return label
+
+# A StepMeter centred along the bottom of the screen, `from_bottom` px up from the edge
+static func make_meter(width: float, from_bottom: float, height := 28.0) -> StepMeter:
+	var meter := StepMeter.new()
+	meter.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	meter.offset_left = -width / 2.0
+	meter.offset_right = width / 2.0
+	meter.offset_top = -from_bottom - height
+	meter.offset_bottom = -from_bottom
+	return meter

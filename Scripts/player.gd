@@ -32,6 +32,7 @@ var sprint_exhausted := false
 
 signal item_placed(item: Node3D)
 signal item_picked(item: Node3D)
+signal dish_served
 
 # Set by cutscenes/dialogue to stop movement and look input
 var controls_locked := false
@@ -201,8 +202,14 @@ func _physics_process(delta: float) -> void:
 	var looking_at_placemat = hit_object != null and hit_object.is_in_group("placemat")
 	var looking_at_interactable = hit_object != null and hit_object.is_in_group("interactable")
 
+	# The finished dish can be handed to the customer through the open window
+	var serving: bool = held_object != null and held_object.name == "PetriDish" and Gamestate.recipe_complete \
+			and looking_at_interactable and hit_object.has_method("accepts_dish") and hit_object.accepts_dish()
+
 	if held_object:
-		if looking_at_placemat:
+		if serving:
+			interact_label.text = "[E] Hand over the dish"
+		elif looking_at_placemat:
 			interact_label.text = "[E] Place"
 		elif looking_at_pickable:
 			interact_label.text = "[E] Swap for " + _display_name(hit_object)
@@ -217,7 +224,10 @@ func _physics_process(delta: float) -> void:
 		interact_label.visible = looking_at_pickable
 
 	if Input.is_action_just_pressed("pick_up"):
-		if held_object and looking_at_pickable:
+		if serving:
+			_release_held()
+			dish_served.emit()
+		elif held_object and looking_at_pickable:
 			# Swap: the held item takes the other item's spot
 			# (same x/z, but at the height the held item rests at)
 			var other = hit_object

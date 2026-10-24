@@ -8,3 +8,7 @@ func get_prompt() -> String:
 
 func interact() -> void:
 	target.interact()
+
+# Whether a finished dish can be handed over here (the window, once it's open)
+func accepts_dish() -> bool:
+	return target.has_method("accepts_dish") and target.accepts_dish()

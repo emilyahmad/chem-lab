@@ -21,6 +21,10 @@ var cooking_prompt = "" # instruction for the current recipe step, shown by the 
 var recipe_active = false # an order is being cooked
 var recipe_complete = false
 var step_scores: Array = [] # 0..1 accuracy per finished step
+var batch_yield = 0.0 # 0..1 size of the batch, set when the crystals are harvested
+var last_purity = 0.0 # 0..1 grade of the dish waiting to be served
+var last_payout = 0
+var money = 0
 
 # Set once the player first picks up the cube
 var cube_picked = false

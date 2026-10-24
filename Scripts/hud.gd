@@ -7,12 +7,23 @@ var timer_expired := false
 var cooking_started := false
 var intro_skipped := false
 var skip_hint : Label
+var money_label : Label
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	instructions_label.text = ""
 	_place_instructions()
 	_update_timer_label()
+
+	money_label = Label.new()
+	money_label.add_theme_font_size_override("font_size", 40)
+	money_label.add_theme_color_override("font_outline_color", Color.BLACK)
+	money_label.add_theme_constant_override("outline_size", 8)
+	money_label.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	money_label.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	money_label.offset_right = -20.0
+	money_label.offset_top = 8.0
+	add_child(money_label)
 
 	skip_hint = Label.new()
 	skip_hint.text = "Press [SPACE] to skip"
@@ -36,6 +47,7 @@ func _intro_wait(seconds: float) -> bool:
 	return not intro_skipped
 
 func _process(delta: float) -> void:
+	money_label.text = "$%d" % Gamestate.money
 	instructions_label.visible = not Gamestate.in_dialogue
 	if Gamestate.round == 1:
 		Gamestate.round = 2
@@ -90,7 +102,7 @@ func _update_cooking_instructions() -> void:
 	if Gamestate.cooking_prompt != "":
 		instructions_label.text = Gamestate.cooking_prompt
 	elif Gamestate.recipe_complete:
-		instructions_label.text = "Hand the dish to the customer at the window"
+		instructions_label.text = "Carry the dish to the window and hand it to the customer"
 	elif Gamestate.cube_picked:
 		instructions_label.text = "Serve customer"
 	elif Gamestate.recipe_active:

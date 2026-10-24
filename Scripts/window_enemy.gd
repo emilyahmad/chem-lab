@@ -25,6 +25,9 @@ const ORDER_DIALOGUE := [
 
 signal arrived
 signal order_taken
+signal served
+
+enum Phase { IDLE, ORDER, HANDOFF }
 
 @export var rv_path: NodePath = ^"../RV"
 @export var window_path: NodePath = ^"../VanWindow"
@@ -45,6 +48,7 @@ var walking := false
 var van_window: Node
 var dialogue_box: CanvasLayer
 var waiting_for_window := false
+var phase := Phase.IDLE
 
 func _ready() -> void:
 	var rv: Node3D = get_node(rv_path)
@@ -79,7 +83,9 @@ func _ready() -> void:
 	add_to_group("window_enemy")
 	dialogue_box = DIALOGUE_SCENE.instantiate()
 	add_child(dialogue_box)
-	dialogue_box.finished.connect(order_taken.emit)
+	dialogue_box.finished.connect(_on_dialogue_finished)
+	# The player is added after this node, so find it once the scene is ready
+	get_tree().process_frame.connect(_connect_player, CONNECT_ONE_SHOT)
 	van_window.fully_opened.connect(_on_window_opened)
 
 	if start_delay > 0.0:
@@ -107,6 +113,11 @@ func _on_arrived() -> void:
 		waiting_for_window = true
 		Gamestate.order_prompt = "A customer has arrived, open the window to take their order"
 
+func _connect_player() -> void:
+	var player := get_tree().get_first_node_in_group("player")
+	if player:
+		player.dish_served.connect(_on_dish_served)
+
 func _on_window_opened() -> void:
 	if waiting_for_window:
 		_start_dialogue()
@@ -114,7 +125,43 @@ func _on_window_opened() -> void:
 func _start_dialogue() -> void:
 	waiting_for_window = false
 	Gamestate.order_prompt = ""
+	phase = Phase.ORDER
 	dialogue_box.start(ORDER_DIALOGUE)
+
+func _on_dialogue_finished() -> void:
+	match phase:
+		Phase.ORDER:
+			phase = Phase.IDLE
+			order_taken.emit()
+		Phase.HANDOFF:
+			phase = Phase.IDLE
+			Gamestate.money += Gamestate.last_payout
+			served.emit()
+
+# The customer reacts to the batch's purity, then pays
+func _on_dish_served() -> void:
+	phase = Phase.HANDOFF
+	var purity: float = Gamestate.last_purity
+	var lines: Array
+	if purity >= 0.85:
+		lines = [
+			{"speaker": "Player", "text": "Here you go. Fresh."},
+			{"speaker": "Customer", "text": "...This is perfect. I've never seen it this clean."},
+			{"speaker": "Customer", "text": "Here. You've earned every cent: $%d." % Gamestate.last_payout},
+		]
+	elif purity >= 0.6:
+		lines = [
+			{"speaker": "Player", "text": "Here you go."},
+			{"speaker": "Customer", "text": "Hm. Not bad. It'll do."},
+			{"speaker": "Customer", "text": "$%d. Don't spend it all in one place." % Gamestate.last_payout},
+		]
+	else:
+		lines = [
+			{"speaker": "Player", "text": "Here you go."},
+			{"speaker": "Customer", "text": "This is weak. I could have done better myself."},
+			{"speaker": "Customer", "text": "$%d. Take it or leave it." % Gamestate.last_payout},
+		]
+	dialogue_box.start(lines)
 
 # Placeholder: a dark hunched silhouette with pale eyes
 func _placeholder_texture() -> Texture2D:

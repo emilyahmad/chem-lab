@@ -79,6 +79,7 @@ func start(step: Dictionary, items: Dictionary) -> void:
 	capacity_ml = params["capacity_ml"]
 	flow_ml_s = params["flow_ml_s"]
 	color = source.contents_color
+	target.contents_color = color # later steps read the liquid's colour from the beaker
 	source_start_ml = source.fill_ml
 	source_home = source.global_transform
 	pour_transform = StepUtil.tilt_over(source, target, TILT_DEG)

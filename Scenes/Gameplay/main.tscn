@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://dvk8gs4frpiii"]
 
+[ext_resource type="PackedScene" path="res://Scenes/Models/burner.tscn" id="burner_scene"]
 [ext_resource type="Script" uid="uid://bchmfiods27cm" path="res://Scripts/cooking.gd" id="1_35xla"]
 [ext_resource type="PackedScene" uid="uid://cdnc8ghjjyyaf" path="res://Assets/Models/Outside/RV/scene.gltf" id="1_qc4db"]
 [ext_resource type="PackedScene" uid="uid://bi8m3235m38kx" path="res://Scenes/UI/HUD.tscn" id="2_ys1qc"]
@@ -202,6 +203,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.17, 0.38595, -0.58)
 label_text = "Quench solution"
 contents_color = Color(0.95, 0.9, 0.5, 0.45)
 contents_powder = false
+
+[node name="Burner" parent="Ingredients" instance=ExtResource("burner_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.17, 0.391, -0.28)
 
 [node name="PetriDish" parent="Ingredients" unique_id=916706472 instance=ExtResource("12_yb21e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03257, 0.3674, 0.06)

@@ -119,6 +119,9 @@ func _add_box(parent: Node3D, size: Vector3, pos: Vector3, mat: Material) -> voi
 
 # --- interaction -----------------------------------------------------------
 
+func accepts_dish() -> bool:
+	return fully_open
+
 func get_prompt() -> String:
 	return "[E] Close window" if is_open else "[E] Open window"
 

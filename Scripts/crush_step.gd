@@ -27,6 +27,7 @@ var color: Color
 
 var state := State.SETUP
 var level := 0.0
+var taps := 0
 var source_home: Transform3D
 var tool_home: Transform3D
 var tool_hover: Transform3D
@@ -115,7 +116,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if event.is_action_pressed("space"):
 		get_viewport().set_input_as_handled()
-		level = minf(level + 1.0 / taps_to_full, 1.0)
+		taps += 1
+		level = minf(taps / taps_to_full, 1.0)
 		bowl.set_crush(level, 1.0, color)
 		_bob_tool()
 		_refresh()
