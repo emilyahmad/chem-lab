@@ -35,19 +35,13 @@ func start(step: Dictionary, items: Dictionary) -> void:
 	dish = items[params["dish"]]
 	grow_seconds = params["grow_seconds"]
 	safe_until = params["safe_until"]
-	var title := StepUtil.make_label(params["ui_text"], 30)
-	title.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	title.offset_top = 120.0
-	add_child(title)
-	status = StepUtil.make_label("", 26)
-	status.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	status.offset_top = -190.0
-	status.offset_bottom = -140.0
+	add_child(StepUtil.make_title(params["ui_text"]))
+	status = StepUtil.make_status()
 	add_child(status)
-	meter = StepUtil.make_meter(440.0, 90.0)
+	meter = StepUtil.make_meter(900.0, 120.0)
 	meter.fill = Color(0.8, 0.9, 1.0, 0.9)
 	meter.zones = [[safe_until, 1.0, Color(1.0, 0.4, 0.2, 0.35)]]
-	meter.marks = [[safe_until, Color(1, 0.9, 0.3)]]
+	meter.marks = [[safe_until, UIStyle.TEXT]]
 	add_child(meter)
 	_run()
 

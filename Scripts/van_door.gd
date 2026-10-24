@@ -109,9 +109,7 @@ func _ready() -> void:
 	message_label.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	message_label.offset_top = -160
 	message_label.offset_bottom = -120
-	message_label.add_theme_font_size_override("font_size", 28)
-	message_label.add_theme_color_override("font_outline_color", Color.BLACK)
-	message_label.add_theme_constant_override("outline_size", 8)
+	UIStyle.style_label(message_label, UIStyle.SIZE_BODY)
 	message_label.modulate.a = 0.0
 	layer.add_child(message_label)
 	add_child(layer)

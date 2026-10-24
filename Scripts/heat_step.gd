@@ -58,22 +58,16 @@ func start(step: Dictionary, items: Dictionary) -> void:
 	_run()
 
 func _build_ui(text: String) -> void:
-	var title := StepUtil.make_label(text, 30)
-	title.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	title.offset_top = 120.0
-	add_child(title)
-	status = StepUtil.make_label("", 26)
-	status.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	status.offset_top = -230.0
-	status.offset_bottom = -180.0
+	add_child(StepUtil.make_title(text))
+	status = StepUtil.make_status()
 	add_child(status)
 	# Temperature gauge with the green zone and the foam-over line
-	gauge = StepUtil.make_meter(520.0, 130.0)
+	gauge = StepUtil.make_meter(900.0, 190.0)
 	gauge.fill = Color(1.0, 0.45, 0.2, 0.85)
 	gauge.zones = [[_frac(green_from), _frac(green_to), Color(0.3, 1.0, 0.4, 0.4)]]
 	gauge.marks = [[_frac(boil_temp), Color(1, 0.3, 0.3)]]
 	add_child(gauge)
-	bar = StepUtil.make_meter(520.0, 80.0, 18.0)
+	bar = StepUtil.make_meter(900.0, 130.0, 28.0)
 	bar.fill = Color(0.3, 1.0, 0.4, 0.9)
 	add_child(bar)
 

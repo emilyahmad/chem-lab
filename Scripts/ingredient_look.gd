@@ -277,11 +277,22 @@ func _build_coffee_filter() -> void:
 
 # --- erlenmeyer: empty glass flask, cork and label -------------------
 
+var _cork: MeshInstance3D
+
 func _build_erlenmeyer() -> void:
 	_mesh_instance().material_override = _glass()
-	_cyl(0.0105, 0.0085, 0.012, _mat(Color(0.72, 0.52, 0.3), 0.9), Vector3(0, 0.0533, 0))
+	_cork = _cyl(0.0105, 0.0085, 0.012, _mat(Color(0.72, 0.52, 0.3), 0.9), Vector3(0, 0.0533, 0))
 	_box(Vector3(0.016, 0.012, 0.0006), _mat(Color(0.97, 0.95, 0.88), 0.8), Vector3(0, -0.003, 0.0301))
 	_box(Vector3(0.012, 0.002, 0.0007), _mat(Color(0.8, 0.12, 0.1), 0.6), Vector3(0, -0.0005, 0.0302))
+
+# Lifts the cork out of the neck and tips it off to the side. Await the returned tween's `finished`.
+func pull_cork() -> Tween:
+	var start := _cork.position
+	var tween := create_tween().set_parallel(true).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(_cork, "position", start + Vector3(0.012, 0.03, 0), 0.6)
+	tween.tween_property(_cork, "rotation_degrees", Vector3(0, 0, -50), 0.6)
+	tween.chain().tween_callback(func(): _cork.visible = false)
+	return tween
 
 # Contents of the flask: a cone of liquid with a few streaks inside that turn when swirled.
 # `frac` is how full it is (0..1).
@@ -332,6 +343,17 @@ const DISH_FLOOR_Y := -0.0045
 const DISH_RADIUS := 0.019
 const CRYSTALS := 70
 
+# Clean and murky crystal colours, picked at random once per run of the game. The clean ones
+# are pale and bright, the murky ones dark, with hues far enough apart to tell them apart.
+static var _crystal_colors := _random_crystal_colors()
+static var crystal_clean: Color = _crystal_colors[0]
+static var crystal_murky: Color = _crystal_colors[1]
+
+static func _random_crystal_colors() -> Array[Color]:
+	var hue := randf()
+	var murky_hue := fposmod(hue + randf_range(0.25, 0.75), 1.0)
+	return [Color.from_hsv(hue, randf_range(0.1, 0.35), 1.0), Color.from_hsv(murky_hue, randf_range(0.5, 0.85), randf_range(0.35, 0.55))]
+
 var _dish_liquid: MeshInstance3D
 var _crystals: Array[MeshInstance3D] = []
 var _crystal_seeds: Array[Vector4] = [] # per crystal: x, z, length, random
@@ -369,7 +391,7 @@ func set_crystals(t: float, impurity: float) -> void:
 		_crystals[i].position = Vector3(seed_v.x, DISH_FLOOR_Y + length / 2.0, seed_v.y)
 		_crystals[i].visible = g > 0.01
 		var murky := seed_v.w < impurity
-		(_crystals[i].mesh.material as StandardMaterial3D).albedo_color = Color(0.5, 0.38, 0.18) if murky else Color(0.88, 0.94, 1.0)
+		(_crystals[i].mesh.material as StandardMaterial3D).albedo_color = crystal_murky if murky else crystal_clean
 
 # --- burner: Bunsen burner with a tripod and a flame that grows with `set_flame` ---------
 

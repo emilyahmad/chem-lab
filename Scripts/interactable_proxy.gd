@@ -12,3 +12,7 @@ func interact() -> void:
 # Whether a finished dish can be handed over here (the window, once it's open)
 func accepts_dish() -> bool:
 	return target.has_method("accepts_dish") and target.accepts_dish()
+
+# Whether a left click also triggers this (posters)
+func clickable() -> bool:
+	return target.has_method("clickable") and target.clickable()

@@ -9,6 +9,8 @@ enum State { SETUP, SWIRLING, DONE }
 
 const TILT_DEG := 55.0
 const BOWL_TILT_DEG := 70.0
+const MOUTH_Y := 0.0593 # top of the flask neck, in the flask's own space
+const MOUTH_CLEARANCE := 0.004
 const TILT_TIME := 0.8
 const TIP_TIME := 1.2
 const RETURN_TIME := 0.6
@@ -41,16 +43,10 @@ func start(step: Dictionary, items: Dictionary) -> void:
 	catalyst = items[params["catalyst"]]
 	swirl_seconds = params["swirl_seconds"]
 	flask_home = flask.global_transform
-	var title := StepUtil.make_label(params["ui_text"], 30)
-	title.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	title.offset_top = 120.0
-	add_child(title)
-	status = StepUtil.make_label("", 26)
-	status.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	status.offset_top = -190.0
-	status.offset_bottom = -140.0
+	add_child(StepUtil.make_title(params["ui_text"]))
+	status = StepUtil.make_status()
 	add_child(status)
-	meter = StepUtil.make_meter(440.0, 90.0)
+	meter = StepUtil.make_meter(900.0, 120.0)
 	add_child(meter)
 	_run()
 
@@ -59,6 +55,9 @@ func _run() -> void:
 	var clear: Color = liquid.contents_color
 	var liquid_ml: float = liquid.fill_ml
 	flask.set_mix(0.0, clear)
+	status.text = "Removing the cork"
+	await flask.pull_cork().finished
+	status.text = ""
 	await _tip(liquid, TILT_DEG, func(a: float):
 		liquid.set_fill_ml(liquid_ml * (1.0 - a), clear)
 		flask.set_mix(a * FLASK_FILL, clear))
@@ -73,11 +72,15 @@ func _run() -> void:
 # Tips `source` over the flask, calls `apply(0..1)` while it empties, then tips it back
 func _tip(source: Node3D, tilt_deg: float, apply: Callable) -> void:
 	var home := source.global_transform
-	await StepUtil.move_to(source, StepUtil.tilt_over(source, flask, tilt_deg), TILT_TIME).finished
+	await StepUtil.move_to(source, StepUtil.tilt_over(source, flask, tilt_deg, _mouth_y() + MOUTH_CLEARANCE), TILT_TIME).finished
 	var tween := create_tween()
 	tween.tween_method(apply, 0.0, 1.0, TIP_TIME)
 	await tween.finished
 	await StepUtil.move_to(source, home, RETURN_TIME).finished
+
+# World height of the flask's mouth; tipped items stay above it so they don't clip the neck
+func _mouth_y() -> float:
+	return (flask.global_transform * Vector3(0, MOUTH_Y, 0)).y
 
 func _process(delta: float) -> void:
 	if state != State.SWIRLING:

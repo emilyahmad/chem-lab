@@ -1,8 +1,8 @@
 extends MultiMeshInstance3D
-# A patch of short desert grass outside the van's side window: thousands of
-# tapered, curved blades in clumps, with a gentle wind sway in the shader.
-# Blades are scattered in the RV's local frame (like the desert scenery) so the
-# patch always starts a little out from the wall and never goes inside the van.
+# Short dark-orange desert grass spread across the ground round the van and
+# under it: tens of thousands of tapered, curved blades in clumps, thinning
+# with distance, with a gentle wind sway in the shader. Blades are scattered in
+# the RV's local frame (like the desert scenery) so they follow the van.
 # Sizes are in world units (the player is ~0.45 tall). Lives on render layer 2
 # so only the moonlight lights it.
 
@@ -11,11 +11,11 @@ const WALL_X := 79.0 # the window wall, in the RV model's local space
 const Z_RANGE := Vector2(-335.0, 120.0) # RV-local extent along the van
 
 @export var rv_path: NodePath = ^"../RV"
-@export var clumps := 4500
-@export var blades_per_clump := Vector2i(8, 14)
-@export var start_distance := 0.12 # world units out from the wall
-@export var depth := 2.2 # world units the patch reaches out from the wall
-@export var side_margin := 0.7 # world units beyond each end of the van
+@export var clumps := 14000 # target number of clumps
+@export var blades_per_clump := Vector2i(5, 9)
+@export var spread := 9.0 # world units the grass reaches out from the van on every side
+@export var full_density_distance := 2.5 # world units from the van where it starts thinning
+@export var far_density := 0.15 # density at the edge of the spread, relative to next to the van
 @export var blade_height := Vector2(0.03, 0.075)
 @export var seed_value := 11
 
@@ -32,27 +32,34 @@ func _ready() -> void:
 	var basis := rv.global_transform.basis.orthonormalized()
 	var out_axis := basis * Vector3.RIGHT
 	var along_axis := basis * Vector3.BACK
-	var wall_point := rv.global_transform * Vector3(WALL_X, 0, 0)
-	var half_len := (Z_RANGE.y - Z_RANGE.x) * 0.5 * scale_factor + side_margin
 	var mid_z := (Z_RANGE.x + Z_RANGE.y) * 0.5
-	var centre := rv.global_transform * Vector3(WALL_X, 0, mid_z)
+	var centre := rv.global_transform * Vector3(0, 0, mid_z)
 	centre.y = 0.0
 
 	var noise := FastNoiseLite.new()
 	noise.seed = seed_value
 	noise.frequency = 0.9
 
+	# Rejection-sample clump positions over a rectangle round the van (so the
+	# grass runs under it and out on every side), thinning with distance
+	var half_wide := WALL_X * scale_factor
+	var half_len := (Z_RANGE.y - Z_RANGE.x) * 0.5 * scale_factor
 	var xforms: Array[Transform3D] = []
 	var colors: Array[Color] = []
-	for c in clumps:
-		var d := start_distance + depth * pow(rng.randf(), 1.2)
-		var a := rng.randf_range(-half_len, half_len)
-		var pos := centre + out_axis * d + along_axis * a
-		# Patchy: thin out with distance and where the noise is low
-		var density := (1.0 - d / (depth + start_distance)) * 0.5 + 0.5
+	var accepted := 0
+	var attempts := 0
+	while accepted < clumps and attempts < clumps * 20:
+		attempts += 1
+		var across := rng.randf_range(-half_wide - spread, half_wide + spread)
+		var along := rng.randf_range(-half_len - spread, half_len + spread)
+		var dist := Vector2(maxf(absf(across) - half_wide, 0.0), maxf(absf(along) - half_len, 0.0)).length()
+		var fade := smoothstep(full_density_distance, spread, dist)
+		var density := lerpf(1.0, far_density, fade)
+		var pos := centre + out_axis * across + along_axis * along
 		density *= clampf(noise.get_noise_2d(pos.x, pos.z) * 1.2 + 0.95, 0.0, 1.0)
-		if rng.randf() > density:
+		if dist > spread or rng.randf() > density:
 			continue
+		accepted += 1
 		var tone := rng.randf()
 		var clump_h := rng.randf_range(blade_height.x, blade_height.y)
 		var n := rng.randi_range(blades_per_clump.x, blades_per_clump.y)
@@ -64,9 +71,9 @@ func _ready() -> void:
 				* Basis(Vector3.RIGHT, rng.randf_range(0.0, 0.4)) \
 				* Basis.from_scale(Vector3(w, h, h))
 			xforms.append(Transform3D(bs, p))
-			# Mostly green, some drier yellow-brown blades
-			var dry := clampf(tone * 1.4 - 0.55 + rng.randf_range(-0.15, 0.15), 0.0, 1.0)
-			colors.append(Color(1.0, 1.0, 1.0).lerp(Color(1.35, 1.05, 0.55), dry) * rng.randf_range(0.8, 1.1))
+			# Dark orange, with some blades deeper red-brown and some lighter amber
+			var amber := clampf(tone + rng.randf_range(-0.2, 0.2), 0.0, 1.0)
+			colors.append(Color(0.8, 0.65, 0.6).lerp(Color(1.3, 1.2, 0.9), amber) * rng.randf_range(0.8, 1.1))
 
 	var mm := MultiMesh.new()
 	mm.transform_format = MultiMesh.TRANSFORM_3D
@@ -114,8 +121,8 @@ func _material() -> ShaderMaterial:
 shader_type spatial;
 render_mode cull_disabled;
 
-uniform vec3 root_color : source_color = vec3(0.05, 0.1, 0.035);
-uniform vec3 tip_color : source_color = vec3(0.3, 0.4, 0.14);
+uniform vec3 root_color : source_color = vec3(0.1, 0.035, 0.01);
+uniform vec3 tip_color : source_color = vec3(0.55, 0.2, 0.04);
 uniform float sway = 0.45;
 
 void vertex() {

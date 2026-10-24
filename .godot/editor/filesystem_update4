@@ -23,3 +23,12 @@ res://Scripts/drop_step.gd
 res://Scripts/heat_step.gd
 res://Scripts/grass_patch.gd
 res://Scripts/desert.gd
+res://Scripts/combine_step.gd
+res://Scenes/UI/dialogue_box.tscn
+res://Scripts/crystal_step.gd
+res://Scripts/grade_card.gd
+res://Scripts/van_door.gd
+res://Scripts/step_meter.gd
+res://Scripts/ui_style.gd
+res://Scripts/van_posters.gd
+res://Scripts/van_polaroids.gd

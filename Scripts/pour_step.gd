@@ -45,22 +45,22 @@ class Gauge extends Control:
 	func _draw() -> void:
 		var h := size.y
 		var w := size.x
-		draw_rect(Rect2(0, 0, w, h), Color(0, 0, 0, 0.55))
+		draw_rect(Rect2(0, 0, w, h), UIStyle.METER_BG)
 		var top := h - level / capacity * h
 		draw_rect(Rect2(0, top, w, h - top), Color(liquid.r, liquid.g, liquid.b, 0.85))
 		var band_top := h - (target + tolerance) / capacity * h
 		draw_rect(Rect2(0, band_top, w, tolerance * 2.0 / capacity * h), Color(0.3, 1.0, 0.4, 0.35))
-		draw_rect(Rect2(0, 0, w, h), Color.WHITE, false, 2.0)
-		var font := ThemeDB.fallback_font
+		draw_rect(Rect2(0, 0, w, h), UIStyle.ACCENT, false, 3.0)
+		var font: Font = UIStyle.FONT
 		for ml in range(0, int(capacity) + 1, 10):
 			var y := h - ml / capacity * h
 			var major := ml % 50 == 0
-			draw_line(Vector2(0, y), Vector2(w * (0.5 if major else 0.28), y), Color.WHITE, 2.0 if major else 1.0)
+			draw_line(Vector2(0, y), Vector2(w * (0.5 if major else 0.28), y), UIStyle.TEXT, 2.0 if major else 1.0)
 			if major:
-				draw_string(font, Vector2(w + 8, y + 5), "%d" % ml, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color.WHITE)
+				draw_string(font, Vector2(w + 8, y + 5), "%d" % ml, HORIZONTAL_ALIGNMENT_LEFT, -1, UIStyle.SIZE_SMALL, UIStyle.TEXT)
 		var ty := h - target / capacity * h
-		_draw_star(Vector2(-22, ty), 14.0)
-		draw_string(font, Vector2(-170, ty + 6), "Target: %d mL" % target, HORIZONTAL_ALIGNMENT_LEFT, 140, 18, Color(1, 0.9, 0.3))
+		_draw_star(Vector2(-22, ty), 20.0)
+		draw_string(font, Vector2(-250, ty + 10), "Target: %d mL" % target, HORIZONTAL_ALIGNMENT_RIGHT, 210, UIStyle.SIZE_SMALL, UIStyle.TEXT)
 
 	func _draw_star(center: Vector2, radius: float) -> void:
 		var pts := PackedVector2Array()
@@ -68,7 +68,7 @@ class Gauge extends Control:
 			var r := radius if i % 2 == 0 else radius * 0.42
 			var a := -PI / 2.0 + i * PI / 5.0
 			pts.append(center + Vector2(cos(a), sin(a)) * r)
-		draw_colored_polygon(pts, Color(1, 0.9, 0.3))
+		draw_colored_polygon(pts, UIStyle.STAR)
 
 func start(step: Dictionary, items: Dictionary) -> void:
 	var params: Dictionary = step["params"]
@@ -88,24 +88,8 @@ func start(step: Dictionary, items: Dictionary) -> void:
 	_begin_pour()
 
 func _build_ui(text: String) -> void:
-	var title := Label.new()
-	title.text = text
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 30)
-	title.add_theme_color_override("font_outline_color", Color.BLACK)
-	title.add_theme_constant_override("outline_size", 8)
-	title.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	title.offset_top = 120.0
-	add_child(title)
-
-	status = Label.new()
-	status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	status.add_theme_font_size_override("font_size", 26)
-	status.add_theme_color_override("font_outline_color", Color.BLACK)
-	status.add_theme_constant_override("outline_size", 8)
-	status.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	status.offset_top = -150.0
-	status.offset_bottom = -100.0
+	add_child(StepUtil.make_title(text))
+	status = StepUtil.make_status()
 	add_child(status)
 
 	gauge = Gauge.new()
@@ -114,23 +98,19 @@ func _build_ui(text: String) -> void:
 	gauge.tolerance = tolerance_ml
 	gauge.liquid = Color(color.r, color.g, color.b)
 	gauge.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
-	gauge.custom_minimum_size = Vector2(64, 420)
-	gauge.offset_left = -150.0
-	gauge.offset_right = -86.0
-	gauge.offset_top = -210.0
-	gauge.offset_bottom = 210.0
+	gauge.custom_minimum_size = Vector2(110, 640)
+	gauge.offset_left = -300.0
+	gauge.offset_right = -190.0
+	gauge.offset_top = -320.0
+	gauge.offset_bottom = 320.0
 	add_child(gauge)
 
-	readout = Label.new()
-	readout.add_theme_font_size_override("font_size", 28)
-	readout.add_theme_color_override("font_outline_color", Color.BLACK)
-	readout.add_theme_constant_override("outline_size", 8)
+	readout = StepUtil.make_label("", UIStyle.SIZE_BODY)
 	readout.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
-	readout.offset_left = -190.0
-	readout.offset_right = -50.0
-	readout.offset_top = 225.0
-	readout.offset_bottom = 265.0
-	readout.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	readout.offset_left = -400.0
+	readout.offset_right = -90.0
+	readout.offset_top = 340.0
+	readout.offset_bottom = 400.0
 	add_child(readout)
 	_refresh()
 

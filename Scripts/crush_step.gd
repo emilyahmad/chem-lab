@@ -11,10 +11,10 @@ const TILT_DEG := 55.0
 const TIP_TIME := 1.2
 const TILT_TIME := 0.8
 const RETURN_TIME := 0.6
-const MIXER_HOVER := 0.035 # mixer's base above the bowl rim
+const MIXER_HOVER := -0.02 # mixer's base above the bowl rim (negative: sunk into the bowl)
 const MIXER_BASE := 0.103 # from the mixer's origin to its base
 const BOWL_RIM := 0.0094 # from the bowl's origin
-const MIXER_TAP := 0.024
+const MIXER_TAP := 0.014
 const TAP_TIME := 0.06
 
 # Beakers and bowl (ingredient_look.gd nodes), untyped to reach their fill API
@@ -42,11 +42,11 @@ class Meter extends Control:
 	var minimum := 0.6
 
 	func _draw() -> void:
-		draw_rect(Rect2(Vector2.ZERO, size), Color(0, 0, 0, 0.55))
-		draw_rect(Rect2(0, 0, size.x * level, size.y), Color(0.95, 0.85, 0.4, 0.9))
-		draw_rect(Rect2(Vector2.ZERO, size), Color.WHITE, false, 2.0)
+		draw_rect(Rect2(Vector2.ZERO, size), UIStyle.METER_BG)
+		draw_rect(Rect2(0, 0, size.x * level, size.y), UIStyle.METER_FILL)
+		draw_rect(Rect2(Vector2.ZERO, size), UIStyle.ACCENT, false, 3.0)
 		var x := size.x * minimum
-		draw_line(Vector2(x, -6), Vector2(x, size.y + 6), Color.WHITE, 3.0)
+		draw_line(Vector2(x, -6), Vector2(x, size.y + 6), UIStyle.TEXT, 3.0)
 
 func start(step: Dictionary, items: Dictionary) -> void:
 	var params: Dictionary = step["params"]
@@ -66,34 +66,18 @@ func start(step: Dictionary, items: Dictionary) -> void:
 	_run()
 
 func _build_ui(text: String) -> void:
-	var title := _label(text, 30)
-	title.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	title.offset_top = 120.0
-	add_child(title)
-
-	status = _label("", 26)
-	status.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	status.offset_top = -190.0
-	status.offset_bottom = -140.0
+	add_child(StepUtil.make_title(text))
+	status = StepUtil.make_status()
 	add_child(status)
 
 	meter = Meter.new()
 	meter.minimum = min_finish
 	meter.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
-	meter.offset_left = -220.0
-	meter.offset_right = 220.0
-	meter.offset_top = -120.0
-	meter.offset_bottom = -90.0
+	meter.offset_left = -450.0
+	meter.offset_right = 450.0
+	meter.offset_top = -164.0
+	meter.offset_bottom = -120.0
 	add_child(meter)
-
-func _label(text: String, size: int) -> Label:
-	var label := Label.new()
-	label.text = text
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.add_theme_font_size_override("font_size", size)
-	label.add_theme_color_override("font_outline_color", Color.BLACK)
-	label.add_theme_constant_override("outline_size", 8)
-	return label
 
 # Tip the powder into the bowl, bring the mixer over, then hand over to the player
 func _run() -> void:

@@ -24,6 +24,7 @@ const BACK_SPOTS := [
 
 @export var rv_path: NodePath = ^"../RV"
 @export var back_wall_path: NodePath = ^"../LeftWall"
+@export var posters_path: NodePath = ^"../VanPosters" # owns the enlarged view
 
 func _ready() -> void:
 	var rv: Node3D = get_node(rv_path)
@@ -72,3 +73,5 @@ func _polaroid(parent: Node3D, index: int, pos: Vector3, tilt_deg: float) -> voi
 	var tex: Texture2D = load("res://images/Polaroids/polaroid_%d.png" % index)
 	_quad(root, PHOTO_SIZE, _mat(Color.WHITE, tex), Vector3(0, 0, LAYER))
 	_quad(root, Vector2(0.024, 0.009), _mat(Color(0.95, 0.9, 0.6)), Vector3(0, PHOTO_SIZE.y * 0.5, LAYER * 3), 0.0)
+	var posters: Node = get_node(posters_path)
+	posters.add_viewable(root, PHOTO_SIZE, tex, tilt_deg, LAYER * 2, "polaroid")

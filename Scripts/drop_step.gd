@@ -68,29 +68,23 @@ func start(step: Dictionary, items: Dictionary) -> void:
 	_run()
 
 func _build_ui(text: String) -> void:
-	var title := StepUtil.make_label(text, 30)
-	title.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	title.offset_top = 120.0
-	add_child(title)
-	status = StepUtil.make_label("", 26)
-	status.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	status.offset_top = -190.0
-	status.offset_bottom = -140.0
+	add_child(StepUtil.make_title(text))
+	status = StepUtil.make_status()
 	add_child(status)
 	# Target shade and the mixture's current shade side by side
 	var row := HBoxContainer.new()
 	row.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
-	row.offset_left = -220.0
-	row.offset_right = 220.0
-	row.offset_top = -130.0
-	row.offset_bottom = -50.0
-	row.add_theme_constant_override("separation", 40)
+	row.offset_left = -300.0
+	row.offset_right = 300.0
+	row.offset_top = -230.0
+	row.offset_bottom = -60.0
+	row.add_theme_constant_override("separation", 60)
 	add_child(row)
 	_swatch("Target shade", shade(target_drops), row)
 	current_swatch = _swatch("Current", shade(0), row)
-	count_label = StepUtil.make_label("Drops: 0", 24)
+	count_label = StepUtil.make_label("Drops: 0", UIStyle.SIZE_BODY)
 	count_label.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
-	count_label.offset_left = -260.0
+	count_label.offset_left = -360.0
 	count_label.offset_right = -60.0
 	add_child(count_label)
 
@@ -98,10 +92,10 @@ func _build_ui(text: String) -> void:
 func _swatch(caption: String, color: Color, parent: Node = null) -> ColorRect:
 	var box := VBoxContainer.new()
 	var rect := ColorRect.new()
-	rect.custom_minimum_size = Vector2(190, 50)
+	rect.custom_minimum_size = Vector2(270, 90)
 	rect.color = Color(color.r, color.g, color.b)
 	box.add_child(rect)
-	var label := StepUtil.make_label(caption, 18)
+	var label := StepUtil.make_label(caption, UIStyle.SIZE_SMALL)
 	box.add_child(label)
 	if parent:
 		parent.add_child(box)

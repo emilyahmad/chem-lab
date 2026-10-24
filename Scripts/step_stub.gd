@@ -8,7 +8,7 @@ func start(step: Dictionary, _items: Dictionary) -> void:
 	var label := Label.new()
 	label.text = "[%s step]\nPress [SPACE] to finish" % step["type"]
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.add_theme_font_size_override("font_size", 28)
+	UIStyle.style_label(label, UIStyle.SIZE_BODY)
 	label.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
 	add_child(label)
 

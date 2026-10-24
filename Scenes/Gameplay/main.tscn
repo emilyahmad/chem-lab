@@ -15,7 +15,6 @@
 [ext_resource type="PackedScene" uid="uid://xikglar4ybf2" path="res://Scenes/Gameplay/player.tscn" id="14_mie3u"]
 [ext_resource type="Script" uid="uid://ccag4pjt2q57b" path="res://Scripts/van_window.gd" id="20_vanwin"]
 [ext_resource type="Texture2D" uid="uid://hbpspm1pj7t0" path="res://Assets/Environment/rogland_clear_night_4k.exr" id="21_sky"]
-[ext_resource type="Script" uid="uid://by42l2wkr8lg" path="res://Scripts/counter_fixtures.gd" id="22_fix"]
 [ext_resource type="Shader" uid="uid://botbclhwkierd" path="res://Assets/Environment/lab_floor.gdshader" id="23_floorshader"]
 [ext_resource type="Script" uid="uid://bebf300c0504g" path="res://Scripts/van_posters.gd" id="24_posters"]
 [ext_resource type="Script" uid="uid://c8tg70eaksjam" path="res://Scripts/van_door.gd" id="25_door"]
@@ -136,9 +135,6 @@ light_energy = 0.42
 [node name="VanWindow" type="Node3D" parent="Environment" unique_id=1256391379]
 script = ExtResource("20_vanwin")
 
-[node name="CounterFixtures" type="Node3D" parent="Environment" unique_id=660510219]
-script = ExtResource("22_fix")
-
 [node name="VanPosters" type="Node3D" parent="Environment" unique_id=507390979]
 script = ExtResource("24_posters")
 
@@ -165,7 +161,7 @@ transform = Transform3D(-0.08439573, 0, -0.019031232, 0, 0.14999999, 0, 0.006690
 [node name="Ingredients" type="Node3D" parent="." unique_id=1254200074]
 
 [node name="Placemat" parent="Ingredients" unique_id=1048837404 instance=ExtResource("7_5wyu1")]
-transform = Transform3D(-0.0727935, 0, -0.0116677, 0, 0.05, 0, 0.00473925, 0, -0.179213, -0.0289381, 0.360507, 1.0341)
+transform = Transform3D(-0.0727935, 0, -0.0116677, 0, 0.05, 0, 0.00473925, 0, -0.179213, -0.0289381, 0.360507, 0.9741)
 
 [node name="Mixer" parent="Ingredients" unique_id=1825127672 instance=ExtResource("6_i3aeo")]
 transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872, -0.129484, 0.25773, -0.419625)
@@ -177,10 +173,10 @@ transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872
 transform = Transform3D(0.996872, -0.0785966, 0.00829692, 0, 0.10498, 0.994474, -0.0790333, -0.991363, 0.104652, -0.082064, 0.38117, 0.178499)
 
 [node name="Beaker" parent="Ingredients" unique_id=577489874 instance=ExtResource("10_qpfo2")]
-transform = Transform3D(-0.056937, 0, -0.998378, 0, 1, 0, 0.998378, 0, -0.056937, -0.157936, 0.38595, -0.778499)
+transform = Transform3D(-0.056937, 0, -0.998378, 0, 1, 0, 0.998378, 0, -0.056937, -0.277561, 0.38595, -0.769015)
 
 [node name="ReagentB7" parent="Ingredients" instance=ExtResource("10_qpfo2")]
-transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872, -0.16742, 0.38595, -0.898123)
+transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872, -0.287045, 0.38595, -0.888639)
 label_text = "Reagent B-7"
 contents_color = Color(0.85, 0.93, 1, 0.25)
 contents_powder = false
@@ -192,13 +188,13 @@ contents_color = Color(0.15, 0.4, 0.95, 1)
 contents_powder = true
 
 [node name="CompoundK" parent="Ingredients" instance=ExtResource("10_qpfo2")]
-transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872, -0.148452, 0.38595, -0.658874)
+transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872, -0.268077, 0.38595, -0.64939)
 label_text = "Compound K"
 contents_color = Color(0.96, 0.96, 0.94, 1)
 contents_powder = true
 
 [node name="QuenchSolution" parent="Ingredients" instance=ExtResource("10_qpfo2")]
-transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872, -0.091548, 0.38595, 0.0588739)
+transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872, -0.0915484, 0.38595, 0.0588739)
 label_text = "Quench solution"
 contents_color = Color(0.95, 0.9, 0.5, 0.45)
 contents_powder = false

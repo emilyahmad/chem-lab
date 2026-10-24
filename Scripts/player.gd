@@ -32,6 +32,7 @@ var sprint_exhausted := false
 
 signal item_placed(item: Node3D)
 signal item_picked(item: Node3D)
+signal item_swapped(put_down: Node3D, picked_up: Node3D)
 signal dish_served
 
 # Set by cutscenes/dialogue to stop movement and look input
@@ -119,8 +120,13 @@ func _release_held(at: Variant = null) -> void:
 	item.angular_velocity = Vector3.ZERO
 	item.freeze = true
 
+# Names that don't read right when derived from the node name
+const DISPLAY_NAMES := {"Erlenmeyer": "erlenmeyer flask"}
+
 # "CoffeeFilter" -> "coffee filter"
 func _display_name(node: Node) -> String:
+	if DISPLAY_NAMES.has(String(node.name).rstrip("0123456789")):
+		return DISPLAY_NAMES[String(node.name).rstrip("0123456789")]
 	if "label_text" in node and node.label_text != "":
 		return node.label_text
 	var raw := String(node.name).rstrip("0123456789")
@@ -224,7 +230,11 @@ func _physics_process(delta: float) -> void:
 		interact_label.text = "[E] Pick up" + ((" " + _display_name(hit_object)) if looking_at_pickable else "")
 		interact_label.visible = looking_at_pickable
 
-	if Input.is_action_just_pressed("pick_up"):
+	# Clicking a clickable interactable (the posters) works like pressing E on it
+	var clicked: bool = Input.is_action_just_pressed("click") and not held_object \
+			and looking_at_interactable and hit_object.has_method("clickable") and hit_object.clickable()
+
+	if Input.is_action_just_pressed("pick_up") or clicked:
 		if serving:
 			_release_held()
 			dish_served.emit()
@@ -235,6 +245,7 @@ func _physics_process(delta: float) -> void:
 			var held_home: Transform3D = held_object.get_meta("home_transform")
 			var spot: Vector3 = other.global_position
 			spot.y = held_home.origin.y
+			item_swapped.emit(held_object, other)
 			_release_held(spot)
 			_grab(other)
 			# The held item took the other's spot, so the other's home is where it came from

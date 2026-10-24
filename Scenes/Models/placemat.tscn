@@ -1,4 +1,9 @@
-[gd_scene load_steps=5 format=4 uid="uid://ch7ukesrwg8j3"]
+[gd_scene load_steps=7 format=4 uid="uid://ch7ukesrwg8j3"]
+
+[ext_resource type="Shader" path="res://Assets/Environment/placemat.gdshader" id="shader_placemat"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_placemat"]
+shader = ExtResource("shader_placemat")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aoxb5"]
 
@@ -39,6 +44,7 @@ data = PackedVector3Array(-1, 0, -0.601305, 1, 0, -1, -1, 0, -1, -1, 0, -0.60130
 
 [node name="Placemat" type="MeshInstance3D"]
 transform = Transform3D(0.0729476, 0, 0, 0, 0.05, 0, 0, 0, 0.179592, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_placemat")
 mesh = SubResource("ArrayMesh_5kyy5")
 skeleton = NodePath("")
 

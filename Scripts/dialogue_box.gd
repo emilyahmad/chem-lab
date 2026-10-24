@@ -8,8 +8,8 @@ signal choice_made(id: String)
 @onready var choices_box: VBoxContainer = %Choices
 @onready var hint_label: Label = %Hint
 
-const SELECTED_COLOR := Color(1, 0.85, 0.4)
-const NORMAL_COLOR := Color(1, 1, 1)
+const SELECTED_COLOR := UIStyle.ACCENT
+const NORMAL_COLOR := UIStyle.TEXT
 # Seconds after a dialogue ends before Space can jump again
 const JUMP_REENABLE_DELAY := 0.3
 
@@ -21,6 +21,7 @@ var choices: Array = []
 var selected := 0
 
 func _ready() -> void:
+	$Panel.add_theme_stylebox_override("panel", UIStyle.panel_style())
 	visible = false
 
 # Each line is {"speaker": String, "text": String}. A line can also carry
@@ -66,7 +67,7 @@ func _show_line() -> void:
 		hint_label.text = ""
 		for choice in choices:
 			var label := Label.new()
-			label.add_theme_font_size_override("font_size", 20)
+			label.add_theme_font_size_override("font_size", UIStyle.SIZE_SMALL)
 			choices_box.add_child(label)
 		_refresh_choices()
 

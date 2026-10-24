@@ -16,6 +16,9 @@ var round = 0
 # Set when the player skips the opening scene, so the van intro is skipped too
 var skip_van_intro := false
 
+# Asks the HUD to flash a short temporary message in the top left
+signal alert_requested(text: String)
+
 # Cooking progress, driven by cooking_director.gd
 var cooking_prompt = "" # instruction for the current recipe step, shown by the HUD
 var recipe_active = false # an order is being cooked
@@ -25,6 +28,7 @@ var batch_yield = 0.0 # 0..1 size of the batch, set when the crystals are harves
 var last_purity = 0.0 # 0..1 grade of the dish waiting to be served
 var last_payout = 0
 var money = 0
+var orders_served = 0 # finished orders; the cooking instructions stop after the first
 
 # Set once the player first picks up the cube
 var cube_picked = false
