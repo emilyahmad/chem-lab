@@ -111,16 +111,7 @@ func _on_window_opened() -> void:
 func _start_dialogue() -> void:
 	waiting_for_window = false
 	Gamestate.order_prompt = ""
-	var player := get_tree().get_first_node_in_group("player")
-	if player:
-		player.controls_locked = true
-	dialogue_box.finished.connect(_on_dialogue_finished, CONNECT_ONE_SHOT)
 	dialogue_box.start(ORDER_DIALOGUE)
-
-func _on_dialogue_finished() -> void:
-	var player := get_tree().get_first_node_in_group("player")
-	if player:
-		player.controls_locked = false
 
 # Placeholder: a dark hunched silhouette with pale eyes
 func _placeholder_texture() -> Texture2D:

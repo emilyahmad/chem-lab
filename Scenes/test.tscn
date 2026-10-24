@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://dgn23k073nqaq"]
+[gd_scene format=3 uid="uid://dskmikjl4706m"]
 
 [ext_resource type="Script" uid="uid://bchmfiods27cm" path="res://Scripts/cooking.gd" id="1_35xla"]
 [ext_resource type="PackedScene" uid="uid://cdnc8ghjjyyaf" path="res://Assets/Models/Outside/RV/scene.gltf" id="1_qc4db"]
@@ -7,10 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://c6cw6io0ujfpj" path="res://Scenes/Models/mixer.tscn" id="6_i3aeo"]
 [ext_resource type="PackedScene" uid="uid://ch7ukesrwg8j3" path="res://Scenes/Models/placemat.tscn" id="7_5wyu1"]
 [ext_resource type="PackedScene" uid="uid://dxx8b3x65mou3" path="res://Scenes/Models/bowl.tscn" id="8_0c07c"]
-[ext_resource type="PackedScene" uid="uid://mw6bcwjp3mc8" path="res://Scenes/Models/coffee_filter.tscn" id="9_2cgwh"]
 [ext_resource type="PackedScene" uid="uid://cl8qwosaxpmpg" path="res://Scenes/Models/syringe.tscn" id="10_iaow0"]
 [ext_resource type="PackedScene" uid="uid://bdlmjph6evsrm" path="res://Scenes/Models/beaker.tscn" id="10_qpfo2"]
-[ext_resource type="PackedScene" uid="uid://b0q837qtdv2ui" path="res://Scenes/Models/gas.tscn" id="11_qpfo2"]
 [ext_resource type="PackedScene" uid="uid://d23aneqqbd6va" path="res://Scenes/Models/petri_dish.tscn" id="12_yb21e"]
 [ext_resource type="PackedScene" uid="uid://c810jhhmc1lss" path="res://Scenes/Models/erlenmeyer.tscn" id="13_aees8"]
 [ext_resource type="PackedScene" uid="uid://xikglar4ybf2" path="res://Scenes/Gameplay/player.tscn" id="14_mie3u"]
@@ -22,7 +20,8 @@
 [ext_resource type="Script" uid="uid://c8tg70eaksjam" path="res://Scripts/van_door.gd" id="25_door"]
 [ext_resource type="Script" uid="uid://deo8q2of0tu73" path="res://Scripts/van_lights.gd" id="26_lights"]
 [ext_resource type="Script" uid="uid://dmfqcp1xj1dao" path="res://Scripts/desert.gd" id="27_desert"]
-[ext_resource type="Script" path="res://Scripts/window_enemy.gd" id="28_enemy"]
+[ext_resource type="Script" uid="uid://dxo7rfo4ikfcl" path="res://Scripts/window_enemy.gd" id="28_enemy"]
+[ext_resource type="Script" uid="uid://kugjfceb1leh" path="res://Scripts/van_polaroids.gd" id="29_polaroids"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_night"]
 panorama = ExtResource("21_sky")
@@ -142,6 +141,9 @@ script = ExtResource("22_fix")
 [node name="VanPosters" type="Node3D" parent="Environment" unique_id=507390979]
 script = ExtResource("24_posters")
 
+[node name="VanPolaroids" type="Node3D" parent="Environment" unique_id=1746807412]
+script = ExtResource("29_polaroids")
+
 [node name="VanDoor" type="Node3D" parent="Environment" unique_id=146446615]
 script = ExtResource("25_door")
 
@@ -151,13 +153,13 @@ script = ExtResource("26_lights")
 [node name="Desert" type="Node3D" parent="Environment" unique_id=1431736734]
 script = ExtResource("27_desert")
 
-[node name="WindowEnemy" type="Node3D" parent="Environment"]
+[node name="WindowEnemy" type="Node3D" parent="Environment" unique_id=1815442417]
 script = ExtResource("28_enemy")
 
 [node name="HUD" parent="." unique_id=744896660 instance=ExtResource("2_ys1qc")]
 
 [node name="Counter" parent="." unique_id=854709191 instance=ExtResource("3_35xla")]
-transform = Transform3D(-0.08439572900534, 0, -0.01903123222291, 0, 0.1499999910593, 0, 0.0066909766756, 0, -0.2400468736887, -0.23466742038727, 0.19705098867416, -0.73206377029419)
+transform = Transform3D(-0.08439573, 0, -0.019031232, 0, 0.14999999, 0, 0.0066909767, 0, -0.24004687, -0.23466742, 0.19705099, -0.7320638)
 
 [node name="Ingredients" type="Node3D" parent="." unique_id=1254200074]
 
@@ -178,17 +180,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11032, 0.25773, -0.79872)
 [node name="Bowl" parent="Ingredients" unique_id=1278162187 instance=ExtResource("8_0c07c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24, 0.4017, -0.8)
 
-[node name="CoffeeFilter" parent="Ingredients" unique_id=2062732501 instance=ExtResource("9_2cgwh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0182, 0.37422, 0.22952)
-
 [node name="Syringe" parent="Ingredients" unique_id=546422444 instance=ExtResource("10_iaow0")]
 transform = Transform3D(1, 0, 0, 0, 0.10498, 0.994474, 0, -0.994474, 0.10498, -0.0758, 0.38117, -0.45345)
 
 [node name="Beaker" parent="Ingredients" unique_id=577489874 instance=ExtResource("10_qpfo2")]
 transform = Transform3D(-0.135664, 0, -0.990755, 0, 1, 0, 0.990755, 0, -0.135664, -0.0616, 0.38595, -0.28334)
-
-[node name="Gas" parent="Ingredients" unique_id=523741041 instance=ExtResource("11_qpfo2")]
-transform = Transform3D(-0.3456, 0, -0.9384, 0, 1, 0, 0.9384, 0, -0.3456, -0.00085, 0.4001, 0.4205)
 
 [node name="PetriDish" parent="Ingredients" unique_id=916706472 instance=ExtResource("12_yb21e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03257, 0.3674, 0.06)

@@ -34,6 +34,8 @@ signal item_placed(item: Node3D)
 
 # Set by cutscenes/dialogue to stop movement and look input
 var controls_locked := false
+# Set by the dialogue box, which uses the jump key to continue
+var jump_blocked := false
 
 func _ready():
 	add_to_group("player")
@@ -126,7 +128,7 @@ func _physics_process(delta: float) -> void:
 
 	# Handle jump. Space is also the mixer key, so don't hop while mashing.
 	var mashing: bool = Gamestate.mixer_placed and not Gamestate.done_mashing
-	if Input.is_action_just_pressed("jump") and is_on_floor() and not mashing and stamina >= JUMP_STAMINA_COST:
+	if Input.is_action_just_pressed("jump") and not jump_blocked and is_on_floor() and not mashing and stamina >= JUMP_STAMINA_COST:
 		velocity.y = JUMP_VELOCITY
 		stamina -= JUMP_STAMINA_COST
 		regen_cooldown = STAMINA_REGEN_DELAY

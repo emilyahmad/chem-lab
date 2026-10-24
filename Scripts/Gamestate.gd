@@ -1,7 +1,14 @@
 extends Node
 
 var night_number = 1
-var timer = 0
+const ROUND_TIME := 600.0 # 10:00
+
+var timer = ROUND_TIME
+var timer_running := false
+
+func start_timer() -> void:
+	timer = ROUND_TIME
+	timer_running = true
 
 
 var round = 0
@@ -22,5 +29,9 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if timer_running:
+		timer = max(timer - delta, 0.0)
+		if timer <= 0.0:
+			timer_running = false
 	if Input.is_action_pressed("escape"):
 		get_tree().quit()

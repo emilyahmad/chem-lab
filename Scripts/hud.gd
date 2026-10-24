@@ -3,15 +3,13 @@ extends CanvasLayer
 @onready var instructions_label : RichTextLabel = %Instructions
 @onready var timer_label : RichTextLabel = $Navbar/Timer
 
-const ROUND_TIME := 120.0 # 2:00
-
-var timer_running := false
+var timer_expired := false
 var cooking_started := false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	instructions_label.text = ""
-	Gamestate.timer = ROUND_TIME
+	_place_instructions(false)
 	_update_timer_label()
 
 func _process(delta: float) -> void:
@@ -32,21 +30,43 @@ func _process(delta: float) -> void:
 
 	if Gamestate.round == 4:
 		instructions_label.text = ""
+		_place_instructions(true)
 		Gamestate.round = 5
-		timer_running = true
 		await get_tree().create_timer(1.).timeout
 		cooking_started = true
 
-	if timer_running:
-		Gamestate.timer = max(Gamestate.timer - delta, 0.0)
-		_update_timer_label()
-		if Gamestate.timer <= 0.0:
-			timer_running = false
-			cooking_started = false
-			instructions_label.text = "Time's up!"
+	_update_timer_label()
+	if Gamestate.timer <= 0.0 and not timer_expired:
+		timer_expired = true
+		cooking_started = false
+		instructions_label.text = "Time's up!"
 
 	if cooking_started:
 		_update_cooking_instructions()
+
+# Intro text sits at the bottom center; once the player can move it goes top left.
+# The label grows to fit its text (never scrolls), upward from the bottom or downward from the top.
+func _place_instructions(top_left: bool) -> void:
+	instructions_label.fit_content = true
+	instructions_label.scroll_active = false
+	instructions_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	instructions_label.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	if top_left:
+		instructions_label.set_anchors_preset(Control.PRESET_TOP_LEFT)
+		instructions_label.offset_left = 20.0
+		instructions_label.offset_top = 100.0
+		instructions_label.offset_right = 1020.0
+		instructions_label.offset_bottom = 100.0
+		instructions_label.grow_vertical = Control.GROW_DIRECTION_END
+		instructions_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	else:
+		instructions_label.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+		instructions_label.offset_left = 160.0
+		instructions_label.offset_right = -160.0
+		instructions_label.offset_top = -80.0
+		instructions_label.offset_bottom = -80.0
+		instructions_label.grow_vertical = Control.GROW_DIRECTION_BEGIN
+		instructions_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 func _update_cooking_instructions() -> void:
 	if Gamestate.order_prompt != "":

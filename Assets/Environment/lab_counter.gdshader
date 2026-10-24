@@ -42,12 +42,21 @@ void fragment() {
 	groove += step(abs(v - toe_kick_top), 0.012);
 	groove = clamp(groove, 0.0, 1.0);
 
+	// Soft shadow beside each groove, plus a slight tint per door, so the
+	// fronts read as separate slabs rather than one flat coat of paint
+	float to_groove = min(min(cell, 1.0 - cell) * door_width,
+			min(abs(v - drawer_line), abs(v - toe_kick_top)));
+	float edge_shade = 1.0 - 0.14 * smoothstep(0.07, 0.012, to_groove);
+	float door_id = floor(u / door_width);
+	float tint = (hash(vec2(door_id, 3.0)) - 0.5) * 0.03;
+
 	// Pulls: a bar on each drawer, a vertical bar on each door
 	float drawer_pull = step(abs(cell - 0.5), 0.16) * step(abs(v - 0.78), 0.025);
 	float door_pull = step(abs(cell - 0.88), 0.012) * step(abs(v - 0.15), 0.2);
 	float pull = clamp(drawer_pull + door_pull, 0.0, 1.0);
 
-	vec3 cabinet = mix(cabinet_color, toe_kick_color, step(v, toe_kick_top));
+	vec3 cabinet = mix(cabinet_color + vec3(tint), toe_kick_color, step(v, toe_kick_top));
+	cabinet *= edge_shade;
 	cabinet = mix(cabinet, vec3(0.35, 0.28, 0.22), groove);
 	cabinet = mix(cabinet, steel_color, pull);
 

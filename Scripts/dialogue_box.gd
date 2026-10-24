@@ -30,7 +30,17 @@ func start(new_lines: Array) -> void:
 	index = 0
 	active = true
 	visible = true
+	_set_jump_blocked(true)
 	_show_line()
+
+# Space continues the dialogue, so keep the player from jumping while it's open
+func _set_jump_blocked(blocked: bool) -> void:
+	if not blocked:
+		# Wait a physics frame so the Space press that ended the dialogue doesn't also jump
+		await get_tree().physics_frame
+	var player := get_tree().get_first_node_in_group("player")
+	if player:
+		player.jump_blocked = blocked
 
 func _show_line() -> void:
 	var line: Dictionary = lines[index]
@@ -40,9 +50,9 @@ func _show_line() -> void:
 	choices = line.get("choices", [])
 	selected = 0
 	if choices.is_empty():
-		hint_label.text = "[E] Continue"
+		hint_label.text = "[Space] Continue"
 	else:
-		hint_label.text = "[W/S] Select    [E] or [1-%d] Choose" % choices.size()
+		hint_label.text = "[W/S] Select    [Space] or [1-%d] Choose" % choices.size()
 		for choice in choices:
 			var label := Label.new()
 			label.add_theme_font_size_override("font_size", 20)
@@ -78,6 +88,7 @@ func _advance() -> void:
 	if index >= lines.size():
 		active = false
 		visible = false
+		_set_jump_blocked(false)
 		finished.emit()
 	else:
 		_show_line()
@@ -101,11 +112,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			selected = (selected + 1) % choices.size()
 			_refresh_choices()
 			get_viewport().set_input_as_handled()
-		elif event.is_action_pressed("pick_up") or event.is_action_pressed("ui_accept"):
+		elif event.is_action_pressed("jump"):
 			get_viewport().set_input_as_handled()
 			_choose(selected)
 		return
 
-	if event.is_action_pressed("pick_up") or event.is_action_pressed("ui_accept"):
+	if event.is_action_pressed("jump"):
 		get_viewport().set_input_as_handled()
 		_advance()
