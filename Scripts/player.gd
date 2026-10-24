@@ -31,6 +31,7 @@ var sprint_exhausted := false
 @onready var stamina_bar: ProgressBar = %StaminaBar
 
 signal item_placed(item: Node3D)
+signal item_picked(item: Node3D)
 
 # Set by cutscenes/dialogue to stop movement and look input
 var controls_locked := false
@@ -92,6 +93,7 @@ const HELD_LERP_SPEED := 18.0
 
 func _grab(item: RigidBody3D) -> void:
 	held_object = item
+	item_picked.emit(item)
 	if item.name == "Cube":
 		Gamestate.cube_picked = true
 	item.set_meta("home_transform", item.global_transform)
@@ -140,9 +142,8 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 		return
 
-	# Handle jump. Space is also the mixer key, so don't hop while mashing.
-	var mashing: bool = Gamestate.mixer_placed and not Gamestate.done_mashing
-	if Input.is_action_just_pressed("jump") and not jump_blocked and is_on_floor() and not mashing and stamina >= JUMP_STAMINA_COST:
+	# Handle jump
+	if Input.is_action_just_pressed("jump") and not jump_blocked and is_on_floor() and stamina >= JUMP_STAMINA_COST:
 		velocity.y = JUMP_VELOCITY
 		stamina -= JUMP_STAMINA_COST
 		regen_cooldown = STAMINA_REGEN_DELAY
@@ -220,10 +221,14 @@ func _physics_process(delta: float) -> void:
 			# Swap: the held item takes the other item's spot
 			# (same x/z, but at the height the held item rests at)
 			var other = hit_object
+			var held_home: Transform3D = held_object.get_meta("home_transform")
 			var spot: Vector3 = other.global_position
-			spot.y = held_object.get_meta("home_transform").origin.y
+			spot.y = held_home.origin.y
 			_release_held(spot)
 			_grab(other)
+			# The held item took the other's spot, so the other's home is where it came from
+			# (otherwise putting it down lands it on top of the item it was swapped with)
+			other.set_meta("home_transform", Transform3D(other.global_transform.basis, held_home.origin))
 		elif held_object:
 			var dropped_object = held_object
 			_release_held()
@@ -237,7 +242,11 @@ func _physics_process(delta: float) -> void:
 	if held_object:
 		var t := clampf(HELD_LERP_SPEED * delta, 0.0, 1.0)
 		held_object.global_position = held_object.global_position.lerp(%CarryObjectMarker.global_position, t)
-		held_object.global_transform.basis = held_object.global_transform.basis.orthonormalized().slerp(%CarryObjectMarker.global_transform.basis.orthonormalized(), t).scaled(Vector3.ONE * held_object.get_meta("rest_scale").x * HELD_SCALE)
+		var target_basis: Basis = %CarryObjectMarker.global_transform.basis.orthonormalized()
+		# Labeled beakers carry their label on local -x; turn that side toward the camera (+z of the marker)
+		if "label_text" in held_object and held_object.label_text != "":
+			target_basis = target_basis * Basis(Vector3.UP, deg_to_rad(90))
+		held_object.global_transform.basis = held_object.global_transform.basis.orthonormalized().slerp(target_basis, t).scaled(Vector3.ONE * held_object.get_meta("rest_scale").x * HELD_SCALE)
 
 	move_and_slide()
 

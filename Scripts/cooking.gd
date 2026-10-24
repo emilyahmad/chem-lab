@@ -1,12 +1,5 @@
 extends Node3D
 
-const MIXER_LIFT := 0.024
-
-@onready var mixer := $Ingredients/Mixer
-
-var mixer_rest_y := 0.0
-var mixer_up := false
-
 # Opening shot: a camera slides along the counter while the intro text plays, then
 # hands over to the player's camera. Each stop is [camera position, look-at point, seconds
 # to travel there], in world space.
@@ -28,9 +21,17 @@ func _ready() -> void:
 
 	var player = get_tree().get_first_node_in_group("player")
 	if player:
-		player.item_placed.connect(_on_item_placed)
-		player.controls_locked = true
-		_play_intro_pan(player)
+		add_child(CookingDirector.new())
+		if Gamestate.skip_van_intro:
+			# Skipped from the opening scene: go straight to gameplay
+			Gamestate.skip_van_intro = false
+			intro_done = true
+			Gamestate.round = 3
+			$HUD.intro_skipped = true
+			$HUD.skip_hint.visible = false
+		else:
+			player.controls_locked = true
+			_play_intro_pan(player)
 
 func _play_intro_pan(player: Node3D) -> void:
 	intro_done = false
@@ -78,37 +79,10 @@ func _aim_camera(pos: Vector3, target: Vector3) -> void:
 	intro_camera.global_position = pos
 	intro_camera.look_at(target)
 
-func _on_item_placed(item: Node3D) -> void:
-	match item.name:
-		"Bowl":
-			if not Gamestate.bowl_placed:
-				item.freeze = true
-				item.global_position = %BowlSlot.global_position
-				item.global_rotation = %BowlSlot.global_rotation
-				Gamestate.bowl_placed = true
-		"Mixer":
-			if Gamestate.bowl_placed and not Gamestate.mixer_placed:
-				item.freeze = true
-				item.global_position = %MixerSlot.global_position
-				item.global_rotation = %MixerSlot.global_rotation
-				mixer_rest_y = item.global_position.y
-				Gamestate.mixer_placed = true
-
 func _unhandled_input(event: InputEvent) -> void:
 	if not intro_done and event.is_action_pressed("space"):
 		skip_intro()
 		get_viewport().set_input_as_handled()
-		return
-
-	if not (Gamestate.mixer_placed and not Gamestate.done_mashing):
-		return
-
-	if event.is_action_pressed("space"):
-		mixer_up = not mixer_up
-		mixer.global_position.y = mixer_rest_y + (MIXER_LIFT if mixer_up else 0.0)
-		Gamestate.mash_count += 1
-		if Gamestate.mash_count >= Gamestate.mash_target:
-			Gamestate.done_mashing = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

@@ -39,14 +39,14 @@ const HANDOFF_DIALOGUE := [
 var customer
 
 func _ready() -> void:
-	Gamestate.done_mashing = false
+	Gamestate.recipe_complete = false
 	await get_tree().create_timer(SPAWN_DELAY).timeout
 	_spawn_customer()
 
 # Stand-in for finishing the cooking steps, which this scene doesn't have
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_F:
-		Gamestate.done_mashing = true
+		Gamestate.recipe_complete = true
 
 func _spawn_customer() -> void:
 	# Spawn somewhere ahead of the player so it's seen walking up

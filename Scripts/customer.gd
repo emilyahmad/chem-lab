@@ -45,10 +45,10 @@ func _physics_process(delta: float) -> void:
 func get_prompt() -> String:
 	if not waiting_for_dish:
 		return ""
-	return "[E] Hand over dish" if Gamestate.done_mashing else "Waiting for your dish..."
+	return "[E] Hand over dish" if Gamestate.recipe_complete else "Waiting for your dish..."
 
 func interact() -> void:
-	if waiting_for_dish and Gamestate.done_mashing:
+	if waiting_for_dish and Gamestate.recipe_complete:
 		waiting_for_dish = false
 		served = true
 		dish_handed_over.emit()

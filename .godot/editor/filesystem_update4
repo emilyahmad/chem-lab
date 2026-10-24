@@ -3,3 +3,15 @@ res://Scripts/player.gd
 res://Scripts/ingredient_look.gd
 res://Scenes/test.tscn
 res://Assets/Models/Outside/Grass/grass.gdshader
+res://Scripts/outside_view.gd
+res://Scripts/cooking.gd
+res://Scripts/Gamestate.gd
+res://Scripts/hud.gd
+res://Scenes/Gameplay/player.tscn
+res://Scripts/customer.gd
+res://Scripts/enemy_test_world.gd
+res://Scripts/window_enemy.gd
+res://Scripts/cooking_director.gd
+res://Scripts/recipe.gd
+res://Scripts/step_stub.gd
+res://Scripts/pour_step.gd

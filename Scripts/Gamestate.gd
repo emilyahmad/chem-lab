@@ -13,15 +13,20 @@ func start_timer() -> void:
 
 var round = 0
 
-# Cooking step state (bowl + mixer mashing at the placemat)
-var bowl_placed = false
-var mixer_placed = false
-var mash_count = 0
-var mash_target = 10
-var done_mashing = false
+# Set when the player skips the opening scene, so the van intro is skipped too
+var skip_van_intro := false
+
+# Cooking progress, driven by cooking_director.gd
+var cooking_prompt = "" # instruction for the current recipe step, shown by the HUD
+var recipe_active = false # an order is being cooked
+var recipe_complete = false
+var step_scores: Array = [] # 0..1 accuracy per finished step
 
 # Set once the player first picks up the cube
 var cube_picked = false
+
+# Set by the dialogue box while it's open; the HUD hides the instructions meanwhile
+var in_dialogue = false
 
 # When non-empty, the HUD shows this instead of the cooking instructions
 var order_prompt = ""

@@ -10,6 +10,8 @@ signal choice_made(id: String)
 
 const SELECTED_COLOR := Color(1, 0.85, 0.4)
 const NORMAL_COLOR := Color(1, 1, 1)
+# Seconds after a dialogue ends before Space can jump again
+const JUMP_REENABLE_DELAY := 0.3
 
 var lines: Array = []
 var index := 0
@@ -29,6 +31,7 @@ func start(new_lines: Array) -> void:
 	lines = new_lines.duplicate()
 	index = 0
 	active = true
+	Gamestate.in_dialogue = true
 	visible = true
 	_set_jump_blocked(true)
 	_show_line()
@@ -37,8 +40,14 @@ func start(new_lines: Array) -> void:
 # from jumping or using the arrow keys to walk while it's open
 func _set_jump_blocked(blocked: bool) -> void:
 	if not blocked:
-		# Wait a physics frame so the Space press that ended the dialogue doesn't also jump
-		await get_tree().physics_frame
+		var player := get_tree().get_first_node_in_group("player")
+		if player:
+			player.move_blocked = false
+		# Keep jump disabled briefly so the Space press that ended the dialogue doesn't also jump
+		await get_tree().create_timer(JUMP_REENABLE_DELAY).timeout
+		# A new dialogue may have opened during the wait
+		if active:
+			return
 	var player := get_tree().get_first_node_in_group("player")
 	if player:
 		player.jump_blocked = blocked
@@ -89,6 +98,7 @@ func _advance() -> void:
 	index += 1
 	if index >= lines.size():
 		active = false
+		Gamestate.in_dialogue = false
 		visible = false
 		_set_jump_blocked(false)
 		finished.emit()
@@ -97,6 +107,11 @@ func _advance() -> void:
 
 func _is_arrow_press(event: InputEvent, key: Key) -> bool:
 	return event is InputEventKey and event.pressed and event.physical_keycode == key
+
+# Space (the jump action) or either Enter key
+func _is_confirm_press(event: InputEvent) -> bool:
+	return event.is_action_pressed("jump") or (event is InputEventKey and event.pressed and not event.echo \
+		and (event.physical_keycode == KEY_ENTER or event.physical_keycode == KEY_KP_ENTER))
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not active:
@@ -118,11 +133,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			selected = (selected + 1) % choices.size()
 			_refresh_choices()
 			get_viewport().set_input_as_handled()
-		elif event.is_action_pressed("jump"):
+		elif _is_confirm_press(event):
 			get_viewport().set_input_as_handled()
 			_choose(selected)
 		return
 
-	if event.is_action_pressed("jump"):
+	if _is_confirm_press(event):
 		get_viewport().set_input_as_handled()
 		_advance()

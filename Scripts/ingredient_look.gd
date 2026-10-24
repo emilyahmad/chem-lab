@@ -101,9 +101,32 @@ func _beaker_contents() -> void:
 		_cyl(0.021, 0.021, 0.01, powder, Vector3(0, -0.018, 0))
 		_sphere(0.021, powder, Vector3(0, -0.013, 0), 0.4)
 	else:
-		var liquid := _mat(contents_color, 0.05, 0.0, 0)
-		liquid.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-		_cyl(0.021, 0.021, 0.026, liquid, Vector3(0, -0.01, 0))
+		set_fill_ml(BEAKER_START_ML, contents_color)
+
+# Liquid level, in mL of the beaker's 250 mL capacity. Any beaker can be filled, labeled or
+# not; the liquid is built the first time it's needed.
+const BEAKER_CAP_ML := 250.0
+const BEAKER_START_ML := 220.0
+const BEAKER_FLOOR_Y := -0.023
+const BEAKER_FILL_H := 0.048 # inner height at capacity
+
+var fill_ml := 0.0
+var _liquid: MeshInstance3D
+
+func set_fill_ml(ml: float, color := contents_color) -> void:
+	fill_ml = clampf(ml, 0.0, BEAKER_CAP_ML)
+	if _liquid == null:
+		var mat := _mat(color, 0.05, 0.0, 0)
+		mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		_liquid = _cyl(0.021, 0.021, 0.001, mat, Vector3.ZERO)
+	var h := fill_ml / BEAKER_CAP_ML * BEAKER_FILL_H
+	_liquid.visible = h > 0.0003
+	(_liquid.mesh as CylinderMesh).height = maxf(h, 0.001)
+	_liquid.position.y = BEAKER_FLOOR_Y + h / 2.0
+
+# Height of the liquid surface in the beaker's own space
+func surface_y() -> float:
+	return BEAKER_FLOOR_Y + fill_ml / BEAKER_CAP_ML * BEAKER_FILL_H
 
 # Paper label stuck on the -x side with the name printed on it
 func _beaker_label() -> void:

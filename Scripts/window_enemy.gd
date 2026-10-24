@@ -24,6 +24,7 @@ const ORDER_DIALOGUE := [
 ]
 
 signal arrived
+signal order_taken
 
 @export var rv_path: NodePath = ^"../RV"
 @export var window_path: NodePath = ^"../VanWindow"
@@ -75,8 +76,10 @@ func _ready() -> void:
 	add_child(sprite)
 	global_position = from
 
+	add_to_group("window_enemy")
 	dialogue_box = DIALOGUE_SCENE.instantiate()
 	add_child(dialogue_box)
+	dialogue_box.finished.connect(order_taken.emit)
 	van_window.fully_opened.connect(_on_window_opened)
 
 	if start_delay > 0.0:
