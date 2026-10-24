@@ -1,8 +1,2 @@
-res://Scripts/van_polaroids.gd
-res://Scripts/van_posters.gd
-res://Scripts/outside_view.gd
-res://Scripts/cooking.gd
-res://Assets/Models/Outside/Grass/grass.gdshader
-res://Scripts/hud.gd
-res://Scripts/Gamestate.gd
-res://Scripts/title_screen.gd
+res://Scripts/dialogue_box.gd
+res://Scripts/player.gd

@@ -33,7 +33,8 @@ func start(new_lines: Array) -> void:
 	_set_jump_blocked(true)
 	_show_line()
 
-# Space continues the dialogue, so keep the player from jumping while it's open
+# Space continues the dialogue and the arrow keys pick choices, so keep the player
+# from jumping or using the arrow keys to walk while it's open
 func _set_jump_blocked(blocked: bool) -> void:
 	if not blocked:
 		# Wait a physics frame so the Space press that ended the dialogue doesn't also jump
@@ -41,6 +42,7 @@ func _set_jump_blocked(blocked: bool) -> void:
 	var player := get_tree().get_first_node_in_group("player")
 	if player:
 		player.jump_blocked = blocked
+		player.move_blocked = blocked
 
 func _show_line() -> void:
 	var line: Dictionary = lines[index]
@@ -52,7 +54,7 @@ func _show_line() -> void:
 	if choices.is_empty():
 		hint_label.text = "[Space] Continue"
 	else:
-		hint_label.text = "[W/S] Select    [Space] or [1-%d] Choose" % choices.size()
+		hint_label.text = ""
 		for choice in choices:
 			var label := Label.new()
 			label.add_theme_font_size_override("font_size", 20)
@@ -93,6 +95,9 @@ func _advance() -> void:
 	else:
 		_show_line()
 
+func _is_arrow_press(event: InputEvent, key: Key) -> bool:
+	return event is InputEventKey and event.pressed and event.physical_keycode == key
+
 func _unhandled_input(event: InputEvent) -> void:
 	if not active:
 		return
@@ -104,11 +109,12 @@ func _unhandled_input(event: InputEvent) -> void:
 				get_viewport().set_input_as_handled()
 				_choose(number)
 				return
-		if event.is_action_pressed("up"):
+		# Arrow keys only; WASD is reserved for movement
+		if _is_arrow_press(event, KEY_UP):
 			selected = (selected - 1 + choices.size()) % choices.size()
 			_refresh_choices()
 			get_viewport().set_input_as_handled()
-		elif event.is_action_pressed("down"):
+		elif _is_arrow_press(event, KEY_DOWN):
 			selected = (selected + 1) % choices.size()
 			_refresh_choices()
 			get_viewport().set_input_as_handled()

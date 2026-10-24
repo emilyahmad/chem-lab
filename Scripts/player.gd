@@ -36,6 +36,9 @@ signal item_placed(item: Node3D)
 var controls_locked := false
 # Set by the dialogue box, which uses the jump key to continue
 var jump_blocked := false
+# Set by the dialogue box, whose choices are navigated with the arrow keys; while set,
+# only WASD moves the player
+var move_blocked := false
 
 func _ready():
 	add_to_group("player")
@@ -44,6 +47,13 @@ func _ready():
 	#$StaminaBar/StaminaProgressBar.visible = false
 
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+# Movement input read from WASD only, ignoring the arrow keys bound to the same actions
+func _wasd_vector() -> Vector2:
+	return Vector2(
+		int(Input.is_physical_key_pressed(KEY_D)) - int(Input.is_physical_key_pressed(KEY_A)),
+		int(Input.is_physical_key_pressed(KEY_S)) - int(Input.is_physical_key_pressed(KEY_W))
+	).limit_length(1.0)
 
 func _process(delta: float) -> void:
 	if Input.is_action_pressed("escape"):
@@ -82,6 +92,8 @@ const HELD_LERP_SPEED := 18.0
 
 func _grab(item: RigidBody3D) -> void:
 	held_object = item
+	if item.name == "Cube":
+		Gamestate.cube_picked = true
 	item.set_meta("home_transform", item.global_transform)
 	item.set_meta("rest_scale", item.scale)
 	item.set_meta("rest_layer", item.collision_layer)
@@ -134,7 +146,7 @@ func _physics_process(delta: float) -> void:
 		regen_cooldown = STAMINA_REGEN_DELAY
 
 	# Sprint drains stamina; once it hits zero, wait until some has regenerated
-	var input_dir := Input.get_vector("left", "right", "up", "down")
+	var input_dir := _wasd_vector() if move_blocked else Input.get_vector("left", "right", "up", "down")
 	if sprint_exhausted and stamina >= SPRINT_MIN_STAMINA:
 		sprint_exhausted = false
 	var sprinting := Input.is_action_pressed("sprint") and input_dir != Vector2.ZERO \

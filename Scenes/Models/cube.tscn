@@ -1,0 +1,15 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/cube.gd" id="cube_script"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cube"]
+size = Vector3(0.04, 0.04, 0.04)
+
+[node name="Cube" type="RigidBody3D" groups=["pickable"]]
+collision_layer = 3
+freeze = true
+script = ExtResource("cube_script")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
+shape = SubResource("BoxShape3D_cube")

@@ -5,6 +5,8 @@ extends CanvasLayer
 
 var timer_expired := false
 var cooking_started := false
+var intro_skipped := false
+var skip_hint : Label
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -12,20 +14,41 @@ func _ready() -> void:
 	_place_instructions(false)
 	_update_timer_label()
 
-func _process(delta: float) -> void:
-	if Gamestate.round == 0:
-		instructions_label.text = "Survive each night by cooking crystals before the time runs out!"
+	skip_hint = Label.new()
+	skip_hint.text = "Press [SPACE] to skip"
+	skip_hint.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	skip_hint.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	skip_hint.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	skip_hint.offset_right = -20.0
+	skip_hint.offset_bottom = -20.0
+	skip_hint.modulate.a = 0.7
+	add_child(skip_hint)
 
+func _unhandled_input(event: InputEvent) -> void:
+	if Gamestate.round >= 1 and Gamestate.round <= 3 and not intro_skipped and event.is_action_pressed("space"):
+		intro_skipped = true
+		skip_hint.visible = false
+		instructions_label.text = ""
+		Gamestate.round = 3
+
+func _intro_wait(seconds: float) -> bool:
+	await get_tree().create_timer(seconds).timeout
+	return not intro_skipped
+
+func _process(delta: float) -> void:
 	if Gamestate.round == 1:
 		Gamestate.round = 2
 		instructions_label.text = ""
-		await get_tree().create_timer(.6).timeout
-		instructions_label.text = "Welcome to the van and your personal lab"
-		await get_tree().create_timer(2.5).timeout
-		instructions_label.text = "Follow the instructions before the time runs out"
-		await get_tree().create_timer(2.75).timeout
-		instructions_label.text = "Ready?"
-		await get_tree().create_timer(1.5).timeout
+		if not await _intro_wait(.6): return
+		instructions_label.text = "Receive instructions the first time you cook,"
+		if not await _intro_wait(2.2): return
+		instructions_label.text = "Use the guides on the walls to instruct you afterwards."
+		if not await _intro_wait(2.8): return
+		instructions_label.text = "Make sure you don't serve police."
+		if not await _intro_wait(2.5): return
+		instructions_label.text = "Happy cooking!"
+		if not await _intro_wait(2.0): return
+		skip_hint.visible = false
 		Gamestate.round = 3
 
 	if Gamestate.round == 4:
@@ -72,7 +95,9 @@ func _update_cooking_instructions() -> void:
 	if Gamestate.order_prompt != "":
 		instructions_label.text = Gamestate.order_prompt
 		return
-	if Gamestate.done_mashing:
+	if Gamestate.cube_picked:
+		instructions_label.text = "Serve customer"
+	elif Gamestate.done_mashing:
 		instructions_label.text = "The mixture is ready!"
 	elif Gamestate.mixer_placed:
 		instructions_label.text = "Press [SPACE] to work the mixer (%d/%d)" % [Gamestate.mash_count, Gamestate.mash_target]

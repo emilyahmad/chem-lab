@@ -12,12 +12,14 @@ var mixer_up := false
 # to travel there], in world space.
 const INTRO_PAN := [
 	[Vector3(-0.4, 0.5, 1.1), Vector3(-0.03, 0.37, 0.8), 0.0],
-	[Vector3(-0.4, 0.5, -0.2), Vector3(-0.03, 0.37, -0.5), 5.5],
+	[Vector3(-0.4, 0.5, -0.2), Vector3(-0.03, 0.37, -0.5), 8.5],
 ]
 const INTRO_RETURN_TIME := 1.5
 
 var intro_camera: Camera3D
 var intro_done := true
+var intro_tween: Tween
+var intro_player: Node3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -32,6 +34,7 @@ func _ready() -> void:
 
 func _play_intro_pan(player: Node3D) -> void:
 	intro_done = false
+	intro_player = player
 	var player_mesh: Node3D = player.get_node("MeshInstance3D")
 	player_mesh.visible = false
 	intro_camera = Camera3D.new()
@@ -41,6 +44,7 @@ func _play_intro_pan(player: Node3D) -> void:
 	intro_camera.make_current()
 
 	var tween := create_tween()
+	intro_tween = tween
 	for i in range(1, INTRO_PAN.size()):
 		tween.tween_method(_aim_camera_pair.bind(INTRO_PAN[i - 1], INTRO_PAN[i]), 0.0, 1.0, INTRO_PAN[i][2]) \
 				.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
@@ -50,10 +54,22 @@ func _play_intro_pan(player: Node3D) -> void:
 	tween.tween_method(_aim_camera_pair.bind(last, end), 0.0, 1.0, INTRO_RETURN_TIME) \
 			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	await tween.finished
-	player_mesh.visible = true
+	_finish_intro()
+
+func _finish_intro() -> void:
+	if intro_done:
+		return
+	var player_cam: Camera3D = intro_player.camera
+	intro_player.get_node("MeshInstance3D").visible = true
 	player_cam.make_current()
 	intro_camera.queue_free()
 	intro_done = true
+
+func skip_intro() -> void:
+	if intro_done:
+		return
+	intro_tween.kill()
+	_finish_intro()
 
 func _aim_camera_pair(t: float, from: Array, to: Array) -> void:
 	_aim_camera((from[0] as Vector3).lerp(to[0], t), (from[1] as Vector3).lerp(to[1], t))
@@ -79,6 +95,11 @@ func _on_item_placed(item: Node3D) -> void:
 				Gamestate.mixer_placed = true
 
 func _unhandled_input(event: InputEvent) -> void:
+	if not intro_done and event.is_action_pressed("space"):
+		skip_intro()
+		get_viewport().set_input_as_handled()
+		return
+
 	if not (Gamestate.mixer_placed and not Gamestate.done_mashing):
 		return
 

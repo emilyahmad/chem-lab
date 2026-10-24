@@ -10,8 +10,14 @@ func _ready() -> void:
 	
 	await get_tree().create_timer(.25).timeout
 	$AnimationPlayer.play('zoom_in')
-	
-	await get_tree().create_timer(2.75).timeout
+
+	# First lines of the intro; the rest play over the pan in the van (hud.gd)
+	$HUD.instructions_label.text = "Welcome to the van and your personal lab."
+	await get_tree().create_timer(2.25).timeout
+	$HUD.instructions_label.text = "You have 10 minutes"
+	await get_tree().create_timer(1.5).timeout
+	$HUD.instructions_label.text = "to serve as many customers as you can."
+	await get_tree().create_timer(2.25).timeout
 	SceneTransition.change_scene("res://Scenes/Gameplay/main.tscn")
 
 

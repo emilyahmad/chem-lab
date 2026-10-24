@@ -20,6 +20,9 @@ var mash_count = 0
 var mash_target = 10
 var done_mashing = false
 
+# Set once the player first picks up the cube
+var cube_picked = false
+
 # When non-empty, the HUD shows this instead of the cooking instructions
 var order_prompt = ""
 
