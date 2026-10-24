@@ -4,13 +4,14 @@ extends Node
 # on the placemat, freeze the player while the step UI runs, then put the items the next step
 # doesn't need back on the counter and move on to the next instruction.
 
-const SLOT_SPACING := 0.09 # between items on the placemat, along its long side
+const SLOT_GAP := 0.02 # between items on the placemat, along its long side
 const RETURN_TIME := 0.5
 
 # Step UIs by step type; each is a CanvasLayer with start(step, items) (items: name -> node)
 # and a finished(score) signal
 const STEP_UIS := {
 	"pour": preload("res://Scripts/pour_step.gd"),
+	"crush": preload("res://Scripts/crush_step.gd"),
 }
 
 var player: CharacterBody3D
@@ -72,21 +73,35 @@ func _on_item_picked(item: Node3D) -> void:
 	if not in_step:
 		placed.erase(String(item.name))
 
-# Each required item has its own spot along the placemat, centred on it
+# Each required item has its own spot along the placemat, sized to the item and centred as a row
 func _lay_out(required: Array) -> void:
 	var mesh: MeshInstance3D = placemat
 	var aabb := mesh.get_aabb()
 	var center := mesh.global_transform * aabb.get_center()
 	var top_pad := (mesh.global_transform * Vector3(0, aabb.end.y, 0)).y - placemat.global_position.y
 	var along := placemat.global_transform.basis.z.normalized()
+	var halves: Array[float] = []
+	var total := SLOT_GAP * (required.size() - 1)
+	for item_name in required:
+		halves.append(_half_width(ingredients.get_node(item_name)))
+		total += halves[-1] * 2.0
+	var offset := -total / 2.0
 	for i in required.size():
 		var item_name: String = required[i]
-		if not placed.has(item_name):
-			continue
-		var item: Node3D = ingredients.get_node(item_name)
-		var pos := center + along * (i - (required.size() - 1) / 2.0) * SLOT_SPACING
-		pos.y = homes[item_name].origin.y + top_pad
-		item.global_position = pos
+		offset += halves[i]
+		if placed.has(item_name):
+			var pos := center + along * offset
+			pos.y = homes[item_name].origin.y + top_pad
+			ingredients.get_node(item_name).global_position = pos
+		offset += halves[i] + SLOT_GAP
+
+# Half the item's footprint, from the widest of its meshes
+func _half_width(item: Node3D) -> float:
+	var widest := 0.0
+	for mi in item.find_children("*", "MeshInstance3D", true, false):
+		var box: AABB = (item.global_transform.affine_inverse() * mi.global_transform) * mi.get_aabb()
+		widest = maxf(widest, maxf(box.size.x, box.size.z))
+	return widest / 2.0
 
 func _open_step(step: Dictionary) -> void:
 	in_step = true

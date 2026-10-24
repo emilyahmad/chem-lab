@@ -98,8 +98,12 @@ func _build_beaker() -> void:
 func _beaker_contents() -> void:
 	if contents_powder:
 		var powder := _mat(contents_color, 0.95)
-		_cyl(0.021, 0.021, 0.01, powder, Vector3(0, -0.018, 0))
-		_sphere(0.021, powder, Vector3(0, -0.013, 0), 0.4)
+		_powder_parts = [
+			_cyl(0.021, 0.021, 0.01, powder, Vector3(0, -0.018, 0)),
+			_sphere(0.021, powder, Vector3(0, -0.013, 0), 0.4),
+		]
+		for part in _powder_parts:
+			part.set_meta("base_y", part.position.y)
 	else:
 		set_fill_ml(BEAKER_START_ML, contents_color)
 
@@ -123,6 +127,16 @@ func set_fill_ml(ml: float, color := contents_color) -> void:
 	_liquid.visible = h > 0.0003
 	(_liquid.mesh as CylinderMesh).height = maxf(h, 0.001)
 	_liquid.position.y = BEAKER_FLOOR_Y + h / 2.0
+
+# Powder left in a beaker, 0..1 (1 is as built). Shrinks the mound towards the floor.
+var _powder_parts: Array[MeshInstance3D] = []
+
+func set_powder_amount(f: float) -> void:
+	f = clampf(f, 0.0, 1.0)
+	for part in _powder_parts:
+		part.visible = f > 0.02
+		part.scale.y = maxf(f, 0.001)
+		part.position.y = BEAKER_FLOOR_Y + (part.get_meta("base_y") - BEAKER_FLOOR_Y) * f
 
 # Height of the liquid surface in the beaker's own space
 func surface_y() -> float:
@@ -209,6 +223,34 @@ func _build_bowl() -> void:
 	_ring(_bowl_wall_radius(band_y) + tube, tube, teal, Vector3(0, band_y - BOWL_DROP, 0))
 	_ring(BOWL_R - BOWL_WALL * 0.5 + tube, tube, gold, Vector3(0, BOWL_H - BOWL_DROP, 0))
 	_ring(BOWL_FOOT + tube, tube, teal, Vector3(0, 0.0015 - BOWL_DROP, 0))
+
+# Crushed-powder layer in the bowl: a mound of chunks that gets finer and flatter as `level`
+# goes 0 -> 1. `amount` (0..1) is how much powder has been tipped in.
+const POWDER_CHUNKS := 48
+const BOWL_FLOOR_Y := -0.036
+const POWDER_RADIUS := 0.026
+const POWDER_MOUND_H := 0.014
+
+var _chunks: Array[MeshInstance3D] = []
+var _chunk_seeds: Array[Vector3] = [] # per chunk: angle, radius fraction, size jitter
+
+func set_crush(level: float, amount: float, color := contents_color) -> void:
+	if _chunks.is_empty():
+		var rng := RandomNumberGenerator.new()
+		rng.seed = 7
+		var mat := _mat(color, 0.95)
+		for i in POWDER_CHUNKS:
+			_chunk_seeds.append(Vector3(rng.randf() * TAU, sqrt(rng.randf()), 0.7 + rng.randf() * 0.6))
+			_chunks.append(_sphere(0.001, mat, Vector3.ZERO))
+	for i in POWDER_CHUNKS:
+		var seed_v := _chunk_seeds[i]
+		var r := lerpf(0.0048, 0.0012, level) * seed_v.z
+		var mesh := _chunks[i].mesh as SphereMesh
+		mesh.radius = r
+		mesh.height = r * 2.0
+		var mound := (1.0 - seed_v.y * seed_v.y) * POWDER_MOUND_H * lerpf(1.0, 0.35, level)
+		_chunks[i].position = Vector3(cos(seed_v.x) * seed_v.y * POWDER_RADIUS, BOWL_FLOOR_Y + r + mound, sin(seed_v.x) * seed_v.y * POWDER_RADIUS)
+		_chunks[i].visible = i < int(ceil(amount * POWDER_CHUNKS))
 
 # --- coffee filter: creased paper with a coffee stain -----------------------
 

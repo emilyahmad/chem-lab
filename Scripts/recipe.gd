@@ -17,4 +17,14 @@ const STEPS := [
 			"target_ml": 150.0, "tolerance_ml": 5.0, "capacity_ml": 250.0, "flow_ml_s": 25.0,
 		},
 	},
+	{
+		"type": "crush",
+		"instruction": "Grab the bowl, the Compound K beaker and the mixer, and put them on the placemat",
+		"required": ["Bowl", "CompoundK", "Mixer"],
+		"params": {
+			"ui_text": "Crush the Compound K in the bowl",
+			"source": "CompoundK", "bowl": "Bowl", "tool": "Mixer",
+			"taps_to_full": 30.0, "min_finish": 0.6,
+		},
+	},
 ]

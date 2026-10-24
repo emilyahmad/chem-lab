@@ -81,19 +81,10 @@ func start(step: Dictionary, items: Dictionary) -> void:
 	color = source.contents_color
 	source_start_ml = source.fill_ml
 	source_home = source.global_transform
-	pour_transform = _pour_transform()
+	pour_transform = StepUtil.tilt_over(source, target, TILT_DEG)
 	_build_ui(params["ui_text"])
 	_build_stream()
 	_begin_pour()
-
-# Source tipped toward the target with its lip over the target's centre
-func _pour_transform() -> Transform3D:
-	var to_target: Vector3 = target.global_position - source.global_position
-	to_target.y = 0.0
-	var dir: Vector3 = to_target.normalized()
-	var tilt := Basis(Vector3.UP.cross(dir).normalized(), deg_to_rad(TILT_DEG))
-	var pos: Vector3 = target.global_position - dir * 0.03 + Vector3.UP * 0.045
-	return Transform3D(tilt * source_home.basis, pos)
 
 func _build_ui(text: String) -> void:
 	var title := Label.new()
@@ -167,18 +158,9 @@ func _begin_pour() -> void:
 	target.set_fill_ml(0.0, color)
 	status.text = ""
 	_refresh()
-	await _move_source(source_home, pour_transform, TILT_TIME).finished
+	await StepUtil.move_to(source, pour_transform, TILT_TIME).finished
 	state = State.POURING
 	status.text = "Press [SPACE] to stop pouring"
-
-func _move_source(from: Transform3D, to: Transform3D, seconds: float) -> Tween:
-	var tween := create_tween()
-	tween.tween_method(func(t: float):
-		source.global_transform = Transform3D(
-				from.basis.get_rotation_quaternion().slerp(to.basis.get_rotation_quaternion(), t),
-				from.origin.lerp(to.origin, t)), 0.0, 1.0, seconds) \
-			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	return tween
 
 func _process(delta: float) -> void:
 	if state != State.POURING:
@@ -221,11 +203,11 @@ func _stop_pour() -> void:
 	if absf(error) <= tolerance_ml:
 		status.text = "Nice pour! %d mL" % roundi(poured)
 		await get_tree().create_timer(1.2).timeout
-		await _move_source(source.global_transform, source_home, RETURN_TIME).finished
+		await StepUtil.move_to(source, source_home, RETURN_TIME).finished
 		finished.emit(maxf(0.0, 1.0 - absf(error) / SCORE_FALLOFF_ML))
 		return
 	var verdict := "Too much" if error > 0.0 else "Too little"
-	var back := _move_source(source.global_transform, source_home, RETURN_TIME)
+	var back := StepUtil.move_to(source, source_home, RETURN_TIME)
 	for s in range(RETRY_SECONDS, 0, -1):
 		status.text = "%s (%d mL, need %d). Try again in %d..." % [verdict, roundi(poured), roundi(target_ml), s]
 		await get_tree().create_timer(1.0).timeout

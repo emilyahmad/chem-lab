@@ -167,14 +167,6 @@ transform = Transform3D(-0.08439573, 0, -0.019031232, 0, 0.14999999, 0, 0.006690
 [node name="Placemat" parent="Ingredients" unique_id=1048837404 instance=ExtResource("7_5wyu1")]
 transform = Transform3D(-0.0727935, 0, -0.0116677, 0, 0.05, 0, 0.00473925, 0, -0.179213, -0.0289381, 0.360507, 1.0341)
 
-[node name="BowlSlot" type="Marker3D" parent="Ingredients" unique_id=1459853083]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0289381, 0.40828, 1.0341)
-
-[node name="MixerSlot" type="Marker3D" parent="Ingredients" unique_id=1461019866]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0289381, 0.26428, 1.0341)
-
 [node name="Mixer" parent="Ingredients" unique_id=1825127672 instance=ExtResource("6_i3aeo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11032, 0.25773, -0.79872)
 
