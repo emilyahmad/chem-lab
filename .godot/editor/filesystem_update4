@@ -1,2 +1,5 @@
 res://Scripts/dialogue_box.gd
 res://Scripts/player.gd
+res://Scripts/ingredient_look.gd
+res://Scenes/test.tscn
+res://Assets/Models/Outside/Grass/grass.gdshader

@@ -7,6 +7,13 @@ extends RigidBody3D
 
 @export_enum("beaker", "bowl", "coffee_filter", "erlenmeyer", "gas", "mixer", "petri_dish", "syringe") var kind := "beaker"
 
+# Beaker only: when label_text is set the beaker gets a paper label with that
+# text (on the side facing -x) and is filled with contents_color, as a powder
+# mound if contents_powder is set, otherwise as liquid.
+@export var label_text := ""
+@export var contents_color := Color(1, 1, 1, 0)
+@export var contents_powder := false
+
 const GLASS := Color(0.78, 0.92, 1.0, 0.2)
 
 func _ready() -> void:
@@ -83,6 +90,36 @@ func _build_beaker() -> void:
 		_box(Vector3(w, 0.0012, 0.0012), ink, Vector3(0, -0.012 + i * 0.0075, 0.0268))
 	# Frosted writing patch on the side
 	_box(Vector3(0.0008, 0.016, 0.013), _mat(Color(0.95, 0.97, 1.0), 0.8), Vector3(0.0268, -0.004, 0))
+	if label_text != "":
+		_beaker_contents()
+		_beaker_label()
+
+# Fill sits inside the glass (inner radius ~0.022, floor at y = -0.023)
+func _beaker_contents() -> void:
+	if contents_powder:
+		var powder := _mat(contents_color, 0.95)
+		_cyl(0.021, 0.021, 0.01, powder, Vector3(0, -0.018, 0))
+		_sphere(0.021, powder, Vector3(0, -0.013, 0), 0.4)
+	else:
+		var liquid := _mat(contents_color, 0.05, 0.0, 0)
+		liquid.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		_cyl(0.021, 0.021, 0.026, liquid, Vector3(0, -0.01, 0))
+
+# Paper label stuck on the -x side with the name printed on it
+func _beaker_label() -> void:
+	_box(Vector3(0.0006, 0.016, 0.022), _mat(Color(0.97, 0.95, 0.88), 0.85), Vector3(-0.0262, 0.0, 0))
+	var text := Label3D.new()
+	text.text = label_text
+	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	text.font_size = 26
+	text.pixel_size = 0.00014
+	text.modulate = Color(0.1, 0.1, 0.15)
+	text.outline_size = 0
+	text.double_sided = false
+	text.position = Vector3(-0.0266, 0.0, 0)
+	text.rotation_degrees = Vector3(0, -90, 0)
+	text.width = 150
+	add_child(text)
 
 # --- bowl: cream ceramic with a teal glaze band and gold rim ----------------
 # The body is a lathe of a rounded profile (built here so its size is easy to

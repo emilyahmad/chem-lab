@@ -117,6 +117,8 @@ func _release_held(at: Variant = null) -> void:
 
 # "CoffeeFilter" -> "coffee filter"
 func _display_name(node: Node) -> String:
+	if "label_text" in node and node.label_text != "":
+		return node.label_text
 	var raw := String(node.name).rstrip("0123456789")
 	var out := ""
 	for i in raw.length():
