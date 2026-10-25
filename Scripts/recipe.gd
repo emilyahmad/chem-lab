@@ -4,6 +4,7 @@ class_name Recipe
 #   instruction: shown at the bottom of the screen while the player gathers the items
 #   required:    names of the nodes under Ingredients that must be on the placemat
 #   params:      step-specific settings (read by the step UI)
+#   renames:     (optional) item name -> what the item is called once the step is done
 # Placed items the next step doesn't require go back to the counter.
 
 const STEPS := [
@@ -16,6 +17,7 @@ const STEPS := [
 			"source": "ReagentB7", "target": "Beaker",
 			"target_ml": 150.0, "tolerance_ml": 5.0, "capacity_ml": 250.0, "flow_ml_s": 25.0,
 		},
+		"renames": {"Beaker": "used beaker"},
 	},
 	{
 		"type": "crush",

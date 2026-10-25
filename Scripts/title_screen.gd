@@ -12,7 +12,7 @@ func _process(delta: float) -> void:
 
 func _on_start_btn_pressed() -> void:
 	Gamestate.start_timer()
-	SceneTransition.change_scene("res://Scenes/Gameplay/outside_view.tscn")
+	SceneTransition.change_scene("res://Scenes/Gameplay/main.tscn")
 
 func _on_settings_btn_pressed() -> void:
 	pass # Replace with function body.

@@ -1,11 +1,10 @@
 class_name CookingDirector
 extends Node
 # Runs Recipe.STEPS. For each step: show its instruction, wait until every required item is
-# on the placemat, freeze the player while the step UI runs, then put the items the next step
-# doesn't need back on the counter and move on to the next instruction.
+# on the placemat, freeze the player while the step UI runs, then move on to the next instruction.
+# Items the next step doesn't need stay on the placemat until the player carries them back to the counter.
 
 const SLOT_GAP := 0.02 # between items on the placemat, along its long side
-const RETURN_TIME := 0.5
 const START_PROMPT_TIME := 2.5 # how long "let's get cooking" shows before the first instruction
 const BASE_PAY := 200.0 # a perfect batch of full size
 const FAST_TIME := 60.0 # seconds; a cook this quick or quicker earns the full speed bonus
@@ -14,6 +13,13 @@ const MAX_SPEED_BONUS := 0.5 # extra payout fraction for the fastest cooks
 const CAM_FOV := 60.0 # horizontal
 const CAM_MARGIN := 1.0 # how much wider than the placemat's long side the view is
 const CAM_TILT := 50.0 # degrees off straight down, leaning toward the screen-bottom side
+const MISSING_HINT_TIME := 10.0 # seconds with all but one item on the placemat before naming the missing one
+const ITEM_NAMES := {
+	"Beaker": "empty beaker", "ReagentB7": "beaker of Reagent B-7", "Bowl": "bowl",
+	"CompoundK": "Compound K beaker", "Mixer": "mixer", "Erlenmeyer": "flask",
+	"CatalystAzure": "Catalyst Azure", "Burner": "Bunsen burner", "Syringe": "syringe",
+	"QuenchSolution": "Quench solution", "PetriDish": "petri dish",
+}
 const STEP_NAMES := ["Pouring", "Crushing", "Combining", "Heating", "Dosing", "Crystals"]
 
 # Step UIs by step type; each is a CanvasLayer with start(step, items) (items: name -> node)
@@ -34,11 +40,13 @@ var homes := {}   # item name -> where it started on the counter
 var originals := {} # item name -> {scene, props} to rebuild it as new
 var placed := {}  # item name -> true while it sits on the placemat
 var step_index := -1
-var return_tweens := {} # item name -> its running tween back to the counter
+var leftovers := {} # item name -> true while a used item still sits on the placemat
 var in_step := false
 var step_ui: CanvasLayer
 var cook_camera: Camera3D
 var cook_start_msec := 0
+var missing_item := "" # the one required item not yet on the placemat, once the rest are
+var missing_time := 0.0
 
 func _ready() -> void:
 	ingredients = get_parent().get_node("Ingredients")
@@ -54,6 +62,7 @@ func _ready() -> void:
 	player.item_placed.connect(_on_item_placed)
 	player.item_picked.connect(_on_item_picked)
 	player.item_swapped.connect(_on_item_swapped)
+	player.item_returned.connect(_on_item_returned)
 	for customer in get_tree().get_nodes_in_group("window_enemy"):
 		customer.order_taken.connect(begin)
 		customer.served.connect(reset)
@@ -106,9 +115,7 @@ func reset() -> void:
 
 # Swap every ingredient for a fresh copy on its starting spot (liquids, powders and tilts reset)
 func _restock() -> void:
-	for tween in return_tweens.values():
-		(tween as Tween).kill()
-	return_tweens.clear()
+	leftovers.clear()
 	for item_name in originals:
 		var old := ingredients.get_node_or_null(NodePath(item_name))
 		if old:
@@ -124,11 +131,11 @@ func _restock() -> void:
 func _next_step() -> void:
 	step_index += 1
 	if step_index >= Recipe.STEPS.size():
-		_return_items([])
+		_leave_items([])
 		_grade()
 		return
 	var step: Dictionary = Recipe.STEPS[step_index]
-	_return_items(step["required"])
+	_leave_items(step["required"])
 	Gamestate.cooking_prompt = step["instruction"]
 
 func _on_item_placed(item: Node3D) -> void:
@@ -143,13 +150,45 @@ func _on_item_placed(item: Node3D) -> void:
 	for item_name in required:
 		if not placed.has(item_name):
 			return
+	if not leftovers.is_empty():
+		Gamestate.alert_requested.emit("Put the old ingredients back on the counter top to make space on the placemat!")
+
+# Held item set back on the counter: it lands on the spot it started from
+func _on_item_returned(item: Node3D) -> void:
+	if homes.has(item.name):
+		item.set_meta("home_transform", homes[item.name])
+
+# Once the placemat is cleared and nothing is in hand, a fully loaded mat starts the step
+func _process(delta: float) -> void:
+	_watch_missing(delta)
+	if in_step or step_index < 0 or step_index >= Recipe.STEPS.size() or not leftovers.is_empty() or player.held_object:
+		return
+	for item_name in Recipe.STEPS[step_index]["required"]:
+		if not placed.has(item_name):
+			return
 	_open_step(Recipe.STEPS[step_index])
 
+# Everything but one required item is on the placemat: after a while, say which one is missing
+func _watch_missing(delta: float) -> void:
+	var missing := ""
+	if not in_step and step_index >= 0 and step_index < Recipe.STEPS.size():
+		var absent: Array = Recipe.STEPS[step_index]["required"].filter(func(n): return not placed.has(n))
+		if absent.size() == 1 and Recipe.STEPS[step_index]["required"].size() > 1:
+			missing = absent[0]
+	if missing != missing_item:
+		missing_item = missing
+		missing_time = 0.0
+		return
+	if missing == "" or missing_time < 0.0:
+		return
+	missing_time += delta
+	if missing_time >= MISSING_HINT_TIME:
+		missing_time = -1.0 # once per stretch of waiting
+		var item := ingredients.get_node(missing)
+		Gamestate.alert_requested.emit("You're missing the %s!" % item.get_meta("display_name", ITEM_NAMES.get(missing, missing)))
+
 func _on_item_picked(item: Node3D) -> void:
-	# A return tween still running would keep dragging the item out of the player's hands
-	if return_tweens.has(item.name):
-		(return_tweens[item.name] as Tween).kill()
-		return_tweens.erase(item.name)
+	leftovers.erase(String(item.name))
 	if not in_step:
 		placed.erase(String(item.name))
 
@@ -206,23 +245,23 @@ func _open_step(step: Dictionary) -> void:
 
 func _on_step_finished(score: float) -> void:
 	Gamestate.step_scores.append(score)
+	# Restocking swaps in fresh nodes, so renamed items get their original names back
+	var renames: Dictionary = Recipe.STEPS[step_index].get("renames", {})
+	for item_name in renames:
+		ingredients.get_node(item_name).set_meta("display_name", renames[item_name])
 	step_ui.queue_free()
 	in_step = false
 	player.controls_locked = false
 	_exit_cook_view()
 	_next_step()
 
-# Put every placed item the next step doesn't need back where it started
-func _return_items(keep: Array) -> void:
+# Items the next step doesn't need stay on the placemat; the player has to carry them back
+func _leave_items(keep: Array) -> void:
 	for item_name in placed.keys():
 		if keep.has(item_name):
 			continue
 		placed.erase(item_name)
-		var item: Node3D = ingredients.get_node(item_name)
-		var tween := create_tween()
-		tween.tween_property(item, "global_position", (homes[item_name] as Transform3D).origin, RETURN_TIME) \
-				.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-		return_tweens[item.name] = tween
+		leftovers[item_name] = true
 
 # Switch to a bird's-eye camera over the placemat, with the player's capsule hidden
 func _enter_cook_view() -> void:

@@ -12,11 +12,11 @@ const ORDER_DIALOGUE := [
 		{"text": "Sure. Give me a few minutes."},
 		{"text": "What's in it for me?", "reply": [
 			{"speaker": "Customer", "text": "I'll make it worth your while."},
-			{"speaker": "Player", "text": "...Fine. I'll do it."},
+			{"speaker": "Player", "text": "Fine. I'll do it."},
 		]},
 		{"text": "I'm busy. Find someone else.", "reply": [
 			{"speaker": "Customer", "text": "There is no one else. Please."},
-			{"speaker": "Player", "text": "...Fine. Give me a few minutes."},
+			{"speaker": "Player", "text": "Fine. Give me a few minutes."},
 		]},
 	]},
 	{"speaker": "Customer", "text": "I'll wait right here. Come find me when it's done."},

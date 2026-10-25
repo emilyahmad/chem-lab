@@ -39,7 +39,6 @@ func start(step: Dictionary, items: Dictionary) -> void:
 	status = StepUtil.make_status()
 	add_child(status)
 	meter = StepUtil.make_meter(900.0, 120.0)
-	meter.fill = Color(0.8, 0.9, 1.0, 0.9)
 	meter.zones = [[safe_until, 1.0, Color(1.0, 0.4, 0.2, 0.35)]]
 	meter.marks = [[safe_until, UIStyle.TEXT]]
 	add_child(meter)

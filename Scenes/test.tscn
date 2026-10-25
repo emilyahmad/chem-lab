@@ -165,7 +165,7 @@ transform = Transform3D(-0.08439573, 0, -0.019031232, 0, 0.14999999, 0, 0.006690
 [node name="Ingredients" type="Node3D" parent="." unique_id=1254200074]
 
 [node name="Placemat" parent="Ingredients" unique_id=1048837404 instance=ExtResource("7_5wyu1")]
-transform = Transform3D(-0.0727935, 0, -0.0116677, 0, 0.05, 0, 0.00473925, 0, -0.179213, -0.0289381, 0.360507, 1.0341)
+transform = Transform3D(-0.0727935, 0, -0.0116677, 0, 0.05, 0, 0.00473925, 0, -0.179213, -0.0289381, 0.360507, 0.99692607)
 
 [node name="Mixer" parent="Ingredients" unique_id=1825127672 instance=ExtResource("6_i3aeo")]
 transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872, -0.129484, 0.25773, -0.419625)
@@ -211,4 +211,4 @@ transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872
 transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872, -0.110516, 0.3798, -0.180375)
 
 [node name="Player" parent="." unique_id=954919428 instance=ExtResource("14_mie3u")]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -0.452766, 0.347356, 0.101944)
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -0.452766, 0.397356, 0.101944)

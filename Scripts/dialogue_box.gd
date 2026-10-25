@@ -8,8 +8,14 @@ signal choice_made(id: String)
 @onready var choices_box: VBoxContainer = %Choices
 @onready var hint_label: Label = %Hint
 
+# The player's options are slightly smaller than the customer's text (32)
+const CHOICE_SIZE := 28
 const SELECTED_COLOR := UIStyle.ACCENT
 const NORMAL_COLOR := UIStyle.TEXT
+# Same dark green as the navbar
+const PANEL_COLOR := Color("#0B4920")
+const PANEL_OPACITY := 0.7
+const PANEL_RADIUS := 40
 # Seconds after a dialogue ends before Space can jump again
 const JUMP_REENABLE_DELAY := 0.3
 
@@ -17,17 +23,23 @@ var lines: Array = []
 var index := 0
 var active := false
 
+# Appended to the hint line while set (e.g. how to turn the customer away)
+var extra_hint := ""
+
 var choices: Array = []
 var selected := 0
 
 func _ready() -> void:
-	$Panel.add_theme_stylebox_override("panel", UIStyle.panel_style())
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(PANEL_COLOR, PANEL_OPACITY)
+	style.set_corner_radius_all(PANEL_RADIUS)
+	$Panel.add_theme_stylebox_override("panel", style)
 	visible = false
 
 # Each line is {"speaker": String, "text": String}. A line can also carry
 # "choices": [{"text": String, "id": String (optional), "reply": Array of lines (optional)}].
-# When the player picks one, their text is spoken as a Player line, then the reply lines
-# play, then the dialogue carries on with whatever follows the choice line.
+# When the player picks one, the reply lines play right away, then the dialogue carries
+# on with whatever follows the choice line.
 func start(new_lines: Array) -> void:
 	lines = new_lines.duplicate()
 	index = 0
@@ -62,14 +74,20 @@ func _show_line() -> void:
 	choices = line.get("choices", [])
 	selected = 0
 	if choices.is_empty():
-		hint_label.text = "[Space] Continue"
+		hint_label.text = "[Space] Continue" + extra_hint
 	else:
-		hint_label.text = ""
+		hint_label.text = extra_hint.strip_edges()
 		for choice in choices:
 			var label := Label.new()
-			label.add_theme_font_size_override("font_size", UIStyle.SIZE_SMALL)
+			label.add_theme_font_size_override("font_size", CHOICE_SIZE)
 			choices_box.add_child(label)
 		_refresh_choices()
+	_place_speaker()
+
+# The panel grows upward when there are choices, so keep the speaker's name sitting on its top edge
+func _place_speaker() -> void:
+	await get_tree().process_frame
+	speaker_label.position.y = $Panel.position.y - speaker_label.size.y
 
 func _clear_choices() -> void:
 	for child in choices_box.get_children():
@@ -84,9 +102,7 @@ func _refresh_choices() -> void:
 
 func _choose(i: int) -> void:
 	var choice: Dictionary = choices[i]
-	var inserted: Array = [{"speaker": "Player", "text": choice["text"]}]
-	inserted.append_array(choice.get("reply", []))
-	_insert_after(index, inserted)
+	_insert_after(index, choice.get("reply", []))
 	if choice.has("id"):
 		choice_made.emit(choice["id"])
 	_advance()
@@ -105,6 +121,15 @@ func _advance() -> void:
 		finished.emit()
 	else:
 		_show_line()
+
+# Ends the dialogue early without emitting finished
+func cancel() -> void:
+	if not active:
+		return
+	active = false
+	Gamestate.in_dialogue = false
+	visible = false
+	_set_jump_blocked(false)
 
 func _is_arrow_press(event: InputEvent, key: Key) -> bool:
 	return event is InputEventKey and event.pressed and event.physical_keycode == key

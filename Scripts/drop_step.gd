@@ -19,15 +19,6 @@ const DROP_ML := 1.0
 const DRAW_ML := 5.0
 const MIX_FRAC := 0.55
 
-# The mixture's colour after n drops, interpolated between these stops [drops, colour]
-const STOPS := [
-	[0.0, Color(0.15, 0.4, 0.95, 0.85)],
-	[6.0, Color(0.1, 0.7, 0.8, 0.85)],
-	[12.0, Color(0.2, 0.85, 0.45, 0.85)],
-	[18.0, Color(0.9, 0.85, 0.2, 0.85)],
-	[24.0, Color(0.95, 0.5, 0.15, 0.85)],
-]
-
 var flask
 var syringe
 var quench
@@ -45,11 +36,13 @@ var current_swatch: ColorRect
 var count_label: Label
 var status: Label
 
-static func shade(n: float) -> Color:
-	for i in range(1, STOPS.size()):
-		if n <= STOPS[i][0]:
-			return (STOPS[i - 1][1] as Color).lerp(STOPS[i][1], (n - STOPS[i - 1][0]) / (STOPS[i][0] - STOPS[i - 1][0]))
-	return STOPS[STOPS.size() - 1][1]
+# The mixture's colour after n drops, interpolated between this customer's palette stops
+func shade(n: float) -> Color:
+	var stops: Array = Gamestate.dose_stops
+	for i in range(1, stops.size()):
+		if n <= stops[i][0]:
+			return (stops[i - 1][1] as Color).lerp(stops[i][1], (n - stops[i - 1][0]) / (stops[i][0] - stops[i - 1][0]))
+	return stops[stops.size() - 1][1]
 
 func start(step: Dictionary, items: Dictionary) -> void:
 	var params: Dictionary = step["params"]

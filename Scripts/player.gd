@@ -33,6 +33,7 @@ var sprint_exhausted := false
 signal item_placed(item: Node3D)
 signal item_picked(item: Node3D)
 signal item_swapped(put_down: Node3D, picked_up: Node3D)
+signal item_returned(item: Node3D)
 signal dish_served
 
 # Set by cutscenes/dialogue to stop movement and look input
@@ -50,6 +51,19 @@ func _ready():
 	#$StaminaBar/StaminaProgressBar.visible = false
 
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	_setup_motion_blur()
+
+func _setup_motion_blur() -> void:
+	var layer := CanvasLayer.new()
+	layer.layer = -1 # under the HUD, over the 3D view
+	blur_rect = ColorRect.new()
+	blur_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	blur_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	blur_rect.material = ShaderMaterial.new()
+	blur_rect.material.shader = preload("res://Assets/Environment/motion_blur.gdshader")
+	blur_rect.visible = false
+	layer.add_child(blur_rect)
+	add_child(layer)
 
 # Movement input read from WASD only, ignoring the arrow keys bound to the same actions
 func _wasd_vector() -> Vector2:
@@ -59,6 +73,9 @@ func _wasd_vector() -> Vector2:
 	).limit_length(1.0)
 
 func _process(delta: float) -> void:
+	blur_velocity = blur_velocity.lerp(Vector2.ZERO, clampf(BLUR_DECAY * delta, 0.0, 1.0)).limit_length(BLUR_MAX)
+	blur_rect.visible = blur_velocity.length() > 0.0005 and not controls_locked
+	(blur_rect.material as ShaderMaterial).set_shader_parameter("velocity", blur_velocity)
 	if Input.is_action_pressed("escape"):
 		get_tree().quit()
 
@@ -82,10 +99,17 @@ func _process(delta: float) -> void:
 var held_object: RigidBody3D = null
 @onready var interact_label: Label = %Label
 
+const BLUR_STRENGTH := 0.002 # blur length (screen fraction) per pixel of mouse movement
+const BLUR_MAX := 0.012
+const BLUR_DECAY := 20.0
+var blur_rect: ColorRect
+var blur_velocity := Vector2.ZERO
+
 func _unhandled_input(event):
 	if controls_locked:
 		return
 	if event is InputEventMouseMotion:
+		blur_velocity += event.relative * BLUR_STRENGTH * 0.25
 		rotate_y(-event.relative.x * sensitivity)
 		camera.rotate_x(-event.relative.y * sensitivity)
 		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-60), deg_to_rad(70))
@@ -125,6 +149,8 @@ const DISPLAY_NAMES := {"Erlenmeyer": "erlenmeyer flask"}
 
 # "CoffeeFilter" -> "coffee filter"
 func _display_name(node: Node) -> String:
+	if node.has_meta("display_name"): # set by the cooking director, e.g. "used beaker"
+		return node.get_meta("display_name")
 	if DISPLAY_NAMES.has(String(node.name).rstrip("0123456789")):
 		return DISPLAY_NAMES[String(node.name).rstrip("0123456789")]
 	if "label_text" in node and node.label_text != "":
@@ -145,6 +171,7 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta
 
 	if controls_locked:
+		interact_label.visible = false
 		velocity.x = 0.0
 		velocity.z = 0.0
 		move_and_slide()
@@ -172,8 +199,8 @@ func _physics_process(delta: float) -> void:
 	if regen_cooldown == 0.0:
 		stamina = minf(stamina + STAMINA_REGEN * delta, MAX_STAMINA)
 	stamina_bar.value = stamina
-	# Only show the bar while it's depleted or recovering
-	stamina_bar.visible = stamina < MAX_STAMINA
+	# Bar is hidden for now; stamina still applies to sprint/jump
+	stamina_bar.visible = false
 
 	#if !($StaminaBar/StaminaProgressBar.value == 0):
 		#if Input.is_action_pressed("jump") && is_on_floor():
@@ -208,18 +235,27 @@ func _physics_process(delta: float) -> void:
 	var looking_at_pickable = hit_object != null and hit_object.is_in_group("pickable")
 	var looking_at_placemat = hit_object != null and hit_object.is_in_group("placemat")
 	var looking_at_interactable = hit_object != null and hit_object.is_in_group("interactable")
+	var looking_at_counter = hit_object != null and hit_object.is_in_group("counter")
 
 	# The finished dish can be handed to the customer through the open window
 	var serving: bool = held_object != null and held_object.name == "PetriDish" and Gamestate.recipe_complete \
 			and looking_at_interactable and hit_object.has_method("accepts_dish") and hit_object.accepts_dish()
 
+	# Some interactables (the window) can be used with hands full
+	var using_while_holding: bool = held_object != null and not serving and looking_at_interactable \
+			and hit_object.has_method("usable_while_holding") and hit_object.usable_while_holding()
+
 	if held_object:
 		if serving:
 			interact_label.text = "[E] Hand over the dish"
+		elif using_while_holding:
+			interact_label.text = hit_object.get_prompt()
 		elif looking_at_placemat:
 			interact_label.text = "[E] Place"
 		elif looking_at_pickable:
 			interact_label.text = "[E] Swap for " + _display_name(hit_object)
+		elif looking_at_counter:
+			interact_label.text = "[E] Put back"
 		else:
 			interact_label.text = "[E] Drop"
 		interact_label.visible = true
@@ -230,6 +266,9 @@ func _physics_process(delta: float) -> void:
 		interact_label.text = "[E] Pick up" + ((" " + _display_name(hit_object)) if looking_at_pickable else "")
 		interact_label.visible = looking_at_pickable
 
+	if Gamestate.instructions_open:
+		interact_label.visible = false
+
 	# Clicking a clickable interactable (the posters) works like pressing E on it
 	var clicked: bool = Input.is_action_just_pressed("click") and not held_object \
 			and looking_at_interactable and hit_object.has_method("clickable") and hit_object.clickable()
@@ -238,6 +277,8 @@ func _physics_process(delta: float) -> void:
 		if serving:
 			_release_held()
 			dish_served.emit()
+		elif using_while_holding:
+			hit_object.interact()
 		elif held_object and looking_at_pickable:
 			# Swap: the held item takes the other item's spot
 			# (same x/z, but at the height the held item rests at)
@@ -251,6 +292,11 @@ func _physics_process(delta: float) -> void:
 			# The held item took the other's spot, so the other's home is where it came from
 			# (otherwise putting it down lands it on top of the item it was swapped with)
 			other.set_meta("home_transform", Transform3D(other.global_transform.basis, held_home.origin))
+		elif held_object and looking_at_counter:
+			# Anywhere on the countertop sends the item back to its original spot
+			# (the director points its home_transform there)
+			item_returned.emit(held_object)
+			_release_held()
 		elif held_object:
 			var dropped_object = held_object
 			_release_held()

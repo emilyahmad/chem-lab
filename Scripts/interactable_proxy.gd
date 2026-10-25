@@ -16,3 +16,7 @@ func accepts_dish() -> bool:
 # Whether a left click also triggers this (posters)
 func clickable() -> bool:
 	return target.has_method("clickable") and target.clickable()
+
+# Whether this works while the player is carrying something (the window)
+func usable_while_holding() -> bool:
+	return target.has_method("usable_while_holding") and target.usable_while_holding()

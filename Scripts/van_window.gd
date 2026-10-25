@@ -15,8 +15,11 @@ const FRAME_THICKNESS := 0.012
 const FRAME_DEPTH := 0.03
 const PANE_GAP := 0.008 # distance between the fixed and the sliding pane
 const SLIDE_TIME := 1.5
+const SHARD_COUNT := 36
+const SHARD_TIME := 1.4
 
 signal fully_opened
+signal closed
 
 @export var rv_path: NodePath = ^"../RV"
 
@@ -26,6 +29,8 @@ var width: float
 var height: float
 var sash: Node3D
 var tween: Tween
+var glass_panes: Array[MeshInstance3D] = []
+var shard_mat: Material
 
 func _ready() -> void:
 	add_to_group("interactable")
@@ -74,14 +79,15 @@ func _build() -> void:
 	var fixed := Node3D.new()
 	fixed.position = Vector3(PANE_GAP / 2, 0, w / 4 - t * 0.25)
 	add_child(fixed)
-	_add_box(fixed, Vector3(0.004, h, pane_w), Vector3.ZERO, glass_mat)
+	glass_panes.append(_add_box(fixed, Vector3(0.004, h, pane_w), Vector3.ZERO, glass_mat))
 	_add_pane_frame(fixed, pane_w, frame_mat)
 
 	# Sliding pane: starts closed on the -z half, slides over the fixed one
 	sash = Node3D.new()
 	sash.position = Vector3(-PANE_GAP / 2, 0, -w / 4 + t * 0.25)
 	add_child(sash)
-	_add_box(sash, Vector3(0.004, h, pane_w), Vector3.ZERO, glass_mat)
+	glass_panes.append(_add_box(sash, Vector3(0.004, h, pane_w), Vector3.ZERO, glass_mat))
+	shard_mat = glass_mat
 	_add_pane_frame(sash, pane_w, frame_mat)
 	# Little handle on the sliding pane's inner edge
 	_add_box(sash, Vector3(0.012, h * 0.28, 0.006), Vector3(-0.008, 0, pane_w / 2 - 0.02), frame_mat)
@@ -108,7 +114,7 @@ func _add_pane_frame(parent: Node3D, pane_w: float, mat: Material) -> void:
 	_add_box(parent, Vector3(0.008, height, bar), Vector3(0, 0, pane_w / 2 - bar / 2), mat)
 	_add_box(parent, Vector3(0.008, height, bar), Vector3(0, 0, -pane_w / 2 + bar / 2), mat)
 
-func _add_box(parent: Node3D, size: Vector3, pos: Vector3, mat: Material) -> void:
+func _add_box(parent: Node3D, size: Vector3, pos: Vector3, mat: Material) -> MeshInstance3D:
 	var mi := MeshInstance3D.new()
 	var mesh := BoxMesh.new()
 	mesh.size = size
@@ -116,11 +122,41 @@ func _add_box(parent: Node3D, size: Vector3, pos: Vector3, mat: Material) -> voi
 	mi.mesh = mesh
 	mi.position = pos
 	parent.add_child(mi)
+	return mi
+
+# --- shattering ------------------------------------------------------------
+
+# Something comes crashing through: both panes vanish and shards spray into the van
+func shatter() -> void:
+	for pane in glass_panes:
+		pane.visible = false
+	for i in SHARD_COUNT:
+		var shard := MeshInstance3D.new()
+		var mesh := BoxMesh.new()
+		mesh.size = Vector3(0.004, randf_range(0.03, 0.12), randf_range(0.03, 0.12))
+		mesh.material = shard_mat
+		shard.mesh = mesh
+		shard.position = Vector3(0, randf_range(-height / 2, height / 2), randf_range(-width / 2, width / 2))
+		shard.rotation = Vector3(randf() * TAU, randf() * TAU, randf() * TAU)
+		add_child(shard)
+		# -x is into the van; fall with gravity while spinning
+		var vel := Vector3(randf_range(-2.5, -0.5), randf_range(0.5, 2.0), randf_range(-1.0, 1.0))
+		var spin := Vector3(randf_range(-8, 8), randf_range(-8, 8), randf_range(-8, 8))
+		var start := shard.position
+		var tw := create_tween()
+		tw.tween_method(func(t: float):
+			shard.position = start + vel * t + Vector3(0, -4.9 * t * t, 0)
+			shard.rotation += spin * 0.016, 0.0, SHARD_TIME, SHARD_TIME)
+		tw.tween_callback(shard.queue_free)
 
 # --- interaction -----------------------------------------------------------
 
 func accepts_dish() -> bool:
 	return fully_open
+
+# The window can be opened or closed with hands full (drop things on the counter instead)
+func usable_while_holding() -> bool:
+	return true
 
 func get_prompt() -> String:
 	return "[E] Close window" if is_open else "[E] Open window"
@@ -128,6 +164,8 @@ func get_prompt() -> String:
 func interact() -> void:
 	is_open = not is_open
 	fully_open = false
+	if not is_open:
+		closed.emit()
 	if tween:
 		tween.kill()
 	tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)

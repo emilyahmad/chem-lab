@@ -31,6 +31,25 @@ static func _lowest_y(source: Node3D, at: Transform3D) -> float:
 			lowest = minf(lowest, (rel * box.get_endpoint(i)).y)
 	return lowest
 
+# World point at the middle of `source`'s rim edge that sits lowest right now, i.e. where it pours from
+static func lip_point(source: Node3D) -> Vector3:
+	var inv := source.global_transform.affine_inverse()
+	var box := AABB()
+	var first := true
+	for mi: MeshInstance3D in source.find_children("*", "MeshInstance3D", true, false):
+		if not mi.visible or mi.mesh == null:
+			continue
+		var b := (inv * mi.global_transform) * mi.mesh.get_aabb()
+		box = b if first else box.merge(b)
+		first = false
+	var corners: Array[Vector3] = []
+	for i in 8:
+		var c := box.get_endpoint(i)
+		if is_equal_approx(c.y, box.end.y):
+			corners.append(source.global_transform * c)
+	corners.sort_custom(func(a: Vector3, b: Vector3): return a.y < b.y)
+	return (corners[0] + corners[1]) / 2.0
+
 # Tweens `node` from where it is now to `to`. Await the returned tween's `finished`.
 static func move_to(node: Node3D, to: Transform3D, seconds: float) -> Tween:
 	var from := node.global_transform

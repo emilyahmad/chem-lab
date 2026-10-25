@@ -30,45 +30,8 @@ var source_home: Transform3D
 var pour_transform: Transform3D
 var stream: MeshInstance3D
 
-var gauge: Gauge
+var meter: StepMeter
 var status: Label
-var readout: Label
-
-# Vertical gauge: graduations every 10 mL, a star and shaded band at the target
-class Gauge extends Control:
-	var capacity := 250.0
-	var target := 150.0
-	var tolerance := 5.0
-	var level := 0.0
-	var liquid := Color.WHITE
-
-	func _draw() -> void:
-		var h := size.y
-		var w := size.x
-		draw_rect(Rect2(0, 0, w, h), UIStyle.METER_BG)
-		var top := h - level / capacity * h
-		draw_rect(Rect2(0, top, w, h - top), Color(liquid.r, liquid.g, liquid.b, 0.85))
-		var band_top := h - (target + tolerance) / capacity * h
-		draw_rect(Rect2(0, band_top, w, tolerance * 2.0 / capacity * h), Color(0.3, 1.0, 0.4, 0.35))
-		draw_rect(Rect2(0, 0, w, h), UIStyle.ACCENT, false, 3.0)
-		var font: Font = UIStyle.FONT
-		for ml in range(0, int(capacity) + 1, 10):
-			var y := h - ml / capacity * h
-			var major := ml % 50 == 0
-			draw_line(Vector2(0, y), Vector2(w * (0.5 if major else 0.28), y), UIStyle.TEXT, 2.0 if major else 1.0)
-			if major:
-				draw_string(font, Vector2(w + 8, y + 5), "%d" % ml, HORIZONTAL_ALIGNMENT_LEFT, -1, UIStyle.SIZE_SMALL, UIStyle.TEXT)
-		var ty := h - target / capacity * h
-		_draw_star(Vector2(-22, ty), 20.0)
-		draw_string(font, Vector2(-250, ty + 10), "Target: %d mL" % target, HORIZONTAL_ALIGNMENT_RIGHT, 210, UIStyle.SIZE_SMALL, UIStyle.TEXT)
-
-	func _draw_star(center: Vector2, radius: float) -> void:
-		var pts := PackedVector2Array()
-		for i in 10:
-			var r := radius if i % 2 == 0 else radius * 0.42
-			var a := -PI / 2.0 + i * PI / 5.0
-			pts.append(center + Vector2(cos(a), sin(a)) * r)
-		draw_colored_polygon(pts, UIStyle.STAR)
 
 func start(step: Dictionary, items: Dictionary) -> void:
 	var params: Dictionary = step["params"]
@@ -92,26 +55,10 @@ func _build_ui(text: String) -> void:
 	status = StepUtil.make_status()
 	add_child(status)
 
-	gauge = Gauge.new()
-	gauge.capacity = capacity_ml
-	gauge.target = target_ml
-	gauge.tolerance = tolerance_ml
-	gauge.liquid = Color(color.r, color.g, color.b)
-	gauge.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
-	gauge.custom_minimum_size = Vector2(110, 640)
-	gauge.offset_left = -300.0
-	gauge.offset_right = -190.0
-	gauge.offset_top = -320.0
-	gauge.offset_bottom = 320.0
-	add_child(gauge)
-
-	readout = StepUtil.make_label("", UIStyle.SIZE_BODY)
-	readout.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
-	readout.offset_left = -400.0
-	readout.offset_right = -90.0
-	readout.offset_top = 340.0
-	readout.offset_bottom = 400.0
-	add_child(readout)
+	meter = StepUtil.make_meter(900.0, 120.0)
+	meter.zones = [[(target_ml - tolerance_ml) / capacity_ml, (target_ml + tolerance_ml) / capacity_ml, Color(0.3, 1.0, 0.4, 0.4)]]
+	meter.marks = [[target_ml / capacity_ml, UIStyle.TEXT]]
+	add_child(meter)
 	_refresh()
 
 func _build_stream() -> void:
@@ -173,9 +120,9 @@ func _update_stream() -> void:
 	stream.visible = true
 
 func _refresh() -> void:
-	gauge.level = poured
-	gauge.queue_redraw()
-	readout.text = "%d mL" % roundi(poured)
+	meter.set_value(poured / capacity_ml)
+	if state == State.POURING:
+		status.text = "Press [SPACE] to stop pouring    %d mL" % roundi(poured)
 
 func _stop_pour() -> void:
 	state = State.RESULT
@@ -188,9 +135,9 @@ func _stop_pour() -> void:
 		finished.emit(maxf(0.0, 1.0 - absf(error) / SCORE_FALLOFF_ML))
 		return
 	var verdict := "Too much" if error > 0.0 else "Too little"
-	var back := StepUtil.move_to(source, source_home, RETURN_TIME)
+	status.text = "%s (%d mL, need %d)." % [verdict, roundi(poured), roundi(target_ml)]
+	await StepUtil.move_to(source, source_home, RETURN_TIME).finished
 	for s in range(RETRY_SECONDS, 0, -1):
 		status.text = "%s (%d mL, need %d). Try again in %d..." % [verdict, roundi(poured), roundi(target_ml), s]
 		await get_tree().create_timer(1.0).timeout
-	await back.finished
 	_begin_pour()

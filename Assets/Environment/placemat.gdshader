@@ -1,11 +1,12 @@
 shader_type spatial;
-// Placemat: teal gingham with a cream border stripe and a dotted inner trim.
+// Placemat: warm tan gingham with a dark brown border stripe and a dotted inner trim,
+// tuned to the counter/floor palette.
 // Works off the mesh's local coordinates; node_scale compensates for the
 // placemat's non-uniform scale so the checks stay square.
 
-uniform vec3 base_color : source_color = vec3(0.96, 0.93, 0.86);
-uniform vec3 check_color : source_color = vec3(0.16, 0.55, 0.60);
-uniform vec3 accent_color : source_color = vec3(0.93, 0.45, 0.38);
+uniform vec3 base_color : source_color = vec3(0.81, 0.76, 0.66);
+uniform vec3 check_color : source_color = vec3(0.62, 0.52, 0.40);
+uniform vec3 accent_color : source_color = vec3(0.30, 0.15, 0.13);
 uniform vec2 node_scale = vec2(0.0729476, 0.179592);
 uniform float cell_size = 0.02;
 uniform float border_width = 0.12;

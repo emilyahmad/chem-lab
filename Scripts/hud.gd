@@ -3,17 +3,20 @@ extends CanvasLayer
 @onready var instructions_label : RichTextLabel = %Instructions
 @onready var timer_label : RichTextLabel = $Navbar/Timer
 
+const CAUGHT_SCREEN = preload("res://Scripts/caught_screen.gd")
+
 var timer_expired := false
 var cooking_started := false
 var intro_skipped := false
 var skip_hint : Label
 var money_label : Label
 var instructions_note : PanelContainer
-var alert_panel : PanelContainer
+var instructions_blur : ColorRect
 var alert_label : Label
 var alert_tween : Tween
 
 const ALERT_TIME := 3.5
+const ALERT_FADE_TIME := 1.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -27,6 +30,7 @@ func _ready() -> void:
 	money_label.grow_horizontal = Control.GROW_DIRECTION_BEGIN
 	money_label.offset_right = -20.0
 	money_label.offset_top = 8.0
+	money_label.visible = false
 	add_child(money_label)
 
 	skip_hint = Label.new()
@@ -43,61 +47,60 @@ func _ready() -> void:
 	_build_alert()
 	Gamestate.alert_requested.connect(_show_alert)
 
-# Temporary notice under the navbar, top left
+# Temporary notice under the navbar, top left: plain white text that fades out
 func _build_alert() -> void:
-	alert_panel = PanelContainer.new()
-	alert_panel.visible = false
-	alert_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	alert_panel.position = Vector2(20.0, 100.0)
-	alert_panel.add_theme_stylebox_override("panel", UIStyle.panel_style())
 	alert_label = Label.new()
-	UIStyle.style_label(alert_label, UIStyle.SIZE_BODY, UIStyle.ACCENT)
-	alert_panel.add_child(alert_label)
-	add_child(alert_panel)
+	alert_label.visible = false
+	alert_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	alert_label.position = Vector2(20.0, 100.0)
+	UIStyle.style_label(alert_label, UIStyle.SIZE_BODY, Color.WHITE)
+	add_child(alert_label)
 
 func _show_alert(text: String) -> void:
 	alert_label.text = text
-	alert_panel.visible = true
+	alert_label.modulate.a = 1.0
+	alert_label.visible = true
 	if alert_tween:
 		alert_tween.kill()
 	alert_tween = create_tween()
 	alert_tween.tween_interval(ALERT_TIME)
-	alert_tween.tween_callback(func(): alert_panel.visible = false)
+	alert_tween.tween_property(alert_label, "modulate:a", 0.0, ALERT_FADE_TIME)
+	alert_tween.tween_callback(func(): alert_label.visible = false)
 
-# Centered note recapping the recipe steps; F toggles it once the first order is served
+# Centered note recapping the recipe steps; F toggles it
 func _build_instructions_note() -> void:
+	instructions_blur = UIStyle.make_backdrop_blur()
+	instructions_blur.visible = false
+	add_child(instructions_blur)
 	instructions_note = PanelContainer.new()
 	instructions_note.visible = false
 	instructions_note.set_anchors_preset(Control.PRESET_CENTER)
 	instructions_note.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	instructions_note.grow_vertical = Control.GROW_DIRECTION_BOTH
 	instructions_note.custom_minimum_size = Vector2(1000, 0)
-	instructions_note.add_theme_stylebox_override("panel", UIStyle.panel_style())
+	# Same look as the "Batch complete" card
+	var style := StyleBoxFlat.new()
+	style.bg_color = UIStyle.PANEL_BG
+	style.set_corner_radius_all(12)
+	style.set_content_margin_all(28.0)
+	instructions_note.add_theme_stylebox_override("panel", style)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 10)
 	instructions_note.add_child(box)
-	var title := Label.new()
-	title.text = "Cooking instructions"
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	UIStyle.style_label(title, UIStyle.SIZE_TITLE, UIStyle.ACCENT)
-	box.add_child(title)
+	box.add_child(StepUtil.make_label("Cooking instructions", UIStyle.SIZE_TITLE))
 	for i in Recipe.STEPS.size():
-		var line := Label.new()
-		line.text = "%d. %s" % [i + 1, Recipe.STEPS[i]["instruction"]]
+		var line := StepUtil.make_label("%d. %s" % [i + 1, Recipe.STEPS[i]["instruction"]], UIStyle.SIZE_SMALL)
 		line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		UIStyle.style_label(line, UIStyle.SIZE_SMALL)
 		box.add_child(line)
-	var hint := Label.new()
-	hint.text = "Press F to close"
-	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	UIStyle.style_label(hint, UIStyle.SIZE_SMALL, UIStyle.ACCENT)
-	box.add_child(hint)
+	box.add_child(StepUtil.make_label("[F] Close", UIStyle.SIZE_SMALL))
 	add_child(instructions_note)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_F \
-			and Gamestate.orders_served > 0 and not Gamestate.in_dialogue:
+			and not Gamestate.in_dialogue:
 		instructions_note.visible = not instructions_note.visible
+		instructions_blur.visible = instructions_note.visible
+		Gamestate.instructions_open = instructions_note.visible
 		get_viewport().set_input_as_handled()
 		return
 	if Gamestate.round >= 1 and Gamestate.round <= 3 and not intro_skipped and event.is_action_pressed("space"):
@@ -112,19 +115,30 @@ func _intro_wait(seconds: float) -> bool:
 
 func _process(delta: float) -> void:
 	money_label.text = "$%d" % Gamestate.money
-	instructions_label.visible = not Gamestate.in_dialogue
+	# A dialogue starting while the recap is open would leave it stuck on screen (F is ignored in dialogue)
+	if Gamestate.in_dialogue and instructions_note.visible:
+		instructions_note.visible = false
+		instructions_blur.visible = false
+		Gamestate.instructions_open = false
+	instructions_label.visible = not Gamestate.in_dialogue and get_tree().get_nodes_in_group("grade_card").is_empty()
 	if Gamestate.round == 1:
 		Gamestate.round = 2
+		instructions_label.text = "Welcome to the van and your personal lab."
+		if not await _intro_wait(3.15): return
+		instructions_label.text = "You have 10 minutes"
+		if not await _intro_wait(2.1): return
+		instructions_label.text = "to serve as many customers as you can."
+		if not await _intro_wait(3.15): return
 		instructions_label.text = ""
-		if not await _intro_wait(.6): return
+		if not await _intro_wait(.85): return
 		instructions_label.text = "Receive instructions the first time you cook,"
-		if not await _intro_wait(2.2): return
-		instructions_label.text = "Use the guides on the walls to instruct you afterwards."
-		if not await _intro_wait(2.8): return
-		instructions_label.text = "Make sure you don't serve police."
-		if not await _intro_wait(2.5): return
+		if not await _intro_wait(3.1): return
+		instructions_label.text = "Toggle the guide using [F] to instruct you afterwards."
+		if not await _intro_wait(4.0): return
+		instructions_label.text = "Don't serve police. If you spot one, shut the window on them."
+		if not await _intro_wait(3.5): return
 		instructions_label.text = "Happy cooking!"
-		if not await _intro_wait(2.0): return
+		if not await _intro_wait(2.8): return
 		skip_hint.visible = false
 		Gamestate.round = 3
 
@@ -140,9 +154,18 @@ func _process(delta: float) -> void:
 		timer_expired = true
 		cooking_started = false
 		instructions_label.text = "Time's up!"
+		_end_run_after_delay()
 
 	if cooking_started:
 		_update_cooking_instructions()
+
+# Lets "Time's up!" sink in, then the end screen with the run's stats
+func _end_run_after_delay() -> void:
+	var player := get_tree().get_first_node_in_group("player")
+	if player:
+		player.controls_locked = true
+	await get_tree().create_timer(1.5).timeout
+	CAUGHT_SCREEN.end_run(get_tree(), "Time's up!")
 
 # Instructions sit at the bottom center, where the interact prompt used to be (the prompt now
 # sits under the crosshair). The label grows to fit its text (never scrolls), upward from the bottom.

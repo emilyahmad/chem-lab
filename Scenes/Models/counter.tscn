@@ -53,7 +53,8 @@ material_override = SubResource("ShaderMaterial_counter")
 mesh = SubResource("ArrayMesh_eoh8w")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="StaticBody3D" type="StaticBody3D" parent="." groups=["counter"]]
+collision_layer = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_60db7")

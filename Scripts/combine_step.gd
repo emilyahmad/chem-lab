@@ -14,6 +14,10 @@ const MOUTH_CLEARANCE := 0.004
 const TILT_TIME := 0.8
 const TIP_TIME := 1.2
 const RETURN_TIME := 0.6
+const LIFT_TIME := 0.4
+const BOWL_LIFT := 0.03 # extra height for the bowl and catalyst so they clear what is on the placemat
+const CATALYST_LIFT := 0.025
+const STREAM_GRAVITY := 3.0 # m/s^2, gentler than real so the fall reads on screen
 const SWIRL_RADIUS := 0.006
 const SWIRL_SPEED := 9.0 # rad/s
 const FLASK_FILL := 0.55
@@ -58,25 +62,72 @@ func _run() -> void:
 	status.text = "Removing the cork"
 	await flask.pull_cork().finished
 	status.text = ""
-	await _tip(liquid, TILT_DEG, func(a: float):
+	await _tip(liquid, TILT_DEG, 0.0, clear.lerp(Color(0.7, 0.85, 1.0), 0.5), func(a: float):
 		liquid.set_fill_ml(liquid_ml * (1.0 - a), clear)
 		flask.set_mix(a * FLASK_FILL, clear))
-	await _tip(powder, BOWL_TILT_DEG, func(a: float):
+	await _tip(powder, BOWL_TILT_DEG, BOWL_LIFT, Color(0.93, 0.92, 0.88), func(a: float):
 		powder.set_crush(powder.crush_level, 1.0 - a)
 		flask.set_mix(FLASK_FILL, clear.lerp(CLOUDY, a)))
-	await _tip(catalyst, TILT_DEG, func(a: float):
+	await _tip(catalyst, TILT_DEG, CATALYST_LIFT, Color(0.2, 0.5, 1.0), func(a: float):
 		catalyst.set_powder_amount(1.0 - a))
 	state = State.SWIRLING
 	status.text = "Hold [SPACE] to swirl"
 
-# Tips `source` over the flask, calls `apply(0..1)` while it empties, then tips it back
-func _tip(source: Node3D, tilt_deg: float, apply: Callable) -> void:
+# Lifts `source` straight up by `lift`, tips it over the flask, calls `apply(0..1)` while it empties
+# with a stream falling into the flask, then tips it back and sets it down
+func _tip(source: Node3D, tilt_deg: float, lift: float, stream_color: Color, apply: Callable) -> void:
 	var home := source.global_transform
-	await StepUtil.move_to(source, StepUtil.tilt_over(source, flask, tilt_deg, _mouth_y() + MOUTH_CLEARANCE), TILT_TIME).finished
+	var up := Vector3.UP * lift
+	if lift > 0.0:
+		await StepUtil.move_to(source, Transform3D(home.basis, home.origin + up), LIFT_TIME).finished
+	var over := StepUtil.tilt_over(source, flask, tilt_deg, _mouth_y() + MOUTH_CLEARANCE)
+	over.origin += up
+	await StepUtil.move_to(source, over, TILT_TIME).finished
+	var stream := _make_stream(stream_color, StepUtil.lip_point(source))
+	stream.emitting = true
 	var tween := create_tween()
 	tween.tween_method(apply, 0.0, 1.0, TIP_TIME)
 	await tween.finished
-	await StepUtil.move_to(source, home, RETURN_TIME).finished
+	stream.emitting = false
+	get_tree().create_timer(stream.lifetime).timeout.connect(stream.queue_free)
+	if lift > 0.0:
+		await StepUtil.move_to(source, Transform3D(home.basis, home.origin + up), TILT_TIME).finished
+		await StepUtil.move_to(source, home, LIFT_TIME).finished
+	else:
+		await StepUtil.move_to(source, home, RETURN_TIME).finished
+
+# Droplets leaving the pouring container's lip: they spill out sideways toward the flask, then
+# arc down under gravity and are gone by the time they reach the flask's mouth
+func _make_stream(color: Color, lip: Vector3) -> CPUParticles3D:
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = Color(color, 0.85)
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	var mesh := SphereMesh.new()
+	mesh.radius = 0.0012
+	mesh.height = 0.0024
+	mesh.material = mat
+	var mouth: Vector3 = flask.global_transform * Vector3(0, MOUTH_Y, 0)
+	var toward: Vector3 = mouth - lip
+	toward.y = 0.0
+	toward = toward.normalized()
+	var fall := maxf(lip.y - mouth.y, 0.005)
+	var speed := 0.03
+	var p := CPUParticles3D.new()
+	p.mesh = mesh
+	p.amount = 60
+	p.lifetime = sqrt(2.0 * fall / STREAM_GRAVITY) + 0.02
+	p.local_coords = false
+	p.emission_shape = CPUParticles3D.EMISSION_SHAPE_SPHERE
+	p.emission_sphere_radius = 0.0015
+	p.direction = toward + Vector3.DOWN * 0.2
+	p.spread = 5.0
+	p.initial_velocity_min = speed * 0.8
+	p.initial_velocity_max = speed
+	p.gravity = Vector3(0, -STREAM_GRAVITY, 0)
+	p.emitting = false
+	flask.add_child(p)
+	p.global_position = lip
+	return p
 
 # World height of the flask's mouth; tipped items stay above it so they don't clip the neck
 func _mouth_y() -> float:

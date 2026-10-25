@@ -22,6 +22,7 @@
 [ext_resource type="Script" uid="uid://dmfqcp1xj1dao" path="res://Scripts/desert.gd" id="27_desert"]
 [ext_resource type="Script" uid="uid://dxo7rfo4ikfcl" path="res://Scripts/window_enemy.gd" id="28_enemy"]
 [ext_resource type="Script" uid="uid://kugjfceb1leh" path="res://Scripts/van_polaroids.gd" id="29_polaroids"]
+[ext_resource type="Script" uid="uid://daglduklt834j" path="res://Scripts/grass_patch.gd" id="30_grass"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_night"]
 panorama = ExtResource("21_sky")
@@ -147,6 +148,9 @@ script = ExtResource("25_door")
 [node name="VanLights" type="Node3D" parent="Environment" unique_id=946283928]
 script = ExtResource("26_lights")
 
+[node name="Grass" type="MultiMeshInstance3D" parent="Environment"]
+script = ExtResource("30_grass")
+
 [node name="Desert" type="Node3D" parent="Environment" unique_id=1431736734]
 script = ExtResource("27_desert")
 
@@ -162,6 +166,7 @@ transform = Transform3D(-0.08439573, 0, -0.019031232, 0, 0.14999999, 0, 0.006690
 
 [node name="Placemat" parent="Ingredients" unique_id=1048837404 instance=ExtResource("7_5wyu1")]
 transform = Transform3D(-0.0727935, 0, -0.0116677, 0, 0.05, 0, 0.00473925, 0, -0.179213, -0.0289381, 0.360507, 0.9741)
+metadata/_edit_lock_ = true
 
 [node name="Mixer" parent="Ingredients" unique_id=1825127672 instance=ExtResource("6_i3aeo")]
 transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872, -0.129484, 0.25773, -0.419625)
@@ -209,4 +214,4 @@ transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872
 transform = Transform3D(0.996872, 0, 0.0790333, 0, 1, 0, -0.0790333, 0, 0.996872, -0.110516, 0.3798, -0.180375)
 
 [node name="Player" parent="." unique_id=954919428 instance=ExtResource("14_mie3u")]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -0.452766, 0.347356, 0.101944)
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -0.452766, 0.359856, 0.101944)

@@ -8,8 +8,8 @@ const SIZE_BODY := 36
 const SIZE_SMALL := 28
 
 const GREEN := Color("#004A19")
-const GREEN_DARK := GREEN.darkened(0.5)
-const GREEN_TOP := GREEN.lightened(0.2)
+const GREEN_DARK := Color("#00250D") # GREEN darkened 50%
+const GREEN_TOP := Color("#336E47") # GREEN lightened 20%
 const GREEN_LIGHT := Color("#2FA45A") # lighter tint of GREEN for borders and fills
 
 const TEXT := Color("#E6F5EA")
@@ -20,6 +20,8 @@ const PANEL_BG := Color(GREEN_DARK, 0.92)
 const PANEL_BORDER := GREEN_LIGHT
 const METER_BG := Color(GREEN_DARK, 0.85)
 const METER_FILL := Color(GREEN_LIGHT, 0.95)
+
+const BACKDROP_BLUR := preload("res://Assets/Environment/backdrop_blur.gdshader")
 
 const TEX_SIZE := 96
 const BORDER := 5
@@ -64,3 +66,12 @@ static func style_label(label: Control, font_size := SIZE_BODY, color := TEXT, b
 		style.content_margin_left = 24.0
 		style.content_margin_right = 24.0
 		label.add_theme_stylebox_override("normal", style)
+
+# Full-screen rect that softly blurs everything drawn before it; add it under a modal card
+static func make_backdrop_blur() -> ColorRect:
+	var rect := ColorRect.new()
+	rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	rect.material = ShaderMaterial.new()
+	rect.material.shader = BACKDROP_BLUR
+	return rect

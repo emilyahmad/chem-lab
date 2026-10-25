@@ -23,10 +23,6 @@ config/features=PackedStringArray("4.7", "Mobile")
 Gamestate="*res://Scripts/Gamestate.gd"
 SceneTransition="*res://Scenes/UI/scene_transition.tscn"
 
-[gui]
-
-theme/custom_font="res://Assets/UI/Fonts/Cooper Lt BT W08 Regular.ttf"
-
 [display]
 
 window/size/viewport_width=1920
@@ -35,6 +31,10 @@ window/size/viewport_height=1080
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg")
+
+[gui]
+
+theme/custom_font="res://Assets/UI/Fonts/Cooper Lt BT W08 Regular.ttf"
 
 [input]
 

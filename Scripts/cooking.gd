@@ -1,17 +1,22 @@
 extends Node3D
 
-# Opening shot: a camera slides along the counter while the intro text plays, then
-# hands over to the player's camera. Each stop is [camera position, look-at point, seconds
-# to travel there], in world space.
+# Opening shot: a camera creeps toward the van from outside (+X side), passes through the wall, then
+# slides along the counter while the intro text plays, and finally hands over to the player's
+# camera. Each stop is [camera position, look-at point, seconds to travel there], in world space.
 const INTRO_PAN := [
-	[Vector3(-0.4, 0.5, 1.1), Vector3(-0.03, 0.37, 0.8), 0.0],
-	[Vector3(-0.4, 0.5, -0.2), Vector3(-0.03, 0.37, -0.5), 8.5],
+	[Vector3(1.6, 0.12, 0.431), Vector3(0.9, 0.22, 0.431), 0.0], # low and close to the sand
+	[Vector3(1.1, 0.5, 0.431), Vector3(0.3, 0.55, 0.431), 4.0], # rises to take in the van
+	[Vector3(0.2315, 0.632, 0.431), Vector3(-0.769, 0.584, 0.421), 4.0],
+	[Vector3(-0.4, 0.6, 1.1), Vector3(-0.03, 0.37, 0.8), 2.0],
+	[Vector3(-0.4, 0.6, -0.2), Vector3(-0.03, 0.37, -0.5), 11.5],
 ]
-const INTRO_RETURN_TIME := 1.5
+const INTRO_RETURN_TIME := 2.0
+const EXTERIOR_STOPS := 3 # the first stops (up to the window) are outside the van
 
 var intro_camera: Camera3D
 var intro_done := true
 var intro_tween: Tween
+var intro_keys: Array = []
 var intro_player: Node3D
 
 # Called when the node enters the scene tree for the first time.
@@ -44,9 +49,18 @@ func _play_intro_pan(player: Node3D) -> void:
 	_aim_camera(INTRO_PAN[0][0], INTRO_PAN[0][1])
 	intro_camera.make_current()
 
+	# Outside: one smooth move through the exterior stops, so it never stalls at the
+	# waypoint where the camera finishes rising
+	intro_keys = INTRO_PAN.slice(0, EXTERIOR_STOPS)
+	var exterior_time := 0.0
+	for i in range(1, intro_keys.size()):
+		exterior_time += intro_keys[i][2]
 	var tween := create_tween()
 	intro_tween = tween
-	for i in range(1, INTRO_PAN.size()):
+	tween.tween_method(_aim_along_path, 0.0, exterior_time, exterior_time) \
+			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	# Inside: an eased move to each stop in turn
+	for i in range(EXTERIOR_STOPS, INTRO_PAN.size()):
 		tween.tween_method(_aim_camera_pair.bind(INTRO_PAN[i - 1], INTRO_PAN[i]), 0.0, 1.0, INTRO_PAN[i][2]) \
 				.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	var player_cam: Camera3D = player.camera
@@ -71,6 +85,26 @@ func skip_intro() -> void:
 		return
 	intro_tween.kill()
 	_finish_intro()
+
+# Camera pose `time` seconds into the outside pan: a Catmull-Rom curve through the stops, with
+# each segment's tangents scaled by its duration so speed carries across the stops
+func _aim_along_path(time: float) -> void:
+	var i := 1
+	var start := 0.0
+	while i < intro_keys.size() - 1 and time > start + intro_keys[i][2]:
+		start += intro_keys[i][2]
+		i += 1
+	var dur: float = intro_keys[i][2]
+	var weight := clampf((time - start) / dur, 0.0, 1.0)
+	var prev_dur: float = intro_keys[i - 1][2] if i > 1 else dur
+	var next_dur: float = intro_keys[i + 1][2] if i + 1 < intro_keys.size() else dur
+	var before: Array = intro_keys[maxi(i - 2, 0)]
+	var from: Array = intro_keys[i - 1]
+	var to: Array = intro_keys[i]
+	var after: Array = intro_keys[mini(i + 1, intro_keys.size() - 1)]
+	var pos: Vector3 = (from[0] as Vector3).cubic_interpolate_in_time(to[0], before[0], after[0], weight, dur, -prev_dur, dur + next_dur)
+	var look: Vector3 = (from[1] as Vector3).cubic_interpolate_in_time(to[1], before[1], after[1], weight, dur, -prev_dur, dur + next_dur)
+	_aim_camera(pos, look)
 
 func _aim_camera_pair(t: float, from: Array, to: Array) -> void:
 	_aim_camera((from[0] as Vector3).lerp(to[0], t), (from[1] as Vector3).lerp(to[1], t))
