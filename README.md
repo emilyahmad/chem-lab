@@ -13,8 +13,8 @@ Camera pans van exterior and desert environment, then the inside of the van. A f
 Each step is evaluated and cumulates in a purity score on completion, and are compensated based on this metric.
 <br>Some screenshots from gameplay:
 <div>
-<img src="screenshots/dialogue-1.png" width="300" alt="Dialgoue with customer">
-<img src="screenshots/dialogue-2.png" width="300" alt="Dialgoue with customer 2">
+<img src="screenshots/dialogue-1.png" width="300" alt="Dialogue with customer">
+<img src="screenshots/dialogue-2.png" width="300" alt="Dialogue with customer 2">
 </div>
 <br>
 <div>
@@ -23,7 +23,7 @@ Each step is evaluated and cumulates in a purity score on completion, and are co
 <img src="screenshots/bunsen-explosion.gif" width="300" alt="Part of failing the cooking sequence">
 </div>
 <br>
-Watch this [video demo](https://youtu.be/bgGiz3wt0kk)
+Play the game [here](https://emilyahmad.itch.io/chem-lab) or watch this [video demo](https://youtu.be/bgGiz3wt0kk)
 
 ## Credits
 [Customer models](https://sketchfab.com/3d-models/low-poly-people-free-sample-pack-f2616c6a06c44841bf1ddf5e9486571e)
