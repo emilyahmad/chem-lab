@@ -194,6 +194,7 @@ const LEAVE_DISTANCE := Vector2(5.0, 8.0)
 const REACTIONS := {"great": "dance", "ok": "shrug", "bad": "rage"}
 
 const SLAMMED_RAGE_TIME := 1.4 # seconds a customer fumes after the window is shut on them
+const PATIENCE := 45.0 # seconds a customer waits without the player making progress before walking off
 
 const DIVE_TIME := 0.55 # seconds the cop is airborne, from the window to the player's face
 const DIVE_ARC := 0.18 # how high the dive bows above a straight line
@@ -204,6 +205,7 @@ signal arrived
 signal order_taken
 signal served
 signal left
+signal gave_up # waited too long; any order they placed is scrapped
 
 enum Phase { IDLE, ORDER, HANDOFF }
 
@@ -255,6 +257,8 @@ var leave_distance := 0.0
 var leave_travelled := 0.0
 var cuffs: Node3D # the arresting cop's handcuffs, hung off their hand
 var cuffs_scale := 1.0
+var waiting := false # standing at the window, waiting to order or to be served
+var patience := PATIENCE
 
 func _ready() -> void:
 	var rv: Node3D = get_node(rv_path)
@@ -289,6 +293,7 @@ func _ready() -> void:
 	get_tree().process_frame.connect(_connect_player, CONNECT_ONE_SHOT)
 	van_window.fully_opened.connect(_on_window_opened)
 	van_window.closed.connect(_on_window_closed)
+	Gamestate.player_acted.connect(func(): patience = PATIENCE)
 
 	if start_delay > 0.0:
 		await get_tree().create_timer(start_delay).timeout
@@ -395,6 +400,8 @@ func _process(delta: float) -> void:
 			left.emit()
 		return
 	if not walking:
+		if waiting:
+			_tick_patience(delta)
 		_update_emote(delta)
 		return
 	travelled = minf(travelled + walk_speed * customer.get("speed", 1.0) * delta, length)
@@ -429,6 +436,8 @@ func _turn_to_window() -> void:
 
 func _on_arrived() -> void:
 	arrived.emit()
+	waiting = true
+	patience = PATIENCE
 	if van_window.fully_open:
 		_start_dialogue()
 	else:
@@ -441,6 +450,7 @@ func _connect_player() -> void:
 		player.dish_served.connect(_on_dish_served)
 
 func _on_window_opened() -> void:
+	patience = PATIENCE
 	if waiting_for_window:
 		_start_dialogue()
 
@@ -458,9 +468,26 @@ func _on_window_closed() -> void:
 	dialogue_box.cancel()
 	dialogue_box.extra_hint = ""
 	phase = Phase.IDLE
+	waiting = false
 	Gamestate.alert_requested.emit("You shut the window on the %s." % customer["name"])
 	reaction = "rage"
 	await get_tree().create_timer(SLAMMED_RAGE_TIME).timeout
+	_next_customer()
+
+# Counts down while the player could be getting on with the order. Dialogue, step screens and
+# the grade card (anything that locks the player) pause it; progress (Gamestate.player_acted) refills it
+func _tick_patience(delta: float) -> void:
+	var player := get_tree().get_first_node_in_group("player")
+	if phase != Phase.IDLE or Gamestate.in_dialogue or Gamestate.run_over or (player and player.controls_locked):
+		return
+	patience -= delta
+	if patience > 0.0:
+		return
+	waiting = false
+	waiting_for_window = false
+	Gamestate.order_prompt = ""
+	Gamestate.alert_requested.emit("You took too long. The %s walked off." % customer["name"])
+	gave_up.emit()
 	_next_customer()
 
 func _on_dialogue_finished() -> void:
@@ -468,6 +495,7 @@ func _on_dialogue_finished() -> void:
 	match phase:
 		Phase.ORDER:
 			phase = Phase.IDLE
+			patience = PATIENCE
 			order_taken.emit()
 		Phase.HANDOFF:
 			phase = Phase.IDLE
@@ -486,6 +514,7 @@ func _on_dialogue_finished() -> void:
 func _arrest() -> void:
 	var player := get_tree().get_first_node_in_group("player")
 	Gamestate.timer_running = false
+	Gamestate.run_over = true
 	Gamestate.order_prompt = ""
 	Gamestate.cooking_prompt = ""
 	if player:
@@ -610,6 +639,7 @@ func _make_cuffs() -> void:
 # The customer reacts to the batch's purity, then pays
 func _on_dish_served() -> void:
 	phase = Phase.HANDOFF
+	waiting = false
 	var purity: float = Gamestate.last_purity
 	var is_cop: bool = customer.get("cop", false)
 	var grade := "great" if purity >= 0.85 else ("ok" if purity >= 0.6 else "bad")

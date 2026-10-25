@@ -1,7 +1,8 @@
 extends CanvasLayer
 # Crystallize step: the mixture is poured into the dish and crystals grow out from the middle.
 # The player presses Space to harvest. Stopping early gives a smaller batch; stopping late gives
-# a more impure one. The score is the batch's purity; the yield is stored in Gamestate.
+# a more impure one, and the murky crystals are thrown out of the batch too, so harvesting right
+# at the safe line pays best. The score is the batch's purity; the yield is stored in Gamestate.
 
 signal finished(score: float)
 
@@ -77,7 +78,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _finish() -> void:
 	state = State.DONE
-	Gamestate.batch_yield = growth
-	status.text = "Harvested! Batch %d%%, purity %d%%" % [roundi(growth * 100.0), roundi((1.0 - IMPURITY_PENALTY * impurity()) * 100.0)]
+	Gamestate.batch_yield = growth * (1.0 - impurity())
+	status.text = "Harvested! Batch %d%%, purity %d%%" % [roundi(Gamestate.batch_yield * 100.0), roundi((1.0 - IMPURITY_PENALTY * impurity()) * 100.0)]
 	await get_tree().create_timer(1.5).timeout
 	finished.emit(1.0 - IMPURITY_PENALTY * impurity())

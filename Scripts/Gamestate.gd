@@ -6,6 +6,11 @@ const ROUND_TIME := 600.0 # 10:00
 var timer = ROUND_TIME
 var timer_running := false
 
+# Set once the run is ending (time's up, arrest, explosion): the player stays frozen from then on
+var run_over := false
+# Set once the end screen has been asked for, so two endings at once only show one
+var end_screen_shown := false
+
 func start_timer() -> void:
 	timer = ROUND_TIME
 	timer_running = true
@@ -18,6 +23,9 @@ var skip_van_intro := false
 
 # Asks the HUD to flash a short temporary message in the top left
 signal alert_requested(text: String)
+
+# Emitted whenever the player makes progress on an order; a waiting customer's patience refills
+signal player_acted
 
 # Cooking progress, driven by cooking_director.gd
 var cooking_prompt = "" # instruction for the current recipe step, shown by the HUD
@@ -83,8 +91,12 @@ func reset_run() -> void:
 	order_prompt = ""
 	cooking_prompt = ""
 	skip_van_intro = true
+	run_over = false
+	end_screen_shown = false
 	roll_dose_palette()
-	start_timer()
+	# The clock restarts once the player has control again (cooking.gd)
+	timer = ROUND_TIME
+	timer_running = false
 
 # Set once the player first picks up the cube
 var cube_picked = false

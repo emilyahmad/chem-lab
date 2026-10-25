@@ -129,6 +129,10 @@ func _on_restart() -> void:
 
 # Dissolves to black with the scene transition, then shows this screen with the given headline
 static func end_run(tree: SceneTree, title: String) -> void:
+	if Gamestate.end_screen_shown:
+		return
+	Gamestate.end_screen_shown = true
+	Gamestate.run_over = true
 	var transition := tree.root.get_node("SceneTransition")
 	await transition.cover()
 	var screen = load("res://Scripts/caught_screen.gd").new()

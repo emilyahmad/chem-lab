@@ -106,7 +106,7 @@ var blur_rect: ColorRect
 var blur_velocity := Vector2.ZERO
 
 func _unhandled_input(event):
-	if controls_locked:
+	if controls_locked or Gamestate.run_over:
 		return
 	if event is InputEventMouseMotion:
 		blur_velocity += event.relative * BLUR_STRENGTH * 0.25
@@ -170,7 +170,7 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	if controls_locked:
+	if controls_locked or Gamestate.run_over:
 		interact_label.visible = false
 		velocity.x = 0.0
 		velocity.z = 0.0

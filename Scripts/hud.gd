@@ -14,8 +14,10 @@ var instructions_note : PanelContainer
 var instructions_blur : ColorRect
 var alert_label : Label
 var alert_tween : Tween
+var congrats_left := CONGRATS_TIME
 
 const ALERT_TIME := 3.5
+const CONGRATS_TIME := 6.0 # seconds the note about the F-key recap shows after the first serve
 const ALERT_FADE_TIME := 1.0
 
 # Called when the node enters the scene tree for the first time.
@@ -157,13 +159,11 @@ func _process(delta: float) -> void:
 		_end_run_after_delay()
 
 	if cooking_started:
-		_update_cooking_instructions()
+		_update_cooking_instructions(delta)
 
 # Lets "Time's up!" sink in, then the end screen with the run's stats
 func _end_run_after_delay() -> void:
-	var player := get_tree().get_first_node_in_group("player")
-	if player:
-		player.controls_locked = true
+	Gamestate.run_over = true
 	await get_tree().create_timer(1.5).timeout
 	CAUGHT_SCREEN.end_run(get_tree(), "Time's up!")
 
@@ -182,14 +182,16 @@ func _place_instructions() -> void:
 	instructions_label.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	instructions_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
-func _update_cooking_instructions() -> void:
+func _update_cooking_instructions(delta: float) -> void:
 	if Gamestate.order_prompt != "":
 		instructions_label.text = Gamestate.order_prompt
 		return
 	# Once the first order is served the player knows the routine: the step instructions give
-	# way to a note about the F-key recap
+	# way to a brief note about the F-key recap
 	if Gamestate.orders_served > 0:
-		instructions_label.text = "" if Gamestate.recipe_active else "Congrats on your first cook, click F to open the instructions again"
+		congrats_left -= delta
+		var show_note := congrats_left > 0.0 and not Gamestate.recipe_active
+		instructions_label.text = "Congrats on your first cook! Press [F] to open the instructions again" if show_note else ""
 		return
 	if Gamestate.cooking_prompt != "":
 		instructions_label.text = Gamestate.cooking_prompt

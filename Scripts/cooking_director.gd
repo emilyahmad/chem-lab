@@ -66,6 +66,7 @@ func _ready() -> void:
 	for customer in get_tree().get_nodes_in_group("window_enemy"):
 		customer.order_taken.connect(begin)
 		customer.served.connect(reset)
+		customer.gave_up.connect(abort)
 
 # The order was taken: start the first step
 func begin() -> void:
@@ -99,6 +100,7 @@ func _grade() -> void:
 	card.show_result(Gamestate.last_purity, Gamestate.batch_yield, Gamestate.last_payout, cook_time, speed_bonus, STEP_NAMES, Gamestate.step_scores)
 	await card.closed
 	card.queue_free()
+	Gamestate.player_acted.emit()
 	player.controls_locked = false
 	Gamestate.recipe_active = false
 	Gamestate.recipe_complete = true
@@ -113,11 +115,30 @@ func reset() -> void:
 	Gamestate.step_scores.clear()
 	_restock()
 
+# The customer walked off: scrap the cook in progress and start the next order fresh
+func abort() -> void:
+	if step_index < 0 and not Gamestate.recipe_active and not Gamestate.recipe_complete:
+		return
+	step_index = -1
+	placed.clear()
+	in_step = false
+	Gamestate.recipe_active = false
+	Gamestate.recipe_complete = false
+	Gamestate.cooking_prompt = ""
+	Gamestate.step_scores.clear()
+	_restock()
+
+# Handling items for the order counts as progress for the customer's patience
+func _acted() -> void:
+	if Gamestate.recipe_active or Gamestate.recipe_complete:
+		Gamestate.player_acted.emit()
+
 # Swap every ingredient for a fresh copy on its starting spot (liquids, powders and tilts reset)
 func _restock() -> void:
 	leftovers.clear()
 	for item_name in originals:
 		var old := ingredients.get_node_or_null(NodePath(item_name))
+		var was_held: bool = old != null and old == player.held_object
 		if old:
 			old.name = String(item_name) + "_old"
 			old.queue_free()
@@ -127,6 +148,10 @@ func _restock() -> void:
 			fresh.set(prop, originals[item_name]["props"][prop])
 		fresh.transform = ingredients.global_transform.affine_inverse() * homes[item_name]
 		ingredients.add_child(fresh)
+		# An item in the player's hands is swapped for its fresh copy, still held
+		if was_held:
+			player.held_object = null
+			player._grab(fresh)
 
 func _next_step() -> void:
 	step_index += 1
@@ -139,11 +164,15 @@ func _next_step() -> void:
 	Gamestate.cooking_prompt = step["instruction"]
 
 func _on_item_placed(item: Node3D) -> void:
+	_acted()
 	if step_index < 0 or step_index >= Recipe.STEPS.size() or in_step:
 		return
 	var required: Array = Recipe.STEPS[step_index]["required"]
 	if not required.has(item.name):
 		Gamestate.alert_requested.emit("Wrong ingredient!")
+		# A swap can leave it on the placemat; send it back to its spot on the counter
+		if homes.has(item.name):
+			item.global_transform = homes[item.name]
 		return
 	placed[String(item.name)] = true
 	_lay_out(required)
@@ -155,6 +184,7 @@ func _on_item_placed(item: Node3D) -> void:
 
 # Held item set back on the counter: it lands on the spot it started from
 func _on_item_returned(item: Node3D) -> void:
+	_acted()
 	if homes.has(item.name):
 		item.set_meta("home_transform", homes[item.name])
 
@@ -175,6 +205,9 @@ func _watch_missing(delta: float) -> void:
 		var absent: Array = Recipe.STEPS[step_index]["required"].filter(func(n): return not placed.has(n))
 		if absent.size() == 1 and Recipe.STEPS[step_index]["required"].size() > 1:
 			missing = absent[0]
+	# No need to name the item the player is already carrying
+	if player.held_object and String(player.held_object.name) == missing:
+		missing = ""
 	if missing != missing_item:
 		missing_item = missing
 		missing_time = 0.0
@@ -188,15 +221,16 @@ func _watch_missing(delta: float) -> void:
 		Gamestate.alert_requested.emit("You're missing the %s!" % item.get_meta("display_name", ITEM_NAMES.get(missing, missing)))
 
 func _on_item_picked(item: Node3D) -> void:
+	_acted()
 	leftovers.erase(String(item.name))
 	if not in_step:
 		placed.erase(String(item.name))
 
-# Swapping with an item that sits on the placemat: the item put down takes its slot
+# Swapping with an item that sits on the placemat (placed or left over): the item put down takes its slot
 func _on_item_swapped(put_down: Node3D, picked_up: Node3D) -> void:
 	if in_step or step_index < 0 or step_index >= Recipe.STEPS.size():
 		return
-	if placed.has(String(picked_up.name)):
+	if placed.has(String(picked_up.name)) or leftovers.has(String(picked_up.name)):
 		# The player releases the item after this signal, so place it once that is done
 		_on_item_placed.call_deferred(put_down)
 
@@ -244,6 +278,7 @@ func _open_step(step: Dictionary) -> void:
 	step_ui.start(step, items)
 
 func _on_step_finished(score: float) -> void:
+	Gamestate.player_acted.emit()
 	Gamestate.step_scores.append(score)
 	# Restocking swaps in fresh nodes, so renamed items get their original names back
 	var renames: Dictionary = Recipe.STEPS[step_index].get("renames", {})

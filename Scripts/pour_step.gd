@@ -1,7 +1,8 @@
 extends CanvasLayer
 # Pour step: the source beaker tips over the target and pours by itself; the player presses
 # Space to stop. Landing within the tolerance of the target passes. Otherwise a countdown runs
-# and the pour starts over. The score is 1.0 for an exact pour, falling off with the error.
+# and the pour starts over. The score is 1.0 for an exact pour, falling off with the error,
+# minus FAIL_PENALTY for every attempt that missed.
 
 signal finished(score: float)
 
@@ -12,6 +13,7 @@ const TILT_TIME := 0.8
 const RETURN_TIME := 0.6
 const RETRY_SECONDS := 3
 const SCORE_FALLOFF_ML := 30.0 # error at which the score hits 0
+const FAIL_PENALTY := 0.15 # score lost per missed attempt
 const STREAM_RADIUS := 0.0015
 
 # Beakers (ingredient_look.gd nodes), untyped to reach their fill API
@@ -26,6 +28,7 @@ var color: Color
 
 var state := State.TILTING
 var poured := 0.0
+var fails := 0
 var source_home: Transform3D
 var pour_transform: Transform3D
 var stream: MeshInstance3D
@@ -132,8 +135,9 @@ func _stop_pour() -> void:
 		status.text = "Nice pour! %d mL" % roundi(poured)
 		await get_tree().create_timer(1.2).timeout
 		await StepUtil.move_to(source, source_home, RETURN_TIME).finished
-		finished.emit(maxf(0.0, 1.0 - absf(error) / SCORE_FALLOFF_ML))
+		finished.emit(maxf(0.0, 1.0 - absf(error) / SCORE_FALLOFF_ML - FAIL_PENALTY * fails))
 		return
+	fails += 1
 	var verdict := "Too much" if error > 0.0 else "Too little"
 	status.text = "%s (%d mL, need %d)." % [verdict, roundi(poured), roundi(target_ml)]
 	await StepUtil.move_to(source, source_home, RETURN_TIME).finished

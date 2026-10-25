@@ -22,3 +22,4 @@ res://Assets/Environment/lab_counter.gdshader
 res://Scripts/grade_card.gd
 res://Scripts/scene_transition.gd
 res://Scripts/ui_style.gd
+res://Scripts/crush_step.gd

@@ -123,6 +123,7 @@ func _process(delta: float) -> void:
 	# Intro text finished: hand control to the player and start the round
 	if Gamestate.round == 3 and intro_done:
 		Gamestate.round = 4
+		Gamestate.start_timer()
 		var player = get_tree().get_first_node_in_group("player")
 		if player:
 			player.controls_locked = false

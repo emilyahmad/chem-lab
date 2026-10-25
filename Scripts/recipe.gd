@@ -26,7 +26,7 @@ const STEPS := [
 		"params": {
 			"ui_text": "Crush the Compound K in the bowl",
 			"source": "CompoundK", "bowl": "Bowl", "tool": "Mixer",
-			"taps_to_full": 30.0, "min_finish": 0.6,
+			"taps_to_full": 20.0, "min_finish": 0.6,
 		},
 	},
 	{

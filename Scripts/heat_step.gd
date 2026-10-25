@@ -2,6 +2,7 @@ extends CanvasLayer
 # Heat step: the flask sits on the burner. Holding Space heats it, letting go lets it cool.
 # The player has to keep the temperature in the green zone until the progress bar fills. Too
 # cool and nothing happens; cross the boil line and the flask explodes, ending the run.
+# The score is the share of the time spent hot that was in the green rather than above it.
 
 signal finished(score: float)
 
@@ -26,6 +27,8 @@ var cool_rate: float
 var state := State.SETUP
 var temp := 20.0
 var progress := 0.0
+var green_time := 0.0
+var over_time := 0.0 # above the green but under the boil line
 var flask_home: Transform3D
 
 var gauge: StepMeter
@@ -123,7 +126,8 @@ func _run() -> void:
 	state = State.HEATING
 
 func _process(delta: float) -> void:
-	if state != State.HEATING:
+	# Once the run is over (e.g. time ran out mid-step) the flask can't go up as well
+	if state != State.HEATING or Gamestate.run_over:
 		return
 	var held := Input.is_action_pressed("space")
 	temp = clampf(temp + (heat_rate if held else -cool_rate) * delta, ambient, max_temp)
@@ -137,18 +141,21 @@ func _process(delta: float) -> void:
 		_explode()
 	elif temp >= green_from and temp <= green_to:
 		progress = minf(progress + delta / hold_seconds, 1.0)
+		green_time += delta
 		status.text = "Hold it in the green!    %d%%" % roundi(progress * 100.0)
 		if progress >= 1.0:
 			_finish()
 	elif temp < green_from:
 		status.text = "Hold [SPACE] to heat" if temp < green_from - 15.0 else "Almost there!"
 	else:
+		over_time += delta
 		status.text = "Too hot - let go NOW!"
 
 # Past the boil line the flask goes up. The run ends here: finished is never emitted
 func _explode() -> void:
 	state = State.EXPLODED
 	Gamestate.timer_running = false
+	Gamestate.run_over = true
 	status.text = "BOOM"
 	bubbles.emitting = false
 	vapor.emitting = false
@@ -249,4 +256,4 @@ func _finish() -> void:
 	await StepUtil.move_to(flask, flask_home, MOVE_TIME).finished
 	for effect in [bubbles, vapor]:
 		effect.queue_free()
-	finished.emit(1.0)
+	finished.emit(green_time / maxf(green_time + over_time, 0.001))
