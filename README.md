@@ -1,41 +1,29 @@
 # Chem Lab
 
-A breaking bad inspired cooking simulator where players race against the time to "cook" (almost) chemically accurate crystals before the night ends. This is a 3D first-person game made in Godot.
+A Breaking Bad inspired crystal cooking simulator where players race against the time to serve customers, avoiding chemical explosions and undercover cops.
 
 ## Gameplay
 
-The game begins with a start screen reminiscent of the show's intro with the first two letters of each word replacede by chemical elements Carbon and Lanthanum. On pressing start, the game pans to an exterior view of the RV in a desert/plains environment. After a few seconds, the game pans to the inside of the van, explains the gameplay in a few sentences to the player, before initiating the cooking cycle. The player follows the on-screen instructions, fetching the proper lab equipment and ingredients. If complete within 4 minutes, they continue on to the next round.
-
-## Images
-
-| Gameplay                       | --                            |
-| ------------------------------ | ----------------------------- |
-| ![Intro](/images/Title.png)    | ![Intro](/images/Van.png)     |
-| ![Intro](/images/LabIntro.png) | ![Intro](/images/Cooking.png) |
+Camera pans van exterior and desert environment, then the inside of the van. A few seconds later, customers begin appearing outside the van's window. Players can engage in dialogue, accepting customer's orders or denying them by closing the window.<br>Once the first order is accepted, players are walked through the cooking sequence:
++ Pouring Agent B-7 into empty beaker
++ Crushing Compound K in a mixing bowl
++ Mixing the beaker and bowl's contents in an erlenmeyer flask
++ Heating the flask over a bunsen burner
++ Adding drops of a quench solution until the right shade appears
+Each step is evaluated and cumulates in a purity score on completion, and are compensated based on this metric.
+<br>Some screenshots from gameplay:
+<div>
+<img src="screenshots/dialogue-1.png" width="300" alt="Dialgoue with customer">
+<img src="screenshots/dialogue-2.png" width="300" alt="Dialgoue with customer 2">
+</div>
+<br>
+<div>
+<img src="screenshots/cook-1.png" width="300" alt="Part of cooking sequence">
+<img src="screenshots/cook-2.png" width="300" alt="Part of cooking sequence">
+<img src="screenshots/bunsen-explosion.gif" width="300" alt="Part of failing the cooking sequence">
+</div>
+<br>
+Watch this [video demo](https://youtu.be/bgGiz3wt0kk)
 
 ## Credits
-
-| Inspo                                                                                                                                                     | --                                                                              |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| ![Royale high baking classroom](https://static.wikia.nocookie.net/royale-high/images/5/5b/Baking_Class_RH1_%26_RH2.png/revision/latest?cb=20240810185835) | The baking clas from Royale high (which apparently has a physical playset now?) |
-| ![Breaking bad opening credits](https://i.ytimg.com/vi/ilfYnhXD-bE/maxresdefault.jpg)                                                                     | UI from Breaking Bad intro                                                      |
-| ![Breaking bad van](https://static.wikia.nocookie.net/breakingbad/images/d/d6/RV.jpg/revision/latest?cb=20130724193305)                                   | The RV/Van from Breaking bad                                                    |
-
-<div>Icons made from <a href="https://www.onlinewebfonts.com/icon">svg icons</a> licensed by CC BY 4.0</div>
-
-<!-- 
-advice for amoolie
-
-keep learning how to integrate AI - using [godot mcp](https://github.com/Coding-Solo/godot-mcp), install
-```
-claude mcp add godot -- npx @coding-solo/godot-mcp
-claude mcp add godot -e GODOT_PATH=/path/to/godot -e DEBUG=true -- npx @coding-solo/godot-mcp
-
-claude mcp add godot -e /Users/emilyahmad/Desktop/projects/chem-lab=/path/to/godot -e DEBUG=true -- npx @coding-solo/godot-mcp
-
-```
-where 
-| Variable |	Description |
-| -- | -- |
-| GODOT_PATH |	Path to the Godot executable (overrides automatic detection) |
-| DEBUG	| Set to "true" to enable detailed server-side debug logging |
+[Customer models](https://sketchfab.com/3d-models/low-poly-people-free-sample-pack-f2616c6a06c44841bf1ddf5e9486571e)
