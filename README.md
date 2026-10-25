@@ -1,4 +1,5 @@
 # Chem Lab
+<img src="screenshots/bunsen-explosion.gif" width="700" height="169" alt="Part of failing the cooking sequence">
 
 A Breaking Bad inspired crystal cooking simulator where players race against the time to serve customers, avoiding chemical explosions and undercover cops.
 
@@ -13,17 +14,16 @@ Camera pans van exterior and desert environment, then the inside of the van. A f
 Each step is evaluated and cumulates in a purity score on completion, and are compensated based on this metric.
 <br>Some screenshots from gameplay:
 <div>
-<img src="screenshots/dialogue-1.png" width="300" alt="Dialogue with customer">
-<img src="screenshots/dialogue-2.png" width="300" alt="Dialogue with customer 2">
+<img src="screenshots/dialogue-1.png" width="300" height="169" alt="Dialogue with customer">
+<img src="screenshots/dialogue-2.png" width="300" height="169" alt="Dialogue with customer 2">
 </div>
 <br>
 <div>
-<img src="screenshots/cook-1.png" width="300" alt="Part of cooking sequence">
-<img src="screenshots/cook-2.png" width="300" alt="Part of cooking sequence">
-<img src="screenshots/bunsen-explosion.gif" width="300" alt="Part of failing the cooking sequence">
+<img src="screenshots/cook-1.png" width="300" height="169" alt="Part of cooking sequence">
+<img src="screenshots/cook-2.png" width="300" height="169" alt="Part of cooking sequence">
 </div>
 <br>
-Play the game [here](https://emilyahmad.itch.io/chem-lab) or watch this [video demo](https://youtu.be/bgGiz3wt0kk)
+Play the game <a href="https://emilyahmad.itch.io/chem-lab">here</a> or watch this <a href="https://youtu.be/bgGiz3wt0kk">video demo</a>
 
 ## Credits
 [Customer models](https://sketchfab.com/3d-models/low-poly-people-free-sample-pack-f2616c6a06c44841bf1ddf5e9486571e)
